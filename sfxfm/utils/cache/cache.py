@@ -7,9 +7,9 @@ import logging
 import shutil
 import random
 import time
-from sfxfm.utils.dist import rank
 
-current_rank = rank()
+
+current_rank = 0
 
 log = logging.getLogger(__name__)
 

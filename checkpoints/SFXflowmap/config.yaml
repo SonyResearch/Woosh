@@ -1,0 +1,18 @@
+exclude_from_checkpoint: false
+trainable: true
+ldm:
+  exclude_from_checkpoint: false
+  trainable: true
+  path: checkpoints/SFXflow
+use_lora: false
+lora:
+  rank: 64
+  bias: true
+  scale: 1.0
+  singlora: false
+  warmup: 1
+  use_lora: true
+pretrain_embeddings: false
+num_steps_emb_pretraining: 20000
+distill_cfg: true
+add_discriminator: true

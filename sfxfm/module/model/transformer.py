@@ -10,40 +10,17 @@ import torch.nn.functional as F
 from torch import nn, einsum
 from torch.cuda.amp import autocast
 from typing import Callable, Literal
-from sfxfm.utils.dist import rank
 
 import logging
 
-rank = rank()
-
+rank = 0
 # get logger
 log = logging.getLogger(__name__)
 
-# try:
-#     from flash_attn import flash_attn_func, flash_attn_kvpacked_func
-
-#     #  q must have shape (batch_size, seqlen_q, num_heads, head_size_og)
-#     # q = torch.randn(2, 64, 8, 64).to(torch.float16).to("cuda")
-#     # make flash attention fail:
-#     q = torch.randn(2, 64, 64).to(torch.float16).to("cuda")
-#     flash_attn_func(q, q, q, causal=False)
-# except ImportError as e:
-#     log.warning(e)
-#     log.warning("flash_attn not installed, disabling Flash Attention")
-#     flash_attn_kvpacked_func = None
-#     flash_attn_func = None
-# except RuntimeError as e:
-#     log.warning(e)
-#     log.warning("flash_attn not working at runtime, disabling Flash Attention")
-#     flash_attn_kvpacked_func = None
-#     flash_attn_func = None
 
 flash_attn_kvpacked_func = None
 flash_attn_func = None
-# try:
-#     import natten
-# except ImportError:
-#     natten = None
+
 
 natten = None
 

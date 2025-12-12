@@ -11,7 +11,7 @@ device = "cuda"
 device = "cpu"
 
 # Load model
-COMPONENT_PATH = "cache_dir/components/meanflow-public3-v2_13_ema"
+COMPONENT_PATH = "checkpoints/SFXflowmap"
 ldm = MeanFlowFromPretrained(LoadConfig(path=COMPONENT_PATH))
 ldm = ldm.eval().to(device)
 
