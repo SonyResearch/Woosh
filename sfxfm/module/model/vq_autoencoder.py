@@ -1,7 +1,7 @@
 """latent quantizer base class"""
 
 from einops import rearrange
-from sfxfm.module.quantizer.quantizer import Quantizer
+# from sfxfm.module.quantizer.quantizer import Quantizer
 from sfxfm.utils.dist import rank
 from functools import partial
 import logging
@@ -77,36 +77,36 @@ class VQAutoEncoder(torch.nn.Module):
         return x.contiguous()
 
 
-class PostVQAutoEncoder(VQAutoEncoder):
-    def __init__(
-        self,
-        pretrained_autoencoder,
-        quantizer: Quantizer,  # partial
-        normalize: bool = False,
-        seed: int = 0,
-        infer_max_quantizers: int = None,  # type: ignore
-    ):
-        super().__init__(
-            encoder=pretrained_autoencoder.encoder,
-            decoder=pretrained_autoencoder.decoder,
-            quantizer=quantizer,
-        )
+# class PostVQAutoEncoder(VQAutoEncoder):
+#     def __init__(
+#         self,
+#         pretrained_autoencoder,
+#         quantizer: Quantizer,  # partial
+#         normalize: bool = False,
+#         seed: int = 0,
+#         infer_max_quantizers: int = None,  # type: ignore
+#     ):
+#         super().__init__(
+#             encoder=pretrained_autoencoder.encoder,
+#             decoder=pretrained_autoencoder.decoder,
+#             quantizer=quantizer,
+#         )
 
-        self.seed = seed
+#         self.seed = seed
 
-        self.seed = seed
-        self.pretrained_autoencoder = pretrained_autoencoder
-        if isinstance(quantizer, partial):
-            self.quantizer = quantizer(
-                pretrained_autoencoder=self.pretrained_autoencoder
-            )
-        else:
-            self.quantizer = quantizer
+#         self.seed = seed
+#         self.pretrained_autoencoder = pretrained_autoencoder
+#         if isinstance(quantizer, partial):
+#             self.quantizer = quantizer(
+#                 pretrained_autoencoder=self.pretrained_autoencoder
+#             )
+#         else:
+#             self.quantizer = quantizer
 
-    @property
-    def codebook_size(self):
-        return self.quantizer.codebook_size
+#     @property
+#     def codebook_size(self):
+#         return self.quantizer.codebook_size
 
-    @property
-    def num_quantizers(self):
-        return self.quantizer.num_quantizers
+#     @property
+#     def num_quantizers(self):
+#         return self.quantizer.num_quantizers
