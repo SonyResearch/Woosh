@@ -1,0 +1,22 @@
+exclude_from_checkpoint: false
+trainable: false
+sentence_config:
+  frozen: false
+  model: roberta-large
+  max_sentence_tokens: 77
+  adopt_n_layers: 0
+  adopt_layer_size: 2048
+  pool_type: eos
+  add_pooling_layer: true
+  hidden_dropout_prob: 0.1
+  attention_probs_dropout_prob: 0.1
+  finetune_n_layers: -1
+last_hidden_state: true
+use_shared_space: false
+normalize_shared_space: true
+freeze_clap: true
+lhs_index: -2
+remove_special_tokens: false
+eval_mode: true
+text_preprocessing: no_op
+shared_representation_size: 1024
