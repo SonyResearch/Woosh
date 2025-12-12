@@ -14,7 +14,7 @@ from sfxfm.module.model.vq_autoencoder import VQAutoEncoder
 
 # from sfxfm.module.model.descript import Encoder as DACEncoder
 from sfxfm.module.model.vocos_blocks import STFTEmbedding, safe_log, symexp
-from vector_quantize_pytorch import ResidualVQ
+# from vector_quantize_pytorch import ResidualVQ
 
 import logging
 
