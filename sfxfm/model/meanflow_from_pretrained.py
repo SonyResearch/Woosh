@@ -25,10 +25,10 @@ from sfxfm.model.dit_blocks import (
 )
 from sfxfm.model.dit_pipeline import DiTMeanFlowPipeline, DiTPipeline
 from sfxfm.model.ditv2 import DiTArgs, DictTensor
-from sfxfm.model.inpainting_finetune import (
-    InpaintingFinetune,
-    InpaintingFinetuneConfig,
-)
+# from sfxfm.model.inpainting_finetune import (
+#     InpaintingFinetune,
+#     InpaintingFinetuneConfig,
+# )
 from sfxfm.model.ldm import (
     LatentDiffusionModel,
     LatentDiffusionModelConfig,
@@ -51,7 +51,7 @@ from sfxfm.utils.dist.distrib import rank
 
 
 class MeanFlowPretrainedArgs(ComponentConfig):
-    ldm: LatentDiffusionModelConfig | InpaintingFinetuneConfig
+    ldm: LatentDiffusionModelConfig
     # try to keep same keys as in extract_component.py
     pretrained_model_type: Literal["ldm", "inpainting-finetune"] = "ldm"
     use_lora: bool = False
@@ -382,11 +382,6 @@ class MeanFlowFromPretrained(
                 raise ValueError(
                     f"MeanFlowPretrained only supports {supported_models}, got {ldm.config.dit.model_type}"
                 )
-        elif self.config.pretrained_model_type == "inpainting-finetune":
-            ldm = InpaintingFinetune(self.config.ldm)
-            dit_config: DiTArgs = LatentDiffusionModel.resolve_config(
-                ldm.config.ldm
-            ).dit
         else:
             raise ValueError(
                 f"Unknown pretrained_model_type {self.config.pretrained_model_type}"
