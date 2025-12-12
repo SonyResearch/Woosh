@@ -16,7 +16,6 @@ from sfxfm.utils.loading import lazy_loading
 
 from .conditioners import ConditionConfig, DiffusionConditioner
 
-rank = 0
 # get logger
 log = logging.getLogger(__name__)
 

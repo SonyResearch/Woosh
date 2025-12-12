@@ -1,4 +1,2 @@
-from .vocos import (
-    VocosAutoEncoder
-)
+from .vocos import VocosAutoEncoder
 from .dit import DiffusionTransformer

@@ -5,7 +5,6 @@ from typing import List, Mapping
 import torch.nn as nn
 
 
-rank = 0
 # get logger
 log = logging.getLogger(__name__)
 
