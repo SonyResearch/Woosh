@@ -54,7 +54,7 @@ dependencies = [
     # "swig>=4.4.0",
     #
     # needed to add the following!
-    "matplotlib>=3.10.7",
+    # "matplotlib>=3.10.7",
     "scikit-learn>=1.8.0",
     "librosa>=0.11.0",
     "pydantic>=2.12.5",
