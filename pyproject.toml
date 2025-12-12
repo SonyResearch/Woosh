@@ -68,6 +68,7 @@ extra-build-variables = { minimp3py = { CFLAGS='-O3 -march=native'} }
 dependency-metadata = [
     { name = "hear21passt", version = "0.0.26", requires-dist = []},
 ]
+default-groups = "all"
 
 [tool.uv.sources]
 torch = [
@@ -104,7 +105,3 @@ dev = [
     "pip-licenses>=5.5.0",
     "ruff>=0.14.6",
 ]
-
-
-[tool.uv]
-default-groups = "all"
