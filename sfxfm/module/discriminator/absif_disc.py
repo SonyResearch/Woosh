@@ -2,12 +2,10 @@
 
 import typing as tp
 
-import torchaudio
 import torch
 from torch import nn
 from einops import rearrange
 from torch.nn.utils.parametrizations import spectral_norm, weight_norm
-import numpy as np
 
 from sfxfm.module.discriminator import Discriminator
 from sfxfm.module.loss.spectral_losses import STFTParams

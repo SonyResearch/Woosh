@@ -3,7 +3,6 @@ import logging
 import string
 from typing import Any, Mapping, Optional
 
-from pydantic import BaseModel
 import torch
 from omegaconf import OmegaConf
 

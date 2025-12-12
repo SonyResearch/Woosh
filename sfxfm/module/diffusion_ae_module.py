@@ -1,5 +1,4 @@
 from copy import deepcopy
-import lightning.pytorch as pl
 import torch
 
 from .utils import ema_update

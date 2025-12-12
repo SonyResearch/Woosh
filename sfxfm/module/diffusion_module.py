@@ -5,7 +5,6 @@ import torch
 import torchmetrics
 
 from sfxfm.module.model.transformer import register_backward_nan_check_hook
-from sfxfm.utils.loading import catchtime
 
 
 from .utils import ema_update

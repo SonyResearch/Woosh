@@ -2,9 +2,9 @@
 LoRA (Low-Rank Adaptation) for Latent Diffusion Model (LDM)
 """
 
-from typing import Annotated, Dict, List, Mapping, Union
+from typing import Annotated, Mapping, Union
 from einops import rearrange
-from pydantic import BaseModel, Discriminator, Tag
+from pydantic import Discriminator, Tag
 import torch
 from torch import nn
 

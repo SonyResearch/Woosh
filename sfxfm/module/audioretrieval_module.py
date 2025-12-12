@@ -29,7 +29,6 @@ from sfxfm.module.utils import get_module_by_name
 from sfxfm.utils.cache import Cache
 from sfxfm.utils.dist import rank
 from sfxfm.utils.dist.distrib import is_distributed
-import sfxfm.utils.loading
 
 from .base import BaseLightningModule
 

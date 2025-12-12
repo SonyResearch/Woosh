@@ -3,7 +3,7 @@ import os
 import sys
 from packaging import version
 
-from einops import rearrange, repeat
+from einops import rearrange
 from einops.layers.torch import Rearrange
 import torch
 import torch.nn.functional as F

@@ -1,5 +1,4 @@
 import torch
-from einops import rearrange
 
 from .blocks import DiagonalGaussianDistribution
 
