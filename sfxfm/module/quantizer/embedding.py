@@ -1,5 +1,4 @@
 import logging
-import torch
 import os
 from sklearn.cluster import MiniBatchKMeans, kmeans_plusplus
 try:

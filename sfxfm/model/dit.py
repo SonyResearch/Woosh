@@ -48,7 +48,7 @@ class DiT(DiTPipeline):
             if args.model_type == "mmmflux-meanflow":
                 args = MMDiTArgs.model_validate(dict_args, strict=True)
                 return MMMFluxMeanFlow(args)
-            if args.model_type == "mmmssflux":
+            elif args.model_type == "mmmssflux":
                 args = MMDiTArgs.model_validate(dict_args, strict=True)
                 return MMMSSFlux(args)
             # elif args.model_type == "ditv2":

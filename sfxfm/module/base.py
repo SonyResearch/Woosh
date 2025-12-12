@@ -1,5 +1,4 @@
 import lightning.pytorch as pl
-import torch.nn as nn
 
 
 class BaseLightningModule(pl.LightningModule):

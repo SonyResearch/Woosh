@@ -4,13 +4,9 @@ import torchmetrics
 from typing import (
     Any,
     Dict,
-    Hashable,
-    Iterable,
-    Iterator,
     List,
     Optional,
     Sequence,
-    Tuple,
     Union,
 )
 from torchmetrics.metric import Metric

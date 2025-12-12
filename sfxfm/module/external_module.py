@@ -5,7 +5,6 @@ from torch import nn
 import typing as tp
 from omegaconf import DictConfig, OmegaConf
 import yaml
-import hydra
 from hydra.utils import instantiate
 import torch
 import logging

@@ -8,7 +8,6 @@ from .embedding import Embedding
 from sfxfm.utils.dist import rank
 from pytorch_lightning import LightningDataModule
 import logging
-import os
 from tqdm import tqdm
 import typing as tp
 from sfxfm.utils.cache import Cache

@@ -27,7 +27,6 @@ from sfxfm.model.dit_pipeline import DiTMeanFlowPipeline, DiTPipeline
 from sfxfm.model.ditv2 import DiTArgs, DictTensor
 from sfxfm.model.inpainting_finetune import (
     InpaintingFinetune,
-    InpaintingFinetuneArgs,
     InpaintingFinetuneConfig,
 )
 from sfxfm.model.ldm import (

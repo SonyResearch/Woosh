@@ -1,9 +1,7 @@
 """latent quantizer base class"""
 
 from einops import rearrange
-from sfxfm.module.model.autoencoder import AutoEncoder
 from sfxfm.module.quantizer.quantizer import Quantizer
-from vector_quantize_pytorch import ResidualVQ
 from sfxfm.utils.dist import rank
 from functools import partial
 import logging

@@ -2,7 +2,6 @@
 Module to train encoders
 """
 
-import lightning.pytorch as pl
 import torch
 
 from sfxfm.module.loss import AELoss

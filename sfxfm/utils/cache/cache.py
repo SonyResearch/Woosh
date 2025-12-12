@@ -3,7 +3,6 @@
 from pathlib import Path
 from typing import Optional
 import os
-import re
 import logging
 import shutil
 import random
