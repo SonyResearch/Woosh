@@ -23,16 +23,16 @@ from lightning.pytorch.utilities import grad_norm
 from omegaconf import DictConfig
 from torch import nn
 
-from sfxfm.module.loss.retrieval_loss import SimpleContrastiveLoss
 from sfxfm.module.model.retrieval.passt import create_passt_model
 from sfxfm.module.utils import get_module_by_name
 from sfxfm.utils.cache import Cache
-from sfxfm.utils.dist import rank
-from sfxfm.utils.dist.distrib import is_distributed
 
 from .base import BaseLightningModule
 
-rank = rank()
+rank = 0
+
+def is_distributed():
+    return False
 # get logger
 log = logging.getLogger(__name__)
 
@@ -447,7 +447,7 @@ class AudioRetrievalModel(BaseLightningModule):
         sentence: DictConfig,
         shared_representation_size: int,
         normalize: bool = True,
-        loss: Optional[nn.Module] = SimpleContrastiveLoss(),
+        loss: Optional[nn.Module] = None,
         cache: Optional[Cache] = None,
         multiple_captions_reduce: Optional[str] = "all",
         text_preprocessing: Optional[callable] = None,

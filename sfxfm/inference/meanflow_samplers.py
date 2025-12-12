@@ -4,8 +4,6 @@ This is where the MeanFlow sampler is defined.
 Alexandre Bittar, 2025
 """
 
-from einops import rearrange
-import numpy as np
 from sfxfm.model.ldm import LatentDiffusionModelMeanFlowPipeline
 import torch
 

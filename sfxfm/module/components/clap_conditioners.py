@@ -12,12 +12,11 @@ from sfxfm.module.audioretrieval_module import (
     get_text_preprocessing_func,
 )
 from sfxfm.module.components.base import BaseComponent, ComponentConfig, LoadConfig
-from sfxfm.utils.dist import rank
 from sfxfm.utils.loading import lazy_loading
 
 from .conditioners import ConditionConfig, DiffusionConditioner
 
-rank = rank()
+rank = 0
 # get logger
 log = logging.getLogger(__name__)
 

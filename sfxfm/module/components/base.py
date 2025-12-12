@@ -12,9 +12,9 @@ from torch import nn
 from pydantic import BaseModel, ConfigDict
 
 import sfxfm.utils.loading
-from sfxfm.utils.dist import rank
 
-rank = rank()
+
+rank = 0
 # get logger
 log = logging.getLogger(__name__)
 

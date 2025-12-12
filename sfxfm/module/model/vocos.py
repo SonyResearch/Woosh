@@ -1,6 +1,5 @@
 import torch
 
-from sfxfm.utils.dist import rank
 import torch.signal
 from torch import nn, view_as_real, view_as_complex
 from torchaudio.functional.functional import _hz_to_mel, _mel_to_hz
@@ -10,16 +9,14 @@ from torch.nn.utils.parametrizations import weight_norm
 import torchaudio
 import numpy as np
 from sfxfm.module.model.autoencoder import AutoEncoder, VariationalAutoEncoder
-from sfxfm.module.model.vq_autoencoder import VQAutoEncoder
 
-# from sfxfm.module.model.descript import Encoder as DACEncoder
 from sfxfm.module.model.vocos_blocks import STFTEmbedding, safe_log, symexp
-# from vector_quantize_pytorch import ResidualVQ
 
 import logging
 
 # get logger
 log = logging.getLogger(__name__)
+rank = 0
 
 
 class ISTFT(nn.Module):
@@ -1448,84 +1445,6 @@ class VocosVariationalAutoEncoder(VariationalAutoEncoder):
         assert len(x.shape) == 3, (
             "VocosVariationalAutoEncoder expect input of the shape B,C,T"
         )
-        x = x[
-            :, :, : x.shape[2] - (x.shape[2] % self.hop_length)
-        ]  # make sure we can divide by hopsize, for the waveform loss
-        return x.contiguous()
-
-
-class VQVocosAutoEncoder(VQAutoEncoder):
-    def __init__(
-        self,
-        channels: int = 1,
-        z_dim: int = 64,
-        d_model: int = 1024,
-        intermediate_dim: int = 1536,
-        n_fft: int = 1024,
-        hop_length: int = 256,
-        num_layers: int = 8,
-        enc_num_layers: Optional[int] = None,
-        input_layer_norm: bool = True,
-        final_layer_norm: bool = True,
-        istft_head: Optional[FourierHead] = None,
-        ztransform=ZeroDropoutTransform,
-        stft_normalized=False,
-        spec_embed: str = "stft-complex",
-        n_mels: int = 100,
-        sample_rate: int = 44100,
-        commitment_loss: float = 1.0,
-        vq_layer_config: dict = {"num_quantizers": 10, "codebook_size": 1024},
-    ) -> None:
-        assert channels == 1
-        self.hop_length = hop_length
-        self.commitment_loss = commitment_loss
-        if enc_num_layers is None:
-            enc_num_layers = num_layers
-        encoder = VocosEncoder(
-            d_model=d_model,
-            output_channels=z_dim,
-            num_layers=enc_num_layers,
-            intermediate_dim=intermediate_dim,
-            n_fft=n_fft,
-            hop_length=hop_length,
-            input_layer_norm=input_layer_norm,
-            final_layer_norm=final_layer_norm,
-            ztransform=ztransform,
-            stft_normalized=stft_normalized,
-            spec_embed=spec_embed,
-            n_mels=n_mels,
-            sample_rate=sample_rate,
-        )
-        quantizer = ResidualVQ(dim=z_dim, **vq_layer_config)
-
-        decoder = VocosDecoder(
-            input_channels=z_dim,
-            d_model=d_model,
-            num_layers=num_layers,
-            intermediate_dim=intermediate_dim,
-            n_fft=n_fft,
-            hop_length=hop_length,
-            istft_head=istft_head,
-            input_layer_norm=input_layer_norm,
-            final_layer_norm=final_layer_norm,
-        )
-
-        super().__init__(encoder=encoder, decoder=decoder, quantizer=quantizer)
-
-        if rank == 0:
-            log.info(
-                f"""Using VQVocosAutoEncoder:
-                    time_downscaling: {hop_length}
-                    num_channels_in: {channels}
-                    z_dim: {z_dim}
-                    Total compression factor {hop_length / z_dim}                     """
-            )
-
-    def fix_input_length(self, x):
-        """
-        in vocos, the input samples should be a multiple of hopsize
-        """
-        assert len(x.shape) == 3, "VocosAutoEncoder expect input of the shape B,C,T"
         x = x[
             :, :, : x.shape[2] - (x.shape[2] % self.hop_length)
         ]  # make sure we can divide by hopsize, for the waveform loss

@@ -4,13 +4,12 @@ Module to train encoders
 
 import torch
 
-from sfxfm.module.loss import AELoss
 from sfxfm.module.model.autoencoder import AutoEncoder, VariationalAutoEncoder
 from .base import BaseLightningModule
-from sfxfm.utils.dist import rank
+
 import logging
 
-rank = rank()
+rank = 0
 
 # get logger
 log = logging.getLogger(__name__)
