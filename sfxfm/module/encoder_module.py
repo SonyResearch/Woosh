@@ -4,6 +4,7 @@ Module to train encoders
 
 import torch
 
+from sfxfm.module.loss import AELoss
 from sfxfm.module.model.autoencoder import AutoEncoder, VariationalAutoEncoder
 from .base import BaseLightningModule
 
