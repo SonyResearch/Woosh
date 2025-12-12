@@ -55,8 +55,8 @@ dependencies = [
     #
     # needed to add the following!
     # "matplotlib>=3.10.7",
-    "scikit-learn>=1.8.0",
-    "librosa>=0.11.0",
+    # "scikit-learn>=1.8.0",
+    # "librosa>=0.11.0",
     "pydantic>=2.12.5",
     "omegaconf>=2.3.0",
 ]
@@ -95,6 +95,9 @@ url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
 [dependency-groups]
+audioio = [
+    "pysoundfile>=0.9.0.post1",
+]
 dev = [
     "ipykernel",
     "ipython",
@@ -103,5 +106,5 @@ dev = [
 ]
 
 
-#[tool.licensecheck]
-# license = "mit"               # Specify the project license explicitly
+[tool.uv]
+default-groups = "all"
