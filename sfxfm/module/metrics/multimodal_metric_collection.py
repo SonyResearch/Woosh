@@ -11,15 +11,15 @@ from typing import (
 )
 from torchmetrics.metric import Metric
 
-from sfxfm.module.metrics.clap_score import CLAPScoreMetric
-from sfxfm.module.metrics.kl_passt import KLScoreMetric
-from sfxfm.module.metrics.quantization_metrics import BitrateEfficiency, Perplexity, LatentMSE
+# from sfxfm.module.metrics.clap_score import CLAPScoreMetric
+# from sfxfm.module.metrics.kl_passt import KLScoreMetric
+# from sfxfm.module.metrics.quantization_metrics import BitrateEfficiency, Perplexity, LatentMSE
 
 LOGGER = logging.getLogger(__name__)
 
-AUDIO_TEXT_METRICS = set([CLAPScoreMetric])  # Metric directly uses desc as parameters
-NEED_DESCRIPTION = {KLScoreMetric} | AUDIO_TEXT_METRICS
-QUANTIZATION_METRICS = set([BitrateEfficiency, Perplexity, LatentMSE])
+# AUDIO_TEXT_METRICS = set([CLAPScoreMetric])  # Metric directly uses desc as parameters
+# NEED_DESCRIPTION = {KLScoreMetric} | AUDIO_TEXT_METRICS
+# QUANTIZATION_METRICS = set([BitrateEfficiency, Perplexity, LatentMSE])
 DEFAULT_DESCRIPTION_KEYS = [
     "description",
     "descriptions",
