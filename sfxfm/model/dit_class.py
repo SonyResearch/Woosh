@@ -1,9 +1,6 @@
 from omegaconf import DictConfig
 from pydantic import ValidationError
-from sfxfm.model.alternative_mmdit import (
-    SFXFlow,
-    SFXFlowMap,
-)
+from sfxfm.model.dit_flows import SFXFlow, SFXFlowMap
 from sfxfm.model.dit_pipeline import DiTPipeline
 from sfxfm.model.dit_types import DiTArgs, MMDiTArgs
 
@@ -14,6 +11,7 @@ class DiT(DiTPipeline):
     allows to choose between many implementations
     """
 
+    # TODO change model_types
     def __new__(cls, args: DiTArgs):
         dict_args = args
         if isinstance(args, DictConfig):
