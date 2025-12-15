@@ -31,8 +31,11 @@ from .base import BaseLightningModule
 
 rank = 0
 
+
 def is_distributed():
     return False
+
+
 # get logger
 log = logging.getLogger(__name__)
 
@@ -62,7 +65,7 @@ def get_audio_frontend_model(audio_config, cache=None) -> Tuple[nn.Module, int]:
     if audio_config.name.startswith("passt"):
         model, output_dim = create_passt_model(audio_config)
         return model, output_dim
-
+    # TODO remove laion-clap dependency
     if audio_config.name.startswith("laion"):
         import laion_clap
 
