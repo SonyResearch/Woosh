@@ -417,55 +417,6 @@ class BaseComponent:
         finally:
             os.umask(umask)  # type: ignore
 
-    # def filter_state_dict(self, state_dict, prefix=""):
-    #     """
-    #     Removes elements from a state dict to only save relevant parameters
-    #     Assumes self corresponds to level state_dict[prefix]
-    #     This methods is based on the values stored in
-    #     self._subcomponents_configs / self._exclude_from_checkpoint
-
-    #     prefix is the empty string or ends with a dot
-    #     Can be used to filter larger state dicts
-    #     """
-    #     if prefix != "":
-    #         assert prefix.endswith(".")
-
-    #     for k in list(state_dict.keys()):
-    #         for forbidden_prefix in self._exclude_subcomponents_from_checkpoint:
-    #             if k.startswith(prefix + forbidden_prefix):
-    #                 del state_dict[k]
-
-    #     for component_name, component in self._subcomponents.items():
-    #         component.filter_state_dict(state_dict, prefix + component_name + ".")
-    #     return state_dict
-    # def add_filtered_state_dict_keys(self, incomplete_state_dict, prefix=""):
-    #     """
-    #     Adds filtered out keys from the full (unfiltered) state dict to the incomplete_state_dict
-    #     This is the opposite of filter_state_dict
-
-    #     We only add the keys that were excluded from the incomplete_state_dict
-    #     to ensure that other missing keys are still
-
-    #     prefix: where to insert the keys in the incomplete_state_dict
-    #     """
-    #     assert isinstance(self, nn.Module)
-    #     if prefix != "":
-    #         assert prefix.endswith(".")
-    #     state_dict = self.state_dict()
-    #     for k in list(state_dict.keys()):
-    #         for forbidden_prefix in self._exclude_subcomponents_from_checkpoint:
-    #             if k.startswith(forbidden_prefix):
-    #                 incomplete_state_dict[prefix + k] = state_dict[k]
-    #                 log.debug(
-    #                     f"Added key={prefix + k} to state_dict from {k} in {type(self).__name__}"
-    #                 )
-
-    #     for component_name, component in self._subcomponents.items():
-    #         component.add_filtered_state_dict_keys(
-    #             incomplete_state_dict, prefix + component_name + "."
-    #         )
-    #     return state_dict
-
     def filter_state_dict_(self, state_dict, prefix="") -> None:
         """
         In place
@@ -800,30 +751,3 @@ class BaseComponent:
             component._component_summary(
                 prefix=prefix + f"{component_name}", depth=depth + 1
             )
-
-
-class Ref(object):
-    """
-    A reference to a component in the config.
-    Used to create a reference to a component / module in the config
-    Simply encapsulate the module in a list to make sure it's not registered
-    as a submodule
-    """
-
-    __slots__ = ["_ref"]
-
-    def __init__(self, ref: BaseComponent):
-        """
-        Initialize a reference to a component in the config.
-
-        Args:
-            ref (str): The reference string pointing to the component in the config.
-        """
-        self._ref = [ref]
-
-    @property
-    def value(self):
-        return self._ref[0]
-
-    def __getattr__(self, name: str) -> Any:
-        return getattr(self._ref[0], name)

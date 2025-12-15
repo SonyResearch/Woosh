@@ -1,6 +1,6 @@
 import torch
 
-from sfxfm.model.dit_pipeline import DiTPipeline, DiTMeanFlowPipeline
+from sfxfm.model.dit_pipeline import DiTPipeline, DiTFlowMapPipeline
 from sfxfm.model.dit_types import MMDiTArgs
 
 from sfxfm.model.dit_blocks import (
@@ -15,7 +15,7 @@ from sfxfm.model.ditv2 import (
 )
 
 
-class MMMSSFlux(DiTPipeline):
+class SFXFlow(DiTPipeline):
     """
     Same as Flux, but uses MMMBlocks only
     Adds singlestream blocks
@@ -81,7 +81,7 @@ class MMMSSFlux(DiTPipeline):
 # -------------------------------------------
 
 
-class MMMFluxMeanFlow(DiTMeanFlowPipeline):
+class SFXFlowMap(DiTFlowMapPipeline):
     """
     Adapted to 2nd timestep arg (meanflow).
     """
