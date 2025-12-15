@@ -23,8 +23,9 @@ from sfxfm.model.dit_blocks import (
     ModalityAttentionMFWrapper,
     ModalityAttention,
 )
-from sfxfm.model.dit_pipeline import DiTMeanFlowPipeline, DiTPipeline
+from sfxfm.model.dit_pipeline import DiTFlowMapPipeline, DiTPipeline
 from sfxfm.model.ditv2 import DiTArgs, DictTensor
+
 # from sfxfm.model.inpainting_finetune import (
 #     InpaintingFinetune,
 #     InpaintingFinetuneConfig,
@@ -418,7 +419,7 @@ class MeanFlowFromPretrained(
         new_layers = ldm.dit.layers
 
         # Creates new DiT and LDM pipelines for student
-        dit = DiTMeanFlowPipeline(
+        dit = DiTFlowMapPipeline(
             preprocessing=new_preprocessing,
             postprocessing=new_postprocessing,
             layers=new_layers,
@@ -566,6 +567,8 @@ class MeanFlowFromPretrained(
                 # Backprop
                 loss.backward()
                 optimizer.step()
+
+
 """
 class MeanFlowFromPretrained:
 
@@ -591,8 +594,9 @@ from sfxfm.model.dit_blocks import (
     ModalityAttentionMFWrapper,
     ModalityAttention,
 )
-from sfxfm.model.dit_pipeline import DiTMeanFlowPipeline, DiTPipeline
+from sfxfm.model.dit_pipeline import DiTFlowMapPipeline, DiTPipeline
 from sfxfm.model.ditv2 import DiTArgs, DictTensor
+
 # from sfxfm.model.inpainting_finetune import (
 #     InpaintingFinetune,
 #     InpaintingFinetuneConfig,
@@ -987,7 +991,7 @@ class MeanFlowFromPretrained(
         new_layers = ldm.dit.layers
 
         # Creates new DiT and LDM pipelines for student
-        dit = DiTMeanFlowPipeline(
+        dit = DiTFlowMapPipeline(
             preprocessing=new_preprocessing,
             postprocessing=new_postprocessing,
             layers=new_layers,
