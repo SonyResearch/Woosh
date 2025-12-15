@@ -42,10 +42,6 @@ LatentDiffusionModelConfig = Annotated[
     Discriminator(discriminator=_is_load_config),
 ]
 
-# LatentDiffusionModelConfig = Annotated[
-#     Union[LoadConfig, LatentDiffusionModelArgs], Field(union_mode="left_to_right")
-# ]
-
 
 class LatentDiffusionModelPipeline:
     """
@@ -416,17 +412,6 @@ class LatentDiffusionModelPipeline:
         return ldm
 
 
-class LatentDiffusionModelEMA(nn.Module, LatentDiffusionModelPipeline):
-    """
-    Created from different modules, not a BaseComponent
-
-    """
-
-    def __init__(self, dit, autoencoder, conditioners, sigma_data):
-        super().__init__()
-        self.init_pipeline(dit, autoencoder, conditioners, sigma_data)
-
-
 class LatentDiffusionModel(nn.Module, BaseComponent, LatentDiffusionModelPipeline):
     config_class = LatentDiffusionModelArgs
 
@@ -515,16 +500,6 @@ class LatentDiffusionModelMeanFlowPipeline(LatentDiffusionModelPipeline):
         # adds x_hat key
         d["x_hat"] = d["x"]
         return d
-
-
-class LatentDiffusionModelMeanFlowEMA(nn.Module, LatentDiffusionModelMeanFlowPipeline):
-    """
-    Created from different modules, not a BaseComponent
-    """
-
-    def __init__(self, dit, autoencoder, conditioners, sigma_data):
-        super().__init__()
-        self.init_pipeline(dit, autoencoder, conditioners, sigma_data)
 
 
 class LatentDiffusionModelMeanFlow(

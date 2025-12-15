@@ -1,6 +1,5 @@
 import torchmetrics
 
-from sfxfm.module.edm_samplers import register_edm_samplers
 from sfxfm.module.metrics.multimodal_metric_collection import MultiModalMetricCollection
 import sfxfm.module.model.transformer
 from .diffusion_module import DiffusionModule
@@ -9,12 +8,8 @@ import torch
 
 import torch.nn.functional as F
 import numpy as np
-from sfxfm.utils.dist import rank
-
-rank = rank()
 
 
-@register_edm_samplers
 class EDMModule(DiffusionModule):
     """
     Elucidating Diffusion Models Module

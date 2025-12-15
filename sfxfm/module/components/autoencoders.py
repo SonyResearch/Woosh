@@ -9,7 +9,6 @@ from tqdm import tqdm
 
 from .base import BaseComponent, ComponentConfig
 
-rank = 0
 # get logger
 log = logging.getLogger(__name__)
 
