@@ -1,8 +1,8 @@
 from omegaconf import DictConfig
 from pydantic import ValidationError
 from sfxfm.model.alternative_mmdit import (
-    MMMSSFlux,
-    MMMFluxMeanFlow,
+    SFXFlow,
+    SFXFlowMap,
 )
 from sfxfm.model.dit_pipeline import DiTPipeline
 from sfxfm.model.dit_types import DiTArgs, MMDiTArgs
@@ -21,10 +21,10 @@ class DiT(DiTPipeline):
         try:
             if args.model_type == "mmmflux-meanflow":
                 args = MMDiTArgs.model_validate(dict_args, strict=True)
-                return MMMFluxMeanFlow(args)
+                return SFXFlowMap(args)
             elif args.model_type == "mmmssflux":
                 args = MMDiTArgs.model_validate(dict_args, strict=True)
-                return MMMSSFlux(args)
+                return SFXFlow(args)
         except ValidationError as e:
             print("DIT args error ", e)
             print("Model args: ", args)

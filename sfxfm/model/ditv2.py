@@ -8,7 +8,7 @@ from torch import nn
 import torch.nn.functional as F
 
 from sfxfm.model.dit_pipeline import DiTPipeline, DictTensor
-from sfxfm.model.dit_types import DiTArgs, DiTv2Args, MMDiTArgs
+from sfxfm.model.dit_types import DiTArgs, MMDiTArgs
 from sfxfm.model.dit_blocks import (
     FixedFourierFeaturesTime,
     FourierFeaturesTime,
@@ -700,7 +700,7 @@ class InputProcessing(nn.Module):
         #     nn.Linear(args.inter_dim, args.timestep_features_dim, bias=True),
         #     nn.SiLU(),
         # )
-
+        # TODO remove unuseful comments
         # For TokenVerse compatibility we split to_timestep_embed  into
         # to_timestep_embed and post_timestep_embed. This leaves the t embedding
         # as is and allows TokenVerse to use the Pre-SiLU tensor
@@ -959,39 +959,10 @@ class PostProcessing(nn.Module):
         return d
 
 
-class DiTv2(DiTPipeline):
-    """
-    Base class to implement different Diffusion Transformers
-    """
-
-    def __init__(self, args: DiTv2Args, **kwargs):
-        """
-        Initializes the Transformer model.
-
-        Args:
-            args (ModelArgs): Model arguments containing transformer parameters.
-            kwargs: Overrides to args hanled by BaseComponent
-        """
-
-        preprocessing = InputProcessing(args)
-        postprocessing = PostProcessing(args)
-
-        # add all blocks with checkpoints every args.checkpoint_every
-        layers = torch.nn.Sequential()
-        for layer_id in range(args.n_layers):
-            layers.append(xBlock(layer_id, args))
-
-        super().__init__(
-            preprocessing=preprocessing,
-            postprocessing=postprocessing,
-            layers=layers,
-            non_checkpoint_layers=args.non_checkpoint_layers,
-            mask_out_before=args.mask_out_before,
-        )
-
 # ------------------------------------
 # -- For MeanFlow with 2nd timestep --
 # ------------------------------------
+
 
 class InputProcessingMeanFlow(InputProcessing):
     """
