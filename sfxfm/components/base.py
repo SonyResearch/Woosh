@@ -11,8 +11,6 @@ from safetensors.torch import save_file
 from torch import nn
 from pydantic import BaseModel, ConfigDict
 
-import sfxfm.utils.loading
-
 
 rank = 0
 # get logger
@@ -527,7 +525,7 @@ class BaseComponent:
             log.info(f"Loaded state_dict for {type(self).__name__} in strict mode")
         except RuntimeError as e:
             log.info(f"Error loading state_dict in strict mode: {e}")
-            log.info(f"Retrying in non-strict mode")
+            log.info("Retrying in non-strict mode")
             self.load_state_dict(state_dict, strict=False)
 
     def _load_from_module_checkpoint(
@@ -688,6 +686,8 @@ class BaseComponent:
         # loading weights
         weights_path = os.path.join(path, f"weights.{weights_format}")
         obj._weights_path = weights_path
+
+        # TODO: lazy loading?!
         # if not in a lazy loading, do actually load the weights
         if not sfxfm.utils.loading.lazy_loading_enabled:
             obj._load_statedict_from_disk()
