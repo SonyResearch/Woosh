@@ -10,6 +10,15 @@ Use [uv](https://docs.astral.sh/uv) to install SFXFM.
 uv sync
 ```
 
+### Download model weights
+
+You can download the pretrained model weights from the [releases](https://github.com/SonyResearch/SFXFM/releases) page.
+
+```bash
+gh release download v0.1.1
+unzip SFX\*.zip
+```
+
 ## Usage
 
 ```python

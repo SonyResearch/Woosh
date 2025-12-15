@@ -128,7 +128,7 @@ class DiTPipeline(torch.nn.Module):
 # ----------------------------------------
 
 
-class DiTMeanFlowPipeline(torch.nn.Module):
+class DiTFlowMapPipeline(torch.nn.Module):
     def __init__(
         self,
         preprocessing: nn.Module,
