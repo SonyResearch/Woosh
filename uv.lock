@@ -1192,36 +1192,12 @@ wheels = [
 ]
 
 [[package]]
-name = "pip-licenses"
-version = "5.5.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "prettytable" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/d6/03/627620aa09aa51d6e9fc1f996c535caa2ade11b9cb161fbb0e71fb2fa608/pip_licenses-5.5.0.tar.gz", hash = "sha256:2473e7afd02a0c21460758f70fd2bb3b3c080c5150713dd33baa9493dc1563a5", size = 45467, upload-time = "2025-10-19T00:29:54.552Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/35/a2/90d93f85d13bfcc19e63227bcede9e147c1c4d9260183f759ccd343b80e7/pip_licenses-5.5.0-py3-none-any.whl", hash = "sha256:ae1869436d13ee487088d29e71fc5821950062ad25ec28b6a1a443e0add6d8e8", size = 21581, upload-time = "2025-10-19T00:29:53.11Z" },
-]
-
-[[package]]
 name = "platformdirs"
 version = "4.5.1"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/cf/86/0248f086a84f01b37aaec0fa567b397df1a119f73c16f6c7a9aac73ea309/platformdirs-4.5.1.tar.gz", hash = "sha256:61d5cdcc6065745cdd94f0f878977f8de9437be93de97c1c12f853c9c0cdcbda", size = 21715, upload-time = "2025-12-05T13:52:58.638Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/cb/28/3bfe2fa5a7b9c46fe7e13c97bda14c895fb10fa2ebf1d0abb90e0cea7ee1/platformdirs-4.5.1-py3-none-any.whl", hash = "sha256:d03afa3963c806a9bed9d5125c8f4cb2fdaf74a55ab60e5d59b3fde758104d31", size = 18731, upload-time = "2025-12-05T13:52:56.823Z" },
-]
-
-[[package]]
-name = "prettytable"
-version = "3.17.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "wcwidth" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/79/45/b0847d88d6cfeb4413566738c8bbf1e1995fad3d42515327ff32cc1eb578/prettytable-3.17.0.tar.gz", hash = "sha256:59f2590776527f3c9e8cf9fe7b66dd215837cca96a9c39567414cbc632e8ddb0", size = 67892, upload-time = "2025-11-14T17:33:20.212Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/ee/8c/83087ebc47ab0396ce092363001fa37c17153119ee282700c0713a195853/prettytable-3.17.0-py3-none-any.whl", hash = "sha256:aad69b294ddbe3e1f95ef8886a060ed1666a0b83018bbf56295f6f226c43d287", size = 34433, upload-time = "2025-11-14T17:33:19.093Z" },
 ]
 
 [[package]]
@@ -1830,7 +1806,6 @@ audioio = [
 dev = [
     { name = "ipykernel" },
     { name = "ipython" },
-    { name = "pip-licenses" },
     { name = "ruff" },
 ]
 
@@ -1856,7 +1831,6 @@ audioio = [{ name = "soundfile", specifier = ">=0.13.1" }]
 dev = [
     { name = "ipykernel" },
     { name = "ipython" },
-    { name = "pip-licenses", specifier = ">=5.5.0" },
     { name = "ruff", specifier = ">=0.14.6" },
 ]
 
