@@ -11,7 +11,6 @@ from lightning.pytorch.plugins.precision import PrecisionPlugin
 from lightning.fabric.plugins import CheckpointIO, ClusterEnvironment
 from lightning.fabric.utilities.seed import reset_seed
 
-# from lightning.fabric.strategies.ddp import DDPStrategy
 from lightning.pytorch.utilities.rank_zero import rank_zero_only
 from lightning.fabric.utilities.distributed import _init_dist_connection
 from sfxfm.utils.dist import rank

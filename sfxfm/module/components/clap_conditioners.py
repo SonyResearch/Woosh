@@ -1,6 +1,5 @@
 import contextlib
 import logging
-import string
 from typing import Any, Mapping, Optional
 
 import torch
@@ -35,17 +34,6 @@ class SFXCLAPTextConditionerConfig(ComponentConfig):
     # populated from pl.lightening module
     text_preprocessing: Optional[str] = None
     shared_representation_size: int = 512
-
-
-def no_op(x):
-    return x
-
-
-remove_punctuation = str.maketrans("", "", string.punctuation)
-
-
-def default_text_preprocessing(text_list):
-    return [text.lower().translate(remove_punctuation).strip() for text in text_list]
 
 
 def freeze_model(model):
