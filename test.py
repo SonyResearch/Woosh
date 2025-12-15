@@ -5,7 +5,7 @@ import torchaudio
 
 from sfxfm.inference.meanflow_samplers import sample_euler
 from sfxfm.model.meanflow_from_pretrained import MeanFlowFromPretrained
-from sfxfm.module.components.base import LoadConfig
+from sfxfm.components.base import LoadConfig
 import time
 
 if torch.cuda.is_available():
@@ -38,8 +38,8 @@ with torch.inference_mode():
         model=ldm,
         noise=noise,
         cond=cond,
-        num_steps=5,
-        renoise=[0, 0.5, 0.5, 0.5, 0.3],
+        num_steps=4,
+        renoise=[0, 0.5, 0.5, 0.3],
         step_schedule="linear",
         cfg=4.5,
     )
