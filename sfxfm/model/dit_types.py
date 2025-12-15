@@ -90,6 +90,5 @@ class MMDiTArgs(BaseModel):
     mlp_act: str = "gelu"  # gelu # swiglu
 
 
-# DiTConfig can be any of the two configs
-# Configs in the union are discriminated based on their model_type
+# DiTConfig can be any the config of any other model
 DiTArgs = Annotated[Union[MMDiTArgs], Field(discriminator="model_type")]
