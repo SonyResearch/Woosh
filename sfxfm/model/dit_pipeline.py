@@ -135,7 +135,7 @@ class DiTFlowMapPipeline(torch.nn.Module):
         mask_out_before,
     ):
         """
-        A DiT used for MeanFlow must implement DiTMFPipeline
+        A DiT used for FlowMap must implement DiTMFPipeline
         and define the following modules.
         The only difference with DiTPipeline is that it uses r
         as an extra timestep argument
