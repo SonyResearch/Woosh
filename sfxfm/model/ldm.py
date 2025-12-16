@@ -1,12 +1,12 @@
 import logging
+from pydantic import Discriminator, Tag
 from typing import Annotated, Dict, Literal, Union
 
-from pydantic import Discriminator, Tag
 import torch
 from torch import nn
-from sfxfm.model.dit_class import DiT
-from sfxfm.model.dit_types import DictTensor
-from sfxfm.model.dit_types import DiTArgs
+
+from sfxfm.model.dit_flows import SFXFlow
+from sfxfm.model.dit_types import DictTensor, DiTArgs, MMDiTArgs
 from sfxfm.components.autoencoders import AudioAutoEncoder
 from sfxfm.components.base import (
     BaseComponent,
@@ -15,7 +15,6 @@ from sfxfm.components.base import (
     _is_load_config,
 )
 from sfxfm.components.clap_conditioners import SFXCLAPTextConditioner
-
 from sfxfm.components.conditioners import ConditionConfig, DiffusionConditioner
 
 # get logger
@@ -428,7 +427,7 @@ class LatentDiffusionModel(nn.Module, BaseComponent, LatentDiffusionModelPipelin
         self.config: LatentDiffusionModelArgs
 
         # Step 3: init of LatentDiffusionModelPipeline
-        dit = DiT(self.config.dit)
+        dit = SFXFlow(MMDiTArgs.model_validate(self.config.dit, strict=True))
         autoencoder = AudioAutoEncoder(self.config.autoencoder)
         # TODO should be a more general DiffusionConditioner builder
         conditioners = nn.ModuleDict(
@@ -458,11 +457,6 @@ class LatentDiffusionModel(nn.Module, BaseComponent, LatentDiffusionModelPipelin
         # After registering all subcomponents, we can finally
         # load the state dict from its internal _weights_path
         self.load_from_config()
-
-
-# --------------------------
-# -- Classes for MeanFlow --
-# --------------------------
 
 
 class LatentDiffusionModelMeanFlowPipeline(LatentDiffusionModelPipeline):
@@ -503,47 +497,3 @@ class LatentDiffusionModelMeanFlowPipeline(LatentDiffusionModelPipeline):
         # adds x_hat key
         d["x_hat"] = d["x"]
         return d
-
-
-class LatentDiffusionModelMeanFlow(
-    nn.Module, BaseComponent, LatentDiffusionModelMeanFlowPipeline
-):
-    config_class = LatentDiffusionModelArgs
-
-    def __init__(self, config: LatentDiffusionModelConfig):
-        # Step 1: init of nn.Module
-        super().__init__()
-
-        # Step 2: init of BaseComponent
-        self.init_from_config(config)
-        # now we use self.config and we know it has been validated
-        self.config: LatentDiffusionModelArgs
-
-        # Step 3: init of LatentDiffusionModelPipeline
-        dit = DiT(self.config.dit)
-        autoencoder = AudioAutoEncoder(self.config.autoencoder)
-        # TODO should be a more general DiffusionConditioner builder
-        conditioners = nn.ModuleDict(
-            {
-                k: SFXCLAPTextConditioner(conditioner_config)
-                for k, conditioner_config in self.config.conditioners.items()
-            }
-        )
-
-        sigma_data = self.config.sigma_data
-
-        self.init_pipeline(dit, autoencoder, conditioners, sigma_data)
-
-        # Step 4 : Register subcomponents
-        self.register_subcomponent(
-            "autoencoder",
-            self.autoencoder,
-        )
-        self.register_subcomponent_dict(
-            "conditioners",
-            self.conditioners,
-        )
-
-        # After registering all subcomponents, we can finally
-        # load the state dict from its internal _weights_path
-        self.load_from_config()
