@@ -114,6 +114,7 @@ class DiTPipeline(torch.nn.Module):
         d = self.postprocessing(d)
         return d
 
+    # TODO remove set_cast_v?!
     def set_cast_v(self, cast_v):
         """
         Disable cast and use qkv in float32 for JVP compatibility.
@@ -128,7 +129,7 @@ class DiTPipeline(torch.nn.Module):
 # ----------------------------------------
 
 
-class DiTMeanFlowPipeline(torch.nn.Module):
+class DiTFlowMapPipeline(torch.nn.Module):
     def __init__(
         self,
         preprocessing: nn.Module,

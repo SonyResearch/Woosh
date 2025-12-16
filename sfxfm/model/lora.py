@@ -8,13 +8,14 @@ from pydantic import BaseModel, Discriminator, Tag
 import torch
 from torch import nn
 
-from sfxfm.model.ditv2 import DiTArgs, DiTPipeline
+from sfxfm.model.dit_pipeline import DiTPipeline
+from sfxfm.model.dit_types import DiTArgs
 from sfxfm.model.ldm import (
     LatentDiffusionModel,
     LatentDiffusionModelConfig,
     LatentDiffusionModelPipeline,
 )
-from sfxfm.module.components.base import (
+from sfxfm.components.base import (
     BaseComponent,
     ComponentConfig,
     LoadConfig,
@@ -228,24 +229,10 @@ class LoraLDM(nn.Module, BaseComponent, LatentDiffusionModelPipeline):
 
         # ========= part to fill starts here ==========
         # Step 3: init of LatentDiffusionModelPipeline
-
-        # init of dit pipeline
         # keep ldm as ref
         ldm = LatentDiffusionModel(self.config.ldm)
         dit_config: DiTArgs = ldm.config.dit
 
-        # Create new layers
-        # - Could be done as:
-        # new_layers = []
-        # for layer_id, layer in enumerate(ldm.dit.layers):
-        #     new_layers.append(
-        #         replace_linear_with_lora(
-        #             module=layer,
-        #             args=self.config.lora,
-        #         )
-        #     )
-        # new_layers = nn.ModuleList(new_layers)
-        # - or as:
         new_layers: nn.ModuleList = replace_linear_with_lora(
             nn.ModuleList(ldm.dit.layers), args=self.config.lora
         )  # type: ignore

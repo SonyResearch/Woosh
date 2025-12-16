@@ -4,9 +4,7 @@ from dataclasses import dataclass
 from typing import List, Mapping
 import torch.nn as nn
 
-from sfxfm.utils.dist import rank
 
-rank = rank()
 # get logger
 log = logging.getLogger(__name__)
 

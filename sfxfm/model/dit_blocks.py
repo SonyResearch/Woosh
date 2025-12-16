@@ -845,89 +845,6 @@ class ModalityAttentionMFWrapper(ModalityAttentionWrapper):
         return x, gate
 
 
-class SinkModalityAttention(nn.Module):
-    """
-    Should be used as a ModalityAttention
-    Behaves like a sink: learnable K, with Q, K = 0
-    """
-
-    def __init__(self, args: DiTArgs, other_modality_key):
-        super().__init__()
-        self.num_sinks = args.num_sinks
-        # used to get the batch_size
-        self.other_modality_key = other_modality_key
-        assert self.num_sinks > 0
-        self.dim = args.dim
-        self.n_heads = args.n_heads
-
-        self.qk_rope_head_dim = args.qk_rope_head_dim
-        self.qk_nope_head_dim = args.qk_nope_head_dim
-        self.head_dim = args.qk_rope_head_dim + args.qk_nope_head_dim
-
-        # directly returns (1, n_head,  num_sinks, head_dim)
-        self.norm_k = RMSNorm(self.head_dim)
-        self.k = nn.Parameter(
-            torch.randn(1, self.n_heads, self.num_sinks, self.head_dim)
-        )
-        self.register_buffer(
-            "zero", torch.zeros(1, self.n_heads, self.num_sinks, self.head_dim)
-        )
-        self.use_modulation = False
-
-    def precompute(
-        self,
-        d: DictTensor,
-        apply_rope: bool = True,
-    ) -> Tuple[
-        Tensor,
-        Tensor,
-        Tensor,
-        Optional[Tensor],
-        Optional[Tensor],
-        Tensor,
-        Optional[Tensor],
-    ]:
-        """
-        Returns all essential elements for the forward pass of the attention layer.
-
-        Does not go through the scaled_dot_product_attention nor update the dictionary.
-        """
-        d = d.copy()  # for checkpointing
-        # extract elements from compute dictionary
-
-        other_mod: Tensor = d[self.other_modality_key]
-        bsz, seqlen, _ = other_mod.size()
-
-        # TODO Modulation?!
-
-        # compute q and k
-        k = self.k.expand(bsz, -1, -1, -1)
-        q = self.zero.expand(bsz, -1, -1, -1)  # type: ignore
-        v = self.zero.expand(bsz, -1, -1, -1)  # type: ignore
-
-        k = self.norm_k(k)
-
-        # returns unrotated q and k as default
-        q_ropenope = q
-        k_ropenope = k
-
-        # mask is on kv_keys
-        # set it to one if key is None
-        mask = torch.ones(bsz, self.num_sinks, device=k.device)
-        attn_mask = mask.bool().unsqueeze(1).unsqueeze(1)
-
-        return q, k, v, q_ropenope, k_ropenope, attn_mask, None
-
-    def forward(
-        self,
-        d: DictTensor,
-    ) -> DictTensor:
-        """
-        SinkModality should not be used in isolation
-        """
-        raise NotImplementedError
-
-
 class BaseModalityBlock(nn.Module):
     """
     Base class for modality blocks containing a self-attention and an MLP,
@@ -935,7 +852,7 @@ class BaseModalityBlock(nn.Module):
     """
 
     def __init__(
-        self, attn: ModalityAttention | SinkModalityAttention, ffn: MLP | nn.Identity
+        self, attn: ModalityAttention, ffn: MLP | nn.Identity
     ):
         super().__init__()
         self.attn = attn
@@ -971,21 +888,6 @@ class BaseModalityBlock(nn.Module):
         This is useful for changing the behavior after initialization.
         """
         self.attn.cast_v = cast_v
-
-
-class SinkModalityBlock(BaseModalityBlock):
-    """
-    A modality block for sink modalities, containing only a self-attention.
-    """
-
-    def __init__(
-        self,
-        args: DiTArgs,
-        other_modality_key: str,
-    ):
-        attn = SinkModalityAttention(args, other_modality_key=other_modality_key)
-
-        super().__init__(attn=attn, ffn=nn.Identity())
 
 
 class ModalityBlock(BaseModalityBlock):
@@ -1380,7 +1282,7 @@ class MMMBlock(nn.Module):
     def __init__(
         self,
         layer_id: int,
-        modality_block_dict: Dict[str, ModalityBlock | SinkModalityBlock],
+        modality_block_dict: Dict[str, ModalityBlock],
         cast_v: bool = False,
     ):
         """

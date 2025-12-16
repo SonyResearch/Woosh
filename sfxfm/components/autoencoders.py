@@ -6,11 +6,9 @@ import torch
 from hydra.utils import instantiate
 from tqdm import tqdm
 
-from sfxfm.utils.dist import rank
 
 from .base import BaseComponent, ComponentConfig
 
-rank = rank()
 # get logger
 log = logging.getLogger(__name__)
 
@@ -86,7 +84,6 @@ class AudioAutoEncoder(torch.nn.Module, BaseComponent):
         This method is used to export plmodule see `configs/export/autoencoder.yaml`
 
         Example Usage:
-            `export_component.py +export=[autoencoder] component.autoencoder.experiment_name=v48x4crclH4-t4g-w3-spfm16c-v3 export_name=48khzv48x4crclH4-t4g-w3-spfm16c-v3`
         Args:
             autoencoder (AutoEncoder): AutoEncoder model
             datamodule (DataModule): DataModule used to compute stats

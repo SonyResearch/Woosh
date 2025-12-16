@@ -8,11 +8,8 @@ class MeanFlowFromPretrained:
 """
 
 import copy
-from einops import rearrange
-from itertools import chain
 from pydantic import Discriminator, Tag
-from tqdm import trange
-from typing import Annotated, Literal, Union, Dict, List
+from typing import Annotated, Literal, Union
 
 import torch
 from torch import nn
@@ -23,26 +20,22 @@ from sfxfm.model.dit_blocks import (
     ModalityAttentionMFWrapper,
     ModalityAttention,
 )
-from sfxfm.model.dit_pipeline import DiTMeanFlowPipeline, DiTPipeline
-from sfxfm.model.ditv2 import DiTArgs, DictTensor
-from sfxfm.model.inpainting_finetune import (
-    InpaintingFinetune,
-    InpaintingFinetuneConfig,
-)
+from sfxfm.model.dit_pipeline import DiTFlowMapPipeline
+
+from sfxfm.model.dit_types import DiTArgs, DictTensor
 from sfxfm.model.ldm import (
     LatentDiffusionModel,
     LatentDiffusionModelConfig,
     LatentDiffusionModelMeanFlowPipeline,
 )
-from sfxfm.model.discriminator_sana import DiscHeadNetwork
+
 from sfxfm.model.lora import LoraArgs, shallow_copy
-from sfxfm.module.components.base import (
+from sfxfm.components.base import (
     BaseComponent,
     ComponentConfig,
     LoadConfig,
     _is_load_config,
 )
-from sfxfm.utils.dist.distrib import rank
 
 
 # ----------------------------------
@@ -50,10 +43,9 @@ from sfxfm.utils.dist.distrib import rank
 # ----------------------------------
 
 
-class MeanFlowPretrainedArgs(ComponentConfig):
-    ldm: LatentDiffusionModelConfig | InpaintingFinetuneConfig
-    # try to keep same keys as in extract_component.py
-    pretrained_model_type: Literal["ldm", "inpainting-finetune"] = "ldm"
+class FlowMapPretrainedArgs(ComponentConfig):
+    ldm: LatentDiffusionModelConfig
+    pretrained_model_type: Literal["ldm"] = "ldm"
     use_lora: bool = False
     lora: LoraArgs
     pretrain_embeddings: bool = True
@@ -62,10 +54,10 @@ class MeanFlowPretrainedArgs(ComponentConfig):
     add_discriminator: bool = False
 
 
-MeanFlowPretrainedConfig = Annotated[
+FlowMapPretrainedConfig = Annotated[
     Union[
         Annotated[LoadConfig, Tag("load_config")],
-        Annotated[MeanFlowPretrainedArgs, Tag("component_args")],
+        Annotated[FlowMapPretrainedArgs, Tag("component_args")],
     ],
     Discriminator(discriminator=_is_load_config),
 ]
@@ -102,7 +94,7 @@ class FlipSignPostprocessing(nn.Module):
     the MeanFlow student.
     """
 
-    def __init__(self, args: MeanFlowPretrainedArgs, old_postprocessing):
+    def __init__(self, args: FlowMapPretrainedArgs, old_postprocessing):
         super().__init__()
         self.old_postprocessing = old_postprocessing
 
@@ -111,114 +103,6 @@ class FlipSignPostprocessing(nn.Module):
         d = self.old_postprocessing(d)
         d["x"] = -d["x"]
         return d
-
-
-class DiscHead(nn.Module):
-    """
-    Discriminator head
-    should be inserted after layer_id in backbone model
-    concatenates features with key in x_keys and apply a small NN
-
-    adds disc_head_{layer_id} key to the DictTensor
-    """
-
-    def __init__(
-        self,
-        args: MeanFlowPretrainedArgs,
-        dit_args: DiTArgs,
-        x_keys: List[str],
-        layer_id: int,
-    ):
-        super().__init__()
-        # must access pretrained dit args
-        # pretrained_args: DiTArgs = LatentDiffusionModel.resolve_config(args.ldm).dit
-        pretrained_args: DiTArgs = dit_args
-
-        # TODO Do better like spectral norm + conv
-        self.x_keys = x_keys
-
-        # TODO try more complex network
-        self.linear = DiscHeadNetwork(channels=pretrained_args.dim, c_dim=0)
-
-        self.layer_id = layer_id
-
-    def forward(self, d: DictTensor) -> DictTensor:
-        # (b, t, c)
-        features = torch.cat([d[k] for k in self.x_keys], dim=1)
-        features = rearrange(features, "b t c -> b c t")
-
-        # TODO use cond?
-        d[f"disc_head_{self.layer_id}"] = self.linear(features, c=None)[:, 0]
-        # disc_head is (batch, length)
-        return d
-
-
-class DiscriminatorFromTeacher(nn.Module):
-    def __init__(
-        self,
-        args: MeanFlowPretrainedArgs,
-        dit_args: DiTArgs,
-        pretrained: LatentDiffusionModel,
-    ) -> None:
-        super().__init__()
-        # args of the teacher model
-        # pretrained_args: DiTArgs = LatentDiffusionModel.resolve_config(args.ldm).dit
-        pretrained_args: DiTArgs = dit_args
-
-        insert_head_after = [1, 5, 9, 11]
-        # 2, 8, 14, 20, 27 in SANA-Sprint
-
-        new_layers = []
-        trainable_parameters = []
-        for layer_id, layer in enumerate(pretrained.dit.layers):
-            layer.requires_grad_(False)
-            new_layers.append(layer)
-            if layer_id in insert_head_after:
-                # TODO add description?!
-                # TODO add special head on description only?
-                disc_head = DiscHead(
-                    args=args, dit_args=pretrained_args, x_keys=["x"], layer_id=layer_id
-                )
-                new_layers.append(disc_head)
-                trainable_parameters.append(disc_head)
-
-        new_layers = nn.ModuleList(new_layers)
-
-        self.backbone = DiTPipeline(
-            preprocessing=pretrained.dit.preprocessing,
-            postprocessing=pretrained.dit.postprocessing,
-            layers=new_layers,
-            non_checkpoint_layers=len(new_layers) + 1,  # we can't use checkpoints
-            mask_out_before=pretrained_args.mask_out_before,
-        )
-
-        self.trainable_parameters = list(
-            chain(*[p.parameters() for p in trainable_parameters])
-        )
-
-    def forward(
-        self,
-        x: torch.Tensor,
-        t,
-        cond: Dict[str, torch.Tensor],
-        mask: torch.Tensor,
-    ) -> torch.Tensor:
-        d = self.backbone.forward(x, t, cond, mask)
-        # concat disc_heads
-        heads = [d[key] for key in d.keys() if key.startswith("disc_head_")]
-        return torch.stack(heads, dim=1)
-
-    def unfreeze(self) -> None:
-        """Unfreeze trainable parameters for training."""
-        for param in self.trainable_parameters:
-            param.requires_grad = True
-        self.train()
-
-    def freeze(self) -> None:
-        r"""Freeze all params for inference."""
-        for param in self.parameters():
-            param.requires_grad = False
-        self.eval()
 
 
 class MeanFlowPreprocessing(nn.Module):
@@ -230,7 +114,7 @@ class MeanFlowPreprocessing(nn.Module):
     """
 
     def __init__(
-        self, args: MeanFlowPretrainedArgs, dit_args: DiTArgs, old_preprocessing
+        self, args: FlowMapPretrainedArgs, dit_args: DiTArgs, old_preprocessing
     ):
         """
         Args:
@@ -358,7 +242,7 @@ class MeanFlowFromPretrained(
         freqs_cis (torch.Tensor): Precomputed complex exponential values for rotary embeddings.
     """
 
-    config_class = MeanFlowPretrainedArgs
+    config_class = FlowMapPretrainedArgs
 
     def init_pretrained_model(self):
         """
@@ -382,24 +266,19 @@ class MeanFlowFromPretrained(
                 raise ValueError(
                     f"MeanFlowPretrained only supports {supported_models}, got {ldm.config.dit.model_type}"
                 )
-        elif self.config.pretrained_model_type == "inpainting-finetune":
-            ldm = InpaintingFinetune(self.config.ldm)
-            dit_config: DiTArgs = LatentDiffusionModel.resolve_config(
-                ldm.config.ldm
-            ).dit
         else:
             raise ValueError(
                 f"Unknown pretrained_model_type {self.config.pretrained_model_type}"
             )
         return ldm, dit_config
 
-    def __init__(self, config: MeanFlowPretrainedConfig):
+    def __init__(self, config: FlowMapPretrainedConfig):
         # ==== Step 1: init of nn.Module
         super().__init__()
 
         # ==== Step 2: init of BaseComponent
         self.init_from_config(config)
-        self.config: MeanFlowPretrainedArgs  # now we use self.config knowing it has been validated
+        self.config: FlowMapPretrainedArgs  # now we use self.config knowing it has been validated
 
         # ==== Step 3: init student's LDM pipeline with adapted pre and postprocessing
         ldm, dit_config = self.init_pretrained_model()
@@ -424,7 +303,7 @@ class MeanFlowFromPretrained(
         new_layers = ldm.dit.layers
 
         # Creates new DiT and LDM pipelines for student
-        dit = DiTMeanFlowPipeline(
+        dit = DiTFlowMapPipeline(
             preprocessing=new_preprocessing,
             postprocessing=new_postprocessing,
             layers=new_layers,
@@ -454,120 +333,3 @@ class MeanFlowFromPretrained(
         self.teacher_ldm.conditioners = ldm.conditioners  # to sample from teacher model
         self.teacher_ldm.requires_grad_(False)
         self.teacher_ldm.eval()
-
-        # Optionally init discriminator
-        self.discriminator = (
-            DiscriminatorFromTeacher(
-                args=self.config,
-                dit_args=dit_config,
-                pretrained=self.teacher_ldm,
-            )
-            if self.config.add_discriminator
-            else None
-        )
-
-        # Run warmup pretraining of new timestep embeddings to match old ones
-        if self.config.pretrain_embeddings:
-            self._init_embeddings()
-
-    def _init_embeddings(self, batch_size=256):
-        """
-        Train only new timestep/logvar embeddings on a sampled set of
-        (t, r) values such that new_encoding(t, r) = old_encoding(t).
-        """
-        if rank() == 0:
-            # Push embeddings to CUDA first
-            device = "cuda"
-            self.dit.preprocessing.to_timestep_embed = (
-                self.dit.preprocessing.to_timestep_embed.to(device=device)
-            )
-            self.dit.preprocessing.timestep_features_t = (
-                self.dit.preprocessing.timestep_features_t.to(device=device)
-            )
-            self.dit.preprocessing.timestep_features_r = (
-                self.dit.preprocessing.timestep_features_r.to(device=device)
-            )
-            if self.config.distill_cfg:
-                self.dit.preprocessing.cfg_features = (
-                    self.dit.preprocessing.cfg_features.to(device=device)
-                )
-            self.dit.preprocessing.old_preprocessing = (
-                self.dit.preprocessing.old_preprocessing.to(device=device)
-            )
-
-            # Define optimizer with appropriate set of parameters to train
-            params_to_train = chain(
-                self.dit.preprocessing.to_timestep_embed.parameters(),
-                self.dit.preprocessing.timestep_features_t.parameters(),
-                self.dit.preprocessing.timestep_features_r.parameters(),
-                self.dit.preprocessing.cfg_features.parameters()
-                if self.config.distill_cfg
-                else iter([]),
-            )
-            optimizer = torch.optim.AdamW(params_to_train, lr=1e-4, weight_decay=1e-2)
-
-            # Training loop
-            pbar = trange(
-                self.config.num_steps_emb_pretraining,
-                desc="Timestep embedding warmup",
-                ncols=100,
-            )
-            for _ in pbar:
-                optimizer.zero_grad()
-                loss = 0.0
-
-                with torch.no_grad():
-                    # Sample (t, r)
-                    t = torch.rand(batch_size, device=device)
-                    r = torch.rand(batch_size, device=device)
-
-                    # Compute old timestep embedding
-                    old_fourier_t = (
-                        self.dit.preprocessing.old_preprocessing.timestep_features(
-                            t[:, None]
-                        )
-                    )
-                    if isinstance(
-                        self.dit.preprocessing.old_preprocessing.to_timestep_embed[-1],
-                        nn.SiLU,
-                    ):
-                        old_t_embedding = (
-                            self.dit.preprocessing.old_preprocessing.to_timestep_embed[
-                                :-1
-                            ](old_fourier_t)
-                        )
-
-                    else:
-                        old_t_embedding = (
-                            self.dit.preprocessing.old_preprocessing.to_timestep_embed(
-                                old_fourier_t
-                            )
-                        )
-
-                # Compute new timestep embedding
-                new_fourier_t = self.dit.preprocessing.timestep_features_t(t[:, None])
-                new_fourier_r = self.dit.preprocessing.timestep_features_r(r[:, None])
-
-                if self.config.distill_cfg:
-                    # cfg = torch.rand_like(t) * 2 + 2
-                    cfg = torch.ones_like(t) * 3
-                    new_fourier_cfg = self.dit.preprocessing.cfg_features(cfg[:, None])
-                    new_t_r_embedding = self.dit.preprocessing.to_timestep_embed[:-1](
-                        torch.cat(
-                            [new_fourier_t, new_fourier_r, new_fourier_cfg], dim=-1
-                        )
-                    )
-                else:
-                    new_t_r_embedding = self.dit.preprocessing.to_timestep_embed[:-1](
-                        torch.cat([new_fourier_t, new_fourier_r], dim=-1)
-                    )
-
-                # Compute loss
-                loss = torch.nn.functional.mse_loss(
-                    new_t_r_embedding, old_t_embedding, reduction="mean"
-                )
-                pbar.set_postfix({"loss": loss.item()})
-
-                # Backprop
-                loss.backward()
-                optimizer.step()

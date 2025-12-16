@@ -3,7 +3,7 @@ trainable: true
 ldm:
   exclude_from_checkpoint: false
   trainable: true
-  path: cache_dir/components/fm-mmmssflux-m-pbds2-pclp70-pae-b96-e464
+  path: checkpoints/SFXflow
 use_lora: false
 lora:
   rank: 64
