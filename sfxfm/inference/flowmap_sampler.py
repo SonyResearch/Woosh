@@ -1,53 +1,54 @@
 """
-This is where the MeanFlow sampler is defined.
-
-Alexandre Bittar, 2025
+This is where the FlowMap sampler is defined for denoising using
+the distilled model.
 """
 
-from sfxfm.model.ldm import LatentDiffusionModelMeanFlowPipeline
+from sfxfm.model.ldm import LatentDiffusionModelFlowMapPipeline
 import torch
 
 
 @torch.inference_mode()
 def sample_euler(
-    model: LatentDiffusionModelMeanFlowPipeline,
+    model: LatentDiffusionModelFlowMapPipeline,
     noise,
     cond,
     num_steps=4,
-    step_schedule="linear",
     renoise=0.0,
-    cfg=3.0,
+    cfg=4.0,
 ):
     """
-    Sampling using Euler integration with dynamic step size (step scheduler).
-    Input and output tensors have shape (B, F, T).
+    Sampling with Euler integration. Input and output tensors have shape (batch, feats, steps).
+
+    Arguments:
+    -----------
+    model: LatentDiffusionModelFlowMapPipeline
+        diffusion model to sample from.
+    noise: torch.Tensor
+        initial Gaussian noise tensor to start denoising from.
+    cond: Dict
+        conditioning dictionary for the model containing audio description.
+    num_steps: int
+        number of denoising steps (best values should be 4-8).
+    renoise: float or list
+        amount of noise to add at each step, each value must be in [0, 1].
+    cfg: float
+        classifier-free guidance scale (between 0 and 9).
     """
     device = noise.device
     batch_size = noise.size(0)
+    cond["cfg"] = cfg * torch.ones((batch_size,), device=device)
 
     # Define renoise schedule
     if isinstance(renoise, (float, int)):
         renoise_schedule = [renoise] * num_steps
-    elif hasattr(renoise, "__len__") and len(renoise) == num_steps:
+    elif isinstance(renoise, (list, tuple)) and len(renoise) == num_steps:
         renoise_schedule = renoise
     else:
         raise TypeError("renoise must be a float or a list with num_steps values.")
 
-    # Define step schedule
-    if step_schedule == "linear":
-        t_vals = torch.linspace(1, 0, num_steps + 1)
-    elif hasattr(step_schedule, "__len__") and len(step_schedule) == num_steps + 1:
-        t_vals = torch.tensor(step_schedule)
-    else:
-        raise NotImplementedError(
-            f"step_schedule must be linear, or a list of num_steps+1 values got {step_schedule}."
-        )
-
-    # Reshape as (batch_size, num_steps + 1)
+    # Define linear step schedule and reshape as (batch_size, num_steps + 1)
+    t_vals = torch.linspace(1, 0, num_steps + 1)
     t_vals = t_vals.unsqueeze(0).repeat(batch_size, 1).to(device)
-
-    # Use classifier free guidance
-    cond["cfg"] = cfg * torch.ones((batch_size,), device=device)
 
     # Denoising steps using Euler
     for i in range(num_steps):
