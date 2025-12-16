@@ -38,9 +38,9 @@ conditioners:
   text:
     exclude_from_checkpoint: true
     trainable: false
-    path: cache_dir/components/070-sfxclap-laion-10s5c-puncdo-tCDUR-CURshuffledo-bs448-fp16
+    path: checkpoints/SFXclap
 autoencoder:
   exclude_from_checkpoint: true
   trainable: false
-  path: cache_dir/components/pds-hf2-v48x4crclH4-t4g-w3-spfm16c
+  path: checkpoints/SFXae
 sigma_data: 1.0

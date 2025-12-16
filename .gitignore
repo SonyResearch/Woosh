@@ -1,3 +1,7 @@
+cache_dir
+outputs
+!sfxfm/utils/dist
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -114,3 +118,7 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+.DS_Store
+outputs/
+weights.safetensors
