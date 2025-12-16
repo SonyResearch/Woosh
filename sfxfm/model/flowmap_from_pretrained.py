@@ -1,8 +1,8 @@
 """
-class MeanFlowFromPretrained:
+class FlowMapFromPretrained:
 
-    MeanFlowFromPretrained is a wrapper for a pretrained Latent Diffusion Model (LDM)
-    with meanflow-specific modifications in preprocessing.
+    FlowMapFromPretrained is a wrapper for a pretrained Latent Diffusion Model (LDM)
+    with flowmap-specific modifications in preprocessing.
 
 """
 
@@ -19,7 +19,7 @@ from sfxfm.model.dit_types import DiTArgs, DictTensor
 from sfxfm.model.ldm import (
     LatentDiffusionModel,
     LatentDiffusionModelConfig,
-    LatentDiffusionModelMeanFlowPipeline,
+    LatentDiffusionModelFlowMapPipeline,
 )
 from sfxfm.components.base import (
     BaseComponent,
@@ -30,7 +30,7 @@ from sfxfm.components.base import (
 
 
 # ----------------------------------
-# -- MeanFlowFromPretrained utils --
+# -- flowmapFromPretrained utils --
 # ----------------------------------
 
 
@@ -50,7 +50,7 @@ FlowMapPretrainedConfig = Annotated[
 class FlipSignPostprocessing(nn.Module):
     """
     Flips the sign of the teacher postprocessing output to match
-    the MeanFlow student.
+    the flowmap student.
     """
 
     def __init__(self, args: FlowMapPretrainedArgs, old_postprocessing):
@@ -64,9 +64,9 @@ class FlipSignPostprocessing(nn.Module):
         return d
 
 
-class MeanFlowPreprocessing(nn.Module):
+class FlowMapPreprocessing(nn.Module):
     """
-    Adds meanflow-specific modules to an old ldm.dit.preprocessing
+    Adds flowmap-specific modules to an old ldm.dit.preprocessing
       - init new fixed Fourier features and MLP for t and r.
       - init new trainable Fourier features and MLP for logvar.
       - forward replaces d['t'] and d['logvar'] with the new ones.
@@ -77,7 +77,7 @@ class MeanFlowPreprocessing(nn.Module):
     ):
         """
         Args:
-            args (MeanFlowPretrainedArgs): Configuration arguments for MeanFlow wrapper
+            args (FlowMapPretrainedArgs): Configuration arguments for FlowMap wrapper
             dit_args (DiTArgs): Configuration arguments for the pretrained DiT model.
             old_preprocessing (nn.Module): The original preprocessing module from the pretrained model.
 
@@ -157,13 +157,8 @@ class MeanFlowPreprocessing(nn.Module):
         return d
 
 
-# ----------------------------------------
-# -- Main MeanFlowFromPretrained module --
-# ----------------------------------------
-
-
-class MeanFlowFromPretrained(
-    nn.Module, BaseComponent, LatentDiffusionModelMeanFlowPipeline
+class FlowMapFromPretrained(
+    nn.Module, BaseComponent, LatentDiffusionModelFlowMapPipeline
 ):
     """
     Simple LoRA model for Latent Diffusion Model.
@@ -194,7 +189,7 @@ class MeanFlowFromPretrained(
         supported_models = ["mmmflux", "mmmssflux"]
         if ldm.config.dit.model_type not in supported_models:
             raise ValueError(
-                f"MeanFlowPretrained only supports {supported_models}, got {ldm.config.dit.model_type}"
+                f"FlowMapPretrained only supports {supported_models}, got {ldm.config.dit.model_type}"
             )
         return ldm, dit_config
 
@@ -210,7 +205,7 @@ class MeanFlowFromPretrained(
         ldm, dit_config = self.init_pretrained_model()
 
         # Define student preprocessing (adapted for 2nd time step r)
-        new_preprocessing = MeanFlowPreprocessing(
+        new_preprocessing = FlowMapPreprocessing(
             args=self.config,
             dit_args=dit_config,
             old_preprocessing=ldm.dit.preprocessing,
