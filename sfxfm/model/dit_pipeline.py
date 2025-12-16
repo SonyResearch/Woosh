@@ -1,4 +1,5 @@
 from typing import Dict
+
 import torch
 from torch import nn
 
@@ -122,11 +123,6 @@ class DiTPipeline(torch.nn.Module):
         for _, layer in enumerate(self.layers):
             if hasattr(layer, "set_cast_v"):
                 layer.set_cast_v(cast_v)
-
-
-# ----------------------------------------
-# -- For MeanFlow with 2nd timestep arg --
-# ----------------------------------------
 
 
 class DiTFlowMapPipeline(torch.nn.Module):
