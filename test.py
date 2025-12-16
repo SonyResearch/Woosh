@@ -23,7 +23,7 @@ ldm = ldm.eval().to(device)
 # Prepare inputs
 batch_size = 1
 noise = torch.randn(batch_size, 128, 501).to(device)
-description = "monster growling"
+description = "sportscar engine revving and driving away quickly"
 cond = ldm.get_cond(
     {"audio": None, "description": [description] * batch_size},
     no_dropout=True,
