@@ -60,7 +60,7 @@ class LatentDiffusionModelPipeline:
         sigma_data,
         pred_type="v_pred",
     ) -> None:
-        self.dit: DiT = dit
+        self.dit: SFXFlow = dit
         self.autoencoder: AudioAutoEncoder = autoencoder
         self.conditioners: nn.ModuleDict = conditioners
         self.sigma_data = sigma_data
@@ -459,9 +459,9 @@ class LatentDiffusionModel(nn.Module, BaseComponent, LatentDiffusionModelPipelin
         self.load_from_config()
 
 
-class LatentDiffusionModelMeanFlowPipeline(LatentDiffusionModelPipeline):
+class LatentDiffusionModelFlowMapPipeline(LatentDiffusionModelPipeline):
     """
-    A LatentDiffusionModelPipeline with MeanFlow specific methods
+    A LatentDiffusionModelPipeline with FlowMap specific methods
     Only redefines denoise_dict_no_param method to have a 2nd timestep arg r.
     """
 
@@ -473,7 +473,7 @@ class LatentDiffusionModelMeanFlowPipeline(LatentDiffusionModelPipeline):
         version of denoise_dict that returns the whole DictTensor
         AND
         does NOT use a specific parameterization vs _denoise_dict which uses the EDM parameterization
-        The possibility for a second timestep r is added for meanflow.
+        The possibility for a second timestep r is added for flowmap.
         """
         assert cond is not None
         # TODO absurd, we shouldn't mix x_loss mask and inpainting masks

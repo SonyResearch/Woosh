@@ -1,12 +1,12 @@
 import os
+import time
 
 import torch
 import torchaudio
 
-from sfxfm.inference.meanflow_samplers import sample_euler
-from sfxfm.model.meanflow_from_pretrained import MeanFlowFromPretrained
+from sfxfm.inference.flowmap_sampler import sample_euler
+from sfxfm.model.flowmap_from_pretrained import FlowMapFromPretrained
 from sfxfm.components.base import LoadConfig
-import time
 
 if torch.cuda.is_available():
     device = "cuda"
@@ -17,7 +17,7 @@ else:
 
 # Load model
 COMPONENT_PATH = "checkpoints/SFXflowmap"
-ldm = MeanFlowFromPretrained(LoadConfig(path=COMPONENT_PATH))
+ldm = FlowMapFromPretrained(LoadConfig(path=COMPONENT_PATH))
 ldm = ldm.eval().to(device)
 
 # Prepare inputs
@@ -29,27 +29,25 @@ cond = ldm.get_cond(
     no_dropout=True,
     device=device,
 )
-# cond["cfg"] = 3 * torch.ones((batch_size,), device=noise.device)
 
+# Denoise using ldm and transform to audio with autoencoder
 start_time = time.time()
 with torch.inference_mode():
-    # Denoise using ldm and transform to audio with autoencoder
     x_fake = sample_euler(
         model=ldm,
         noise=noise,
         cond=cond,
         num_steps=4,
         renoise=[0, 0.5, 0.5, 0.3],
-        step_schedule="linear",
         cfg=4.5,
     )
     audio_fake = ldm.autoencoder.inverse(x_fake)
-    os.makedirs("outputs", exist_ok=True)
 end_time = time.time()
 print(f"Generation took {end_time - start_time:.2f} seconds on {device}")
 
-# move to CPU for saving
+# Move to CPU and save outputs
 audio_fake = audio_fake.cpu()
+os.makedirs("outputs", exist_ok=True)
 for i in range(batch_size):
     torchaudio.save(
         f"outputs/output_{i}.wav",
