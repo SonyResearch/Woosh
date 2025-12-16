@@ -1,10 +1,11 @@
 from typing import Dict, Optional
 from einops import rearrange
+
 import torch
 from torch import nn
-from sfxfm.model.dit_pipeline import DiTPipeline, DiTFlowMapPipeline
-from sfxfm.model.dit_types import DiTArgs, DictTensor, MMDiTArgs
 
+from sfxfm.model.dit_pipeline import DiTPipeline
+from sfxfm.model.dit_types import DiTArgs, DictTensor, MMDiTArgs
 from sfxfm.model.dit_blocks import (
     FixedFourierFeaturesTime,
     FourierFeaturesTime,
@@ -278,129 +279,6 @@ class PostProcessing(nn.Module):
         return d
 
 
-# ------------------------------------
-# -- For MeanFlow with 2nd timestep --
-# ------------------------------------
-
-
-class InputProcessingMeanFlow(InputProcessing):
-    """
-    InputProcessing adapted for MeanFlow with second timestep arg r.
-    """
-
-    def __init__(self, args: DiTArgs):
-        super().__init__(args)
-
-        timestep_embed_dim = args.timestep_features_dim * 2
-
-        # Timestep encoding of (t, r)
-        self.timestep_features_t = FourierFeaturesTime(1, args.timestep_features_dim)
-        self.timestep_features_r = FourierFeaturesTime(1, args.timestep_features_dim)
-        self.to_timestep_embed = nn.Sequential(
-            nn.Linear(timestep_embed_dim, args.inter_dim, bias=True),
-            nn.SiLU(),
-            nn.Linear(args.inter_dim, args.dim, bias=True),
-            nn.SiLU(),
-        )
-
-        # Estimation of logvar from (t, r)
-        self.estimate_logvar = args.estimate_logvar
-        if args.estimate_logvar:
-            self.timestep_logvar_t = FourierFeaturesTime(1, args.timestep_features_dim)
-            self.timestep_logvar_r = FourierFeaturesTime(1, args.timestep_features_dim)
-            self.to_logvar = nn.Sequential(
-                nn.Linear(timestep_embed_dim, 128, bias=True),
-                nn.SiLU(),
-                nn.Linear(128, 1, bias=True),
-            )
-
-    # Copies signature from forward method of dit.DiffusionTransformer
-    def forward(
-        self,
-        x: torch.Tensor,
-        t: torch.Tensor,
-        r: torch.Tensor,
-        cond: Dict[str, torch.Tensor],
-        mask: Optional[torch.Tensor] = None,
-    ) -> DictTensor:
-        batch_size = x.size(0)
-
-        # Encode t_embed as a MLP applied t and r Fourier feats concatenated
-        t_embed = self.to_timestep_embed(  # (b, c)
-            torch.cat(
-                [
-                    self.timestep_features_t(t[:, None]),
-                    self.timestep_features_r(r[:, None]),
-                ],
-                dim=-1,
-            )
-        )
-        # Encode t_logvar as a MLP applied t and r Fourier feats concatenated
-        t_logvar = (
-            self.to_logvar(  # (b,)
-                torch.cat(
-                    [
-                        self.timestep_logvar_t(t[:, None]),
-                        self.timestep_logvar_r(r[:, None]),
-                    ],
-                    dim=-1,
-                )
-            )[:, 0]
-            if self.estimate_logvar
-            else None
-        )
-        d = dict(
-            # memory tokens + embed(x)
-            x=torch.cat(
-                [
-                    self.memory_tokens_rope.expand(
-                        batch_size, self.n_memory_tokens_rope, -1
-                    ),
-                    self.embed_x(x),
-                ],
-                dim=1,
-            ),
-            x_mask=mask,
-            t=t_embed,
-            description=torch.cat(
-                [
-                    self.memory_tokens_description.expand(x.size(0), -1, -1),
-                    self.to_cond_embed(cond["cross_attn_cond"])
-                    if not self.no_description_mask
-                    else self.to_cond_embed(
-                        self.pad_description(
-                            cond["cross_attn_cond"], cond["cross_attn_cond_mask"]
-                        )
-                    ),
-                ],
-                dim=1,
-            )
-            if "cross_attn_cond" in cond
-            else None,
-            description_mask=torch.cat(
-                [
-                    torch.ones(batch_size, self.n_memory_tokens_description).to(
-                        x.device
-                    ),
-                    (
-                        torch.ones_like(cond["cross_attn_cond_mask"])
-                        if self.no_description_mask
-                        else cond["cross_attn_cond_mask"]
-                    ),
-                ],
-                dim=1,
-            )
-            if "cross_attn_cond" in cond
-            else None,
-            freqs_cis=self.freqs_cis,
-            freqs_cis_description=self.freqs_cis_description,
-            logvar=t_logvar,
-        )
-
-        # DictTensor is not supposed to contain None values
-        return d  # type: ignore
-
-
 class SFXFlow(DiTPipeline):
     """
     Same as Flux, but uses MMMBlocks only
@@ -450,66 +328,6 @@ class SFXFlow(DiTPipeline):
                         x_keys=["x", "description"],
                         mod_key="t",
                         freqs_cis_keys=["freqs_cis", "freqs_cis_description"],
-                        mask_key=None,
-                    ),
-                )
-
-        super().__init__(
-            preprocessing=preprocessing,
-            postprocessing=postprocessing,
-            layers=layers,
-            non_checkpoint_layers=args.non_checkpoint_layers,
-            mask_out_before=args.mask_out_before,
-        )
-
-
-# -------------------------------------------
-# -- For MeanFlow models with 2nd timestep --
-# -------------------------------------------
-
-
-class SFXFlowMap(DiTFlowMapPipeline):
-    """
-    Adapted to 2nd timestep arg (meanflow).
-    """
-
-    def __init__(self, args: MMDiTArgs):
-        """ """
-        assert args.no_description_mask, "MMMFlux requires no description mask"
-        preprocessing = InputProcessingMeanFlow(args)
-        postprocessing = PostProcessing(args)
-
-        layers = torch.nn.Sequential()
-        for layer_id in range(args.n_layers):
-            if layer_id < args.n_multimodal_layers:
-                layers.append(
-                    MMMBlock(
-                        layer_id,
-                        modality_block_dict=dict(
-                            x=ModalityBlock(
-                                args,
-                                x_key="x",
-                                mod_key="t",
-                                freqs_cis_key="freqs_cis",
-                                mask_key=None,
-                            ),
-                            description=ModalityBlock(
-                                args,
-                                x_key="description",
-                                mod_key="t",
-                                mask_key=None,
-                                freqs_cis_key=None,
-                            ),
-                        ),
-                    )
-                )
-            else:
-                layers.append(
-                    ModalityBlock(
-                        args,
-                        x_key="x",
-                        mod_key="t",
-                        freqs_cis_key="freqs_cis",
                         mask_key=None,
                     ),
                 )
