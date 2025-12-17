@@ -4,10 +4,18 @@ Public release of the Sound Effect Foundation model by Sony AI.
 
 ## Installation
 
-Use [uv](https://docs.astral.sh/uv) to install SFXFM.
+Use [uv](https://docs.astral.sh/uv) to install the SFXFM environment, with either
+
+`cpu` support
 
 ```bash
-uv sync
+uv sync --extra cpu
+```
+
+or `cuda` support
+
+```bash
+uv sync --extra cuda
 ```
 
 ### Download model weights
