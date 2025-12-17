@@ -1,4 +1,5 @@
 from typing import Dict
+
 import torch
 from torch import nn
 
@@ -114,6 +115,7 @@ class DiTPipeline(torch.nn.Module):
         d = self.postprocessing(d)
         return d
 
+    # TODO remove set_cast_v?!
     def set_cast_v(self, cast_v):
         """
         Disable cast and use qkv in float32 for JVP compatibility.
@@ -121,11 +123,6 @@ class DiTPipeline(torch.nn.Module):
         for _, layer in enumerate(self.layers):
             if hasattr(layer, "set_cast_v"):
                 layer.set_cast_v(cast_v)
-
-
-# ----------------------------------------
-# -- For MeanFlow with 2nd timestep arg --
-# ----------------------------------------
 
 
 class DiTFlowMapPipeline(torch.nn.Module):
@@ -138,7 +135,7 @@ class DiTFlowMapPipeline(torch.nn.Module):
         mask_out_before,
     ):
         """
-        A DiT used for MeanFlow must implement DiTMFPipeline
+        A DiT used for FlowMap must implement DiTMFPipeline
         and define the following modules.
         The only difference with DiTPipeline is that it uses r
         as an extra timestep argument

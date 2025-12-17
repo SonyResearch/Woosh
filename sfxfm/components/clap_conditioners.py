@@ -10,7 +10,7 @@ from sfxfm.module.audioretrieval_module import (
     get_sentence_head_model,
     get_text_preprocessing_func,
 )
-from sfxfm.module.components.base import BaseComponent, ComponentConfig, LoadConfig
+from sfxfm.components.base import BaseComponent, ComponentConfig, LoadConfig
 from sfxfm.utils.loading import lazy_loading
 
 from .conditioners import ConditionConfig, DiffusionConditioner
