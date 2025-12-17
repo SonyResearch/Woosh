@@ -20,8 +20,19 @@ dependencies = [
   "pydantic>=2.12.5",
   "omegaconf>=2.3.0",
 ]
+[project.optional-dependencies]
+# cpu = ["torch==2.8.0", "torchvision==0.23.0", "torchaudio==2.8.0"]
+# cuda = ["torch==2.8.0", "torchvision==0.23.0", "torchaudio==2.8.0"]
+cpu = ["torch", "torchvision", "torchaudio"]
+cuda = ["torch", "torchvision", "torchaudio"]
 
 [tool.uv]
+conflicts = [
+  [
+    { extra = "cpu" },
+    { extra = "cuda" },
+  ],
+]
 extra-build-variables = { minimp3py = { CFLAGS = '-O3 -march=native' } }
 # to avoid installing dependencies like:
 # pip install hear21passt --no-dependencies
@@ -33,16 +44,16 @@ default-groups = "all"
 
 [tool.uv.sources]
 torch = [
-  { index = "pytorch-cpu", marker = "sys_platform != 'linux'" },
-  { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu128", extra = "cuda" },
 ]
 torchvision = [
-  { index = "pytorch-cpu", marker = "sys_platform != 'linux'" },
-  { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu128", extra = "cuda" },
 ]
 torchaudio = [
-  { index = "pytorch-cpu", marker = "sys_platform != 'linux'" },
-  { index = "pytorch-cu128", marker = "sys_platform == 'linux'" },
+  { index = "pytorch-cpu", extra = "cpu" },
+  { index = "pytorch-cu128", extra = "cuda" },
 ]
 minimp3py = { git = "https://github.com/f0k/minimp3py/" }
 
