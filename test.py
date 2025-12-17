@@ -31,7 +31,7 @@ cond = ldm.get_cond(
 )
 
 # Denoise using ldm and transform to audio with autoencoder
-start_time = time.time()
+start_time = time.perf_counter()
 with torch.inference_mode():
     x_fake = sample_euler(
         model=ldm,
@@ -42,15 +42,18 @@ with torch.inference_mode():
         cfg=4.5,
     )
     audio_fake = ldm.autoencoder.inverse(x_fake)
-end_time = time.time()
+end_time = time.perf_counter()
 print(f"Generation took {end_time - start_time:.2f} seconds on {device}")
 
 # Move to CPU and save outputs
 audio_fake = audio_fake.cpu()
 os.makedirs("outputs", exist_ok=True)
 for i in range(batch_size):
+    max_abs_value = torch.max(torch.abs(audio_fake[i]))
+    normalization_factor = max_abs_value if max_abs_value > 1.0 else 1.0
+    scaled = audio_fake[i] / normalization_factor
     torchaudio.save(
         f"outputs/output_{i}.wav",
-        audio_fake[i],
+        scaled,
         sample_rate=48000,
     )
