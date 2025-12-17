@@ -1,8 +1,8 @@
 """
 class FlowMapFromPretrained:
 
-    FlowMapFromPretrained is a wrapper for a pretrained Latent Diffusion Model (LDM)
-    with flowmap-specific modifications in preprocessing.
+    FlowMapFromPretrained is a wrapper for a pretrained Latent Diffusion
+    Model (LDM) with flowmap-specific modifications in preprocessing.
 
 """
 
@@ -14,7 +14,6 @@ from torch import nn
 
 from sfxfm.model.dit_blocks import FourierFeaturesTime, FixedFourierFeaturesTime
 from sfxfm.model.dit_pipeline import DiTFlowMapPipeline
-
 from sfxfm.model.dit_types import DiTArgs, DictTensor
 from sfxfm.model.ldm import (
     LatentDiffusionModel,
@@ -27,11 +26,6 @@ from sfxfm.components.base import (
     LoadConfig,
     _is_load_config,
 )
-
-
-# ----------------------------------
-# -- flowmapFromPretrained utils --
-# ----------------------------------
 
 
 class FlowMapPretrainedArgs(ComponentConfig):
@@ -58,7 +52,6 @@ class FlipSignPostprocessing(nn.Module):
         self.old_postprocessing = old_postprocessing
 
     def forward(self, d: DictTensor) -> DictTensor:
-        # Apply old postprocessing and flip sign
         d = self.old_postprocessing(d)
         d["x"] = -d["x"]
         return d
@@ -73,23 +66,25 @@ class FlowMapPreprocessing(nn.Module):
     """
 
     def __init__(
-        self, args: FlowMapPretrainedArgs, dit_args: DiTArgs, old_preprocessing
+        self,
+        args: FlowMapPretrainedArgs,
+        dit_args: DiTArgs,
+        old_preprocessing: nn.Module,
     ):
         """
         Args:
-            args (FlowMapPretrainedArgs): Configuration arguments for FlowMap wrapper
-            dit_args (DiTArgs): Configuration arguments for the pretrained DiT model.
-            old_preprocessing (nn.Module): The original preprocessing module from the pretrained model.
+            args: configuration arguments for FlowMap wrapper.
+            dit_args: configuration arguments for the pretrained DiT model.
+            old_preprocessing: original preprocessing module from pretrained model.
 
-        Note:
-            dit_args can be obtained directly from args, but its location depends on the model type.
-            We pass it here to avoid redundant calls to resolve_config and
+        Note that dit_args can be obtained directly from args, but because its
+        location depends on the model type, we pass it here as a new arg.
 
         """
         super().__init__()
         self.old_preprocessing = old_preprocessing
 
-        # Define new timestep embedding modules
+        # Define new embedding modules for timestep (t, r) and cfg
         self.timestep_features_t = FixedFourierFeaturesTime(
             1, dit_args.timestep_features_dim, time_factor=1.0
         )
@@ -120,19 +115,12 @@ class FlowMapPreprocessing(nn.Module):
             nn.SiLU(),
             nn.Linear(128, 1, bias=True),
         )
-        # Additional one for CTM logvar loss
-        self.to_logvar_ctm = nn.Sequential(
-            nn.Linear(dit_args.timestep_features_dim * 2, 128, bias=True),
-            nn.SiLU(),
-            nn.Linear(128, 1, bias=True),
-        )
 
     def forward(self, x, t, r, cond, mask) -> DictTensor:
-        # first preprocess x_masked (in cond)
-        # this is an old preprocessing without r:
+        # Run old preprocessing without r
         d = self.old_preprocessing(x, t, cond, mask)
 
-        # Merge and discard previous t and logvar
+        # Replace t and logvar with new preprocessing
         d["t"] = self.to_timestep_embed(
             torch.cat(
                 [
@@ -161,7 +149,7 @@ class FlowMapFromPretrained(
     nn.Module, BaseComponent, LatentDiffusionModelFlowMapPipeline
 ):
     """
-    Simple LoRA model for Latent Diffusion Model.
+    Latent Diffusion Model for the distilled FlowMap student.
 
     Attributes:
         max_seq_len (int): Maximum sequence length for the transformer.

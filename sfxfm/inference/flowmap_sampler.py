@@ -3,8 +3,8 @@ This is where the FlowMap sampler is defined for denoising using
 the distilled model.
 """
 
-from sfxfm.model.ldm import LatentDiffusionModelFlowMapPipeline
 import torch
+from sfxfm.model.ldm import LatentDiffusionModelFlowMapPipeline
 
 
 @torch.inference_mode()
