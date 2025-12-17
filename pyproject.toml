@@ -57,5 +57,9 @@ url = "https://download.pytorch.org/whl/cpu"
 explicit = true
 
 [dependency-groups]
+api = [
+    "fastapi>=0.124.4",
+    "uvicorn>=0.38.0",
+]
 audioio = ["soundfile>=0.13.1"]
 dev = ["ipykernel", "ipython", "ruff>=0.14.6"]
