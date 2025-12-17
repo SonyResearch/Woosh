@@ -20,7 +20,7 @@ uv sync --extra cuda
 
 ### Download model weights
 
-You can download the pretrained model weights from the [releases](https://github.com/SonyResearch/SFXFM/releases) page.
+You can download the pretrained model weights from the [releases](https://github.com/SonyResearch/SFXFM/releases) page, or otherwise from the [github CLI](https://cli.github.com) as
 
 ```bash
 gh release download v0.1.1
