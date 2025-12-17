@@ -109,7 +109,7 @@ else:
 # Compute agent
 compute_agent = MultimodelGenerateAgent(
     {
-        "SFXFlowmap": "flowmap",
+        "SFXflowmap": "flowmap",
     },
     device=device,
 )
