@@ -107,7 +107,7 @@ class GenerateBasicAgent(GenerateAgentInterface):
         self,
         model_name: str,
         device: str = "cuda",
-        components_path="cache_dir/components/",
+        components_path="checkpoints/",
     ) -> None:
         super().__init__()
         self.model_name = model_name
@@ -149,7 +149,7 @@ class FlowMapGenerateAgent(GenerateBasicAgent):
         self,
         model_name: str,
         device: str = "cuda",
-        components_path="cache_dir/components/",
+        components_path="checkpoints/",
     ) -> None:
         super().__init__(model_name, device, components_path)
 
