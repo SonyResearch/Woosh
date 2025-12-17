@@ -1,7 +1,5 @@
 """
 Basic building blocks used to construct DiTs
-
-Note that in this file the keys on which the blocks operate are defined at init time!
 """
 
 import math
@@ -28,14 +26,19 @@ def cast_v_context(cast_v) -> contextlib.AbstractContextManager:
 
 def precompute_freqs_cis(args: DiTArgs, to_audio_fps_multiplier=None) -> torch.Tensor:
     """
-    Precomputes frequency-based complex exponential values for rotary positional embeddings.
+    Precomputes complex exponentials for rotary positional embeddings.
     dim = max(args.qk_rope_head_dim, args.qkv_head_dim)
 
     Args:
-        args (ModelArgs): Model arguments containing positional embedding parameters.
-        to_audio_fps_multiplier (Optional[Float]): if we are computing freqs_cis based on a different fps (e.g. video) compared to audio. to_audio_fps_multiplier =  audio_fps / video_fps
+        args (ModelArgs):
+            Model configuration containing parameters for positional embeddings.
+        to_audio_fps_multiplier (Optional[float]):
+            Multiplier to adjust frequencies if the computation is based on a
+            different frames-per-second rate (e.g., video) compared to audio,
+            where `to_audio_fps_multiplier = audio_fps / video_fps`.
+
     Returns:
-        torch.Tensor: Precomputed complex exponential values for positional embeddings.
+        torch.Tensor: Complex exponential values for positional embeddings.
     """
     dim = max(args.qk_rope_head_dim, args.qkv_head_dim)
     seqlen = math.ceil(args.max_seq_len / args.patch_size)
@@ -46,10 +49,11 @@ def precompute_freqs_cis(args: DiTArgs, to_audio_fps_multiplier=None) -> torch.T
 
     def find_correction_dim(num_rotations, dim, base, max_seq_len):
         """
-        Computes the correction dimension for a given number of rotations in the rotary positional embedding.
+        Computes the correction dimension for a given number of rotations in
+        the rotary positional embedding.
 
         Args:
-            num_rotations (float): Number of rotations to compute the correction for.
+            num_rotations (float): Number of rotations to compute correction for.
             dim (int): Dimensionality of the embedding space.
             base (float): Base value for the exponential computation.
             max_seq_len (int): Maximum sequence length.
@@ -75,7 +79,7 @@ def precompute_freqs_cis(args: DiTArgs, to_audio_fps_multiplier=None) -> torch.T
             max_seq_len (int): Maximum sequence length.
 
         Returns:
-            Tuple[int, int]: The range of correction dimensions (low, high), clamped to valid indices.
+            Tuple[int, int]: range of correction dims (low, high), clamped to valid indices.
         """
         low = math.floor(find_correction_dim(low_rot, dim, base, max_seq_len))
         high = math.ceil(find_correction_dim(high_rot, dim, base, max_seq_len))
@@ -905,11 +909,13 @@ class MultimodalitySingleStreamBlock(nn.Module):
     """
     A transformer block for multimodal single-stream processing.
 
-    This block combines multiple modalities into a single sequence, applies joint self-attention and a feed-forward MLP in parallel
-    x <- x + mlp(x) + attn(x)
-    and updates each modality's representation. Unlike other blocks that process modalities separately or use
-    cross-attention, this block concatenates all modalities along the sequence dimension and applies shared attention
-    and MLP transformations. Key features include:
+    This block combines multiple modalities into a single sequence,
+    applies joint self-attention and a feed-forward MLP in parallel,
+        x <- x + mlp(x) + attn(x)
+    and updates each modality's representation. Unlike other blocks
+    that process modalities separately or use cross-attention, it
+    concatenates all modalities along the sequence dimension and
+    applies shared attention and MLP transformations. Key features include:
     - Single-stream attention over concatenated modalities.
     - Combined rotary and non-rotary attention heads.
     - Modulation support for conditioning.
