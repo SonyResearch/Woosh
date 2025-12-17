@@ -1,22 +1,21 @@
 import logging
+from pydantic import Discriminator, Tag
 from typing import Annotated, Dict, Literal, Union
 
-from pydantic import Discriminator, Tag
 import torch
 from torch import nn
-from sfxfm.model.dit import DiT
-from sfxfm.model.dit_types import DictTensor
-from sfxfm.model.dit_types import DiTArgs
-from sfxfm.module.components.autoencoders import AudioAutoEncoder
-from sfxfm.module.components.base import (
+
+from sfxfm.model.dit_flows import SFXFlow
+from sfxfm.model.dit_types import DictTensor, DiTArgs, MMDiTArgs
+from sfxfm.components.autoencoders import AudioAutoEncoder
+from sfxfm.components.base import (
     BaseComponent,
     ComponentConfig,
     LoadConfig,
     _is_load_config,
 )
-from sfxfm.module.components.clap_conditioners import SFXCLAPTextConditioner
-
-from sfxfm.module.components.conditioners import ConditionConfig, DiffusionConditioner
+from sfxfm.components.clap_conditioners import SFXCLAPTextConditioner
+from sfxfm.components.conditioners import ConditionConfig, DiffusionConditioner
 
 # get logger
 log = logging.getLogger(__name__)
@@ -61,7 +60,7 @@ class LatentDiffusionModelPipeline:
         sigma_data,
         pred_type="v_pred",
     ) -> None:
-        self.dit: DiT = dit
+        self.dit: SFXFlow = dit
         self.autoencoder: AudioAutoEncoder = autoencoder
         self.conditioners: nn.ModuleDict = conditioners
         self.sigma_data = sigma_data
@@ -75,6 +74,7 @@ class LatentDiffusionModelPipeline:
         no_dropout=True for validation
         if drop=True return the unconditional
         """
+        # TODO should be cleaned, too many unused cond names
         cond_dict = {}
         cond: DiffusionConditioner
         for cond_name, cond in self.conditioners.items():  # type: ignore
@@ -245,7 +245,9 @@ class LatentDiffusionModelPipeline:
                 assert (
                     cond[k].shape[0] == no_cond[k].shape[0]
                     and cond[k].shape[-1] == no_cond[k].shape[-1]
-                ), f"can not pad, cond shape {cond[k].shape},   no_cond shape {no_cond[k].shape}"
+                ), (
+                    f"can not pad, cond shape {cond[k].shape},   no_cond shape {no_cond[k].shape}"
+                )
                 pdiff = cond[k].shape[1] - no_cond[k].shape[1]
                 assert pdiff > 0, "cannot negative pad"
                 no_cond[k] = torch.nn.functional.pad(
@@ -425,7 +427,7 @@ class LatentDiffusionModel(nn.Module, BaseComponent, LatentDiffusionModelPipelin
         self.config: LatentDiffusionModelArgs
 
         # Step 3: init of LatentDiffusionModelPipeline
-        dit = DiT(self.config.dit)
+        dit = SFXFlow(MMDiTArgs.model_validate(self.config.dit, strict=True))
         autoencoder = AudioAutoEncoder(self.config.autoencoder)
         # TODO should be a more general DiffusionConditioner builder
         conditioners = nn.ModuleDict(
@@ -457,14 +459,9 @@ class LatentDiffusionModel(nn.Module, BaseComponent, LatentDiffusionModelPipelin
         self.load_from_config()
 
 
-# --------------------------
-# -- Classes for MeanFlow --
-# --------------------------
-
-
-class LatentDiffusionModelMeanFlowPipeline(LatentDiffusionModelPipeline):
+class LatentDiffusionModelFlowMapPipeline(LatentDiffusionModelPipeline):
     """
-    A LatentDiffusionModelPipeline with MeanFlow specific methods
+    A LatentDiffusionModelPipeline with FlowMap specific methods
     Only redefines denoise_dict_no_param method to have a 2nd timestep arg r.
     """
 
@@ -476,7 +473,7 @@ class LatentDiffusionModelMeanFlowPipeline(LatentDiffusionModelPipeline):
         version of denoise_dict that returns the whole DictTensor
         AND
         does NOT use a specific parameterization vs _denoise_dict which uses the EDM parameterization
-        The possibility for a second timestep r is added for meanflow.
+        The possibility for a second timestep r is added for flowmap.
         """
         assert cond is not None
         # TODO absurd, we shouldn't mix x_loss mask and inpainting masks
@@ -500,47 +497,3 @@ class LatentDiffusionModelMeanFlowPipeline(LatentDiffusionModelPipeline):
         # adds x_hat key
         d["x_hat"] = d["x"]
         return d
-
-
-class LatentDiffusionModelMeanFlow(
-    nn.Module, BaseComponent, LatentDiffusionModelMeanFlowPipeline
-):
-    config_class = LatentDiffusionModelArgs
-
-    def __init__(self, config: LatentDiffusionModelConfig):
-        # Step 1: init of nn.Module
-        super().__init__()
-
-        # Step 2: init of BaseComponent
-        self.init_from_config(config)
-        # now we use self.config and we know it has been validated
-        self.config: LatentDiffusionModelArgs
-
-        # Step 3: init of LatentDiffusionModelPipeline
-        dit = DiT(self.config.dit)
-        autoencoder = AudioAutoEncoder(self.config.autoencoder)
-        # TODO should be a more general DiffusionConditioner builder
-        conditioners = nn.ModuleDict(
-            {
-                k: SFXCLAPTextConditioner(conditioner_config)
-                for k, conditioner_config in self.config.conditioners.items()
-            }
-        )
-
-        sigma_data = self.config.sigma_data
-
-        self.init_pipeline(dit, autoencoder, conditioners, sigma_data)
-
-        # Step 4 : Register subcomponents
-        self.register_subcomponent(
-            "autoencoder",
-            self.autoencoder,
-        )
-        self.register_subcomponent_dict(
-            "conditioners",
-            self.conditioners,
-        )
-
-        # After registering all subcomponents, we can finally
-        # load the state dict from its internal _weights_path
-        self.load_from_config()
