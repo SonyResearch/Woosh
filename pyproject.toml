@@ -33,7 +33,6 @@ conflicts = [
     { extra = "cuda" },
   ],
 ]
-extra-build-variables = { minimp3py = { CFLAGS = '-O3 -march=native' } }
 # to avoid installing dependencies like:
 # pip install hear21passt --no-dependencies
 dependency-metadata = [
@@ -55,7 +54,6 @@ torchaudio = [
   { index = "pytorch-cpu", extra = "cpu" },
   { index = "pytorch-cu128", extra = "cuda" },
 ]
-minimp3py = { git = "https://github.com/f0k/minimp3py/" }
 
 [[tool.uv.index]]
 name = "pytorch-cu128"
