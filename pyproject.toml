@@ -17,7 +17,7 @@ dependencies = [
   "torchdiffeq>=0.2.5",
   "transformers>=4.57.2",
   "hear21passt==0.0.26",
-  "pydantic>=2.12.5",
+  "pydantic>=2.12.4",
   "omegaconf>=2.3.0",
 ]
 [project.optional-dependencies]
