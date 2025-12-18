@@ -126,7 +126,7 @@ class MaskedAttention(nn.Module):
             qkv[2],
         )  # make torchscript happy (cannot use tensor as tuple)
 
-        dots = einsum(f"b h i d, b h j d -> b h i j", q, k) * self.scale
+        dots = einsum("b h i d, b h j d -> b h i j", q, k) * self.scale
 
         i, j, dtype = *dots.shape[-2:], dots.dtype
 
@@ -139,7 +139,7 @@ class MaskedAttention(nn.Module):
         attn = attn.type(dtype)
         attn = self.attn_drop(attn)
 
-        out = einsum(f"b h i j, b h j d -> b h i d", attn, v)
+        out = einsum("b h i j, b h j d -> b h i d", attn, v)
         x = out.reshape(B, N, C)
 
         x = self.proj(x)
