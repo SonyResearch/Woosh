@@ -74,4 +74,5 @@ reaper = [
     "python-reapy>=0.10.0",
 ]
 audioio = ["soundfile>=0.13.1"]
+demo = ["gradio>=6"]
 dev = ["ipykernel", "ipython", "ruff>=0.14.6"]
