@@ -21,7 +21,7 @@ weights_audio_path = COMPONENT_PATH / "weights_audio.safetensors"
 config = OmegaConf.load(config_r_path)
 
 with lazy_loading():
-    model = AudioRetrievalModel(**config.module)
+    model = AudioRetrievalModel(**config)
 
 text = [
     "footsteps, muddy, water",

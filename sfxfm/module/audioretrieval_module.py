@@ -1,10 +1,8 @@
-import contextlib
 import logging
 import string
 from pathlib import Path
 from typing import Dict, List, Optional, Tuple, Union
 
-import lightning.pytorch as pl
 import numpy as np
 import torch
 import torch.utils
@@ -16,11 +14,6 @@ from transformers import (
     AutoConfig,
     AutoModel,
     AutoTokenizer,
-    BertModel,
-    BertTokenizer,
-    DistilBertModel,
-    DistilBertTokenizer,
-    ModernBertModel,
     RobertaModel,
     RobertaTokenizer,
 )
@@ -83,18 +76,8 @@ def get_sentence_frontend_model(sentence_config):
 
     # Model, tokenizer, embedding_size
     MODELS = {
-        "prajjwal1/bert-tiny": (BertModel, BertTokenizer, 128),
-        "prajjwal1/bert-mini": (BertModel, BertTokenizer, 256),
-        "prajjwal1/bert-small": (BertModel, BertTokenizer, 512),
-        "prajjwal1/bert-medium": (BertModel, BertTokenizer, 512),
-        "bert-base-uncased": (BertModel, BertTokenizer, 768),
-        "bert-large-uncased": (BertModel, BertTokenizer, 1024),
         "roberta-base": (RobertaModel, RobertaTokenizer, 768),
         "roberta-large": (RobertaModel, RobertaTokenizer, 1024),
-        "distilbert-base-uncased": (DistilBertModel, DistilBertTokenizer, 768),
-        "distilroberta-base": (RobertaModel, RobertaTokenizer, 768),
-        "answerdotai/ModernBERT-base": (ModernBertModel, AutoTokenizer, 768),
-        "answerdotai/ModernBERT-large": (ModernBertModel, AutoTokenizer, 1024),
     }
     extra_args = {}
 
@@ -122,19 +105,6 @@ def get_sentence_frontend_model(sentence_config):
         tokenizer = AutoTokenizer.from_pretrained(model_name)
         sentence_frontend_output_dim = sentence_embedding_model.config.hidden_size
 
-    if sentence_config.get("finetune_n_layers", -1) > 0:
-        # freeze all layers except the last n layers
-        for param in sentence_embedding_model.parameters():
-            param.requires_grad = False
-        for param in list(sentence_embedding_model.encoder.layer.parameters())[
-            -sentence_config.get("finetune_n_layers", -1) :
-        ]:
-            param.requires_grad = True
-        # unfreeze the pooler layer
-        if hasattr(sentence_embedding_model, "pooler"):
-            for param in sentence_embedding_model.pooler.parameters():
-                param.requires_grad = True
-
     return (
         sentence_embedding_model,
         tokenizer,
@@ -160,20 +130,14 @@ def get_sentence_head_model(
     return torch.nn.Sequential(*sentence_layers)
 
 
-class AudioRetrievalModel(pl.LightningModule):
-    """
-    LightningModule to train an audio retrieval model
-
-    """
+class AudioRetrievalModel(nn.Module):
 
     def __init__(
         self,
         audio: DictConfig,
         sentence: DictConfig,
         shared_representation_size: int,
-        frozen: bool = True,
         normalize: bool = True,
-        multiple_captions_reduce: Optional[str] = "all",
         text_preprocessing: Optional[callable] = None,
         **kwargs,
     ):
@@ -183,7 +147,6 @@ class AudioRetrievalModel(pl.LightningModule):
         self.sentence_config = sentence
         self.shared_representation_size = shared_representation_size
         self.normalize = normalize
-        self.multiple_captions_reduce = multiple_captions_reduce
 
         self.audio_frontend, audio_output_size = get_audio_frontend_model(self.audio_config)
         self.audio_output_size = audio_output_size
@@ -198,13 +161,6 @@ class AudioRetrievalModel(pl.LightningModule):
             self.sentence_config, self.shared_representation_size, text_output_size
         )
         self.text_output_size = text_output_size
-
-        if self.audio_config.frozen:
-            log.info("Freezing parameters of audio frontend.")
-            self.freeze(self.audio_frontend)
-        if self.sentence_config.frozen:
-            log.info("Freezing parameters of text frontend.")
-            self.freeze(self.sentence_frontend)
 
         self.text_preprocessing = get_text_preprocessing_func(text_preprocessing)
         # # for ONNX export
@@ -227,91 +183,45 @@ class AudioRetrievalModel(pl.LightningModule):
         )
         self.resamplers_cache = {}
 
-    def grad_context_audio(self):
-        if self.audio_config.frozen:
-            cm = torch.no_grad()
-        else:
-            cm = contextlib.nullcontext()
-        return cm
-
-    def grad_context_sentence(self):
-        if self.sentence_config.frozen:
-            cm = torch.no_grad()
-        else:
-            cm = contextlib.nullcontext()
-        return cm
-
-    def freeze(self, module):
-        module.eval()
-        for param in module.parameters():
-            param.requires_grad = False
-
-    def unfreeze(self, module):
-        module.train()
-        for param in module.parameters():
-            param.requires_grad = True
-
     def forward_audio_model(self, batch):
-        # only compute audio features, if not pre-computed
-        if "audio_features" in batch:
-            return batch
-        if "waveform" in batch:
-            # precomputed mel specs, Laion-CLAP forward
-            embeddings = self.audio_frontend(batch)
-            batch["audio_features"] = embeddings
-            return batch
-
-        # freeze audio embedding if required
-        if self.audio_config.frozen:
-            self.audio_frontend = self.audio_frontend.eval()
-
         # embed audios
-        with self.grad_context_audio():
-            # embed the whole audio sequence
-            # segment the audio into a sequnece of fixed length segments = segment_length
-            segment_length = self.segment_length * self.sample_rate
+        # embed the whole audio sequence
+        # segment the audio into a sequnece of fixed length segments = segment_length
+        segment_length = self.segment_length * self.sample_rate
 
-            longest_audio = (self.sample_rate * batch["audio_length"].max()).to(
-                torch.int64
+        longest_audio = (self.sample_rate * batch["audio_length"].max()).to(
+            torch.int64
+        )
+        if longest_audio >= (self.eval_max_sec * self.sample_rate):
+            if self.current_epoch == 0:
+                print(
+                    f"Warning: Cut the audio max length from {longest_audio} == {longest_audio / self.sample_rate} seconds to a max of {self.eval_max_sec} seconds"
+                )
+            longest_audio = torch.tensor(
+                self.eval_max_sec * self.sample_rate,
+                dtype=torch.int64,
+                device=longest_audio.device,
             )
-            if longest_audio >= (self.eval_max_sec * self.sample_rate):
-                if self.current_epoch == 0:
-                    print(
-                        f"Warning: Cut the audio max length from {longest_audio} == {longest_audio / self.sample_rate} seconds to a max of {self.eval_max_sec} seconds"
-                    )
-                longest_audio = torch.tensor(
-                    self.eval_max_sec * self.sample_rate,
-                    dtype=torch.int64,
-                    device=longest_audio.device,
-                )
 
-            if segment_length <= 0:
-                # no chunking: eval_max_sec if audio is longer, otherwise longest audio in batch
-                max_length = longest_audio
-                n_segments = 1
-            else:
-                # chunking: compute number of chunks and length of all chunks combined
-                n_segments = (
-                    ((longest_audio * 10 / segment_length).round().to(torch.int64) / 10)
-                    .ceil()
-                    .to(torch.int64)
-                )  # ignore re-sampling errors less than 5% of the audio length
-                n_segments = torch.max(
-                    n_segments,
-                    torch.tensor(1, dtype=torch.int64, device=n_segments.device),
-                )
-                max_length = n_segments * segment_length
+        if segment_length <= 0:
+            # no chunking: eval_max_sec if audio is longer, otherwise longest audio in batch
+            max_length = longest_audio
+            n_segments = 1
+        else:
+            # chunking: compute number of chunks and length of all chunks combined
+            n_segments = (
+                ((longest_audio * 10 / segment_length).round().to(torch.int64) / 10)
+                .ceil()
+                .to(torch.int64)
+            )  # ignore re-sampling errors less than 5% of the audio length
+            n_segments = torch.max(
+                n_segments,
+                torch.tensor(1, dtype=torch.int64, device=n_segments.device),
+            )
+            max_length = n_segments * segment_length
 
-            # @TODO maybe this is not good for cudnn benchmarks, variable length tensors
             audio = batch["audio"][:, :max_length]
-            # max_audio = torch.zeros(
-            #     (audio.size(0), max_length),
-            #     device=audio.device,
-            #     dtype=audio.dtype,
-            # )
-            # max_audio[:, : audio.size(-1)] = audio
-            # audio = max_audio
-            # Differentiable alternative
+
             pad_len = max_length - audio.size(1)
             if pad_len > 0:
                 audio = torch.nn.functional.pad(audio, (0, pad_len))
@@ -367,7 +277,6 @@ class AudioRetrievalModel(pl.LightningModule):
         return_last_hidden_state=None,
         output_hidden_states=None,
         device=None,
-        skip_new_token_normalization=False,
     ):
         """filles the sentence features using the text transformer
 
@@ -387,33 +296,11 @@ class AudioRetrievalModel(pl.LightningModule):
 
         """
         if not is_tokenized:
-            if skip_new_token_normalization:
-                captions = []
-
-                # Marc's stuff
-                for i, b in enumerate(batch["captions"]):
-                    if isinstance(b, str):
-                        b = [b]
-                    for caption in b:
-                        # remove punctuations
-                        remove_punctuation = str.maketrans("", "", string.punctuation)
-                        captions.append(
-                            " ".join(
-                                [
-                                    w.lower().translate(remove_punctuation)
-                                    if "<" not in w and ">" not in w
-                                    else w
-                                    for w in caption.split()
-                                ]
-                            )
-                        )
-            else:
-                captions = self.text_preprocessing(batch["captions"])  # type: ignore
+            captions = self.text_preprocessing(batch["captions"])
 
             tokenized = self.tokenizer(
                 captions,
                 add_special_tokens=True,
-                # padding=True,
                 padding="max_length",
                 truncation=True,  # truncate to longest in batch, otherwise to max_length
                 return_tensors="pt",
@@ -424,52 +311,46 @@ class AudioRetrievalModel(pl.LightningModule):
             batch["attention_mask"] = tokenized["attention_mask"].to(device)
             batch["caption"] = captions
 
-        # freeze text embeddings if required
-        if self.sentence_config.frozen:
-            self.sentence_frontend = self.sentence_frontend.eval()
-
         # embed text
-        with self.grad_context_sentence():
-            sentence_out = self.sentence_frontend(
-                input_ids=batch["input_ids"],
-                attention_mask=batch["attention_mask"],
-                output_hidden_states=output_hidden_states,
-                return_dict=True,
+        sentence_out = self.sentence_frontend(
+            input_ids=batch["input_ids"],
+            attention_mask=batch["attention_mask"],
+            output_hidden_states=output_hidden_states,
+            return_dict=True,
+        )
+
+        # return hidden_states for the diffusion model
+        if output_hidden_states:
+            batch["hidden_states"] = sentence_out["hidden_states"]
+
+        token_embeddings = sentence_out["last_hidden_state"]
+        if return_last_hidden_state:
+            # batch["last_hidden_state"] = token_embeddings[0]
+            batch["last_hidden_state"] = token_embeddings
+        if self.sentence_config.get("pool_type", "eos") == "eos":
+            batch["sentence_features"] = token_embeddings[:, 0, :]
+        elif self.sentence_config.pool_type == "default":
+            batch["sentence_features"] = token_embeddings
+        elif self.sentence_config.pool_type == "pooler":
+            batch["sentence_features"] = sentence_out["pooler_output"]
+        elif self.sentence_config.pool_type == "attention":
+            input_mask_expanded = (
+                batch["attention_mask"]
+                .unsqueeze(-1)
+                .expand(token_embeddings.size())
+                .float()
             )
-
-            # return hidden_states for the diffusion model
-            if output_hidden_states:
-                batch["hidden_states"] = sentence_out["hidden_states"]
-
-            token_embeddings = sentence_out["last_hidden_state"]
-            if return_last_hidden_state:
-                # batch["last_hidden_state"] = token_embeddings[0]
-                batch["last_hidden_state"] = token_embeddings
-            if self.sentence_config.get("pool_type", "eos") == "eos":
-                batch["sentence_features"] = token_embeddings[:, 0, :]
-            elif self.sentence_config.pool_type == "default":
-                batch["sentence_features"] = token_embeddings
-            elif self.sentence_config.pool_type == "pooler":
-                batch["sentence_features"] = sentence_out["pooler_output"]
-            elif self.sentence_config.pool_type == "attention":
-                input_mask_expanded = (
-                    batch["attention_mask"]
-                    .unsqueeze(-1)
-                    .expand(token_embeddings.size())
-                    .float()
-                )
-                batch["sentence_features"] = torch.sum(
-                    token_embeddings * input_mask_expanded, 1
-                ) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
-            else:
-                raise NotImplementedError(
-                    f"Text output pooling '{self.sentence_config.pool_type}' is not supported."
-                )
+            batch["sentence_features"] = torch.sum(
+                token_embeddings * input_mask_expanded, 1
+            ) / torch.clamp(input_mask_expanded.sum(1), min=1e-9)
+        else:
+            raise NotImplementedError(
+                f"Text output pooling '{self.sentence_config.pool_type}' is not supported."
+            )
 
         return batch
 
     def _load_audio_from_file(self, audio_path: Union[str, Path]) -> torch.Tensor:
-        # waveform, sr = torchaudio.load(audio_path, backend="soundfile")
         waveform, sr = torchaudio.load(audio_path)
         waveform = waveform[0]  # first channel only
         if sr != self.sample_rate:
@@ -515,8 +396,6 @@ class AudioRetrievalModel(pl.LightningModule):
     ) -> Union[torch.Tensor, np.ndarray]:
         if isinstance(x, str) or isinstance(x, Path):
             x = [x]
-        if device is None:
-            device = "cpu"
 
         inputs = []
         for audio_path in x:
@@ -552,8 +431,6 @@ class AudioRetrievalModel(pl.LightningModule):
         device: Union[str, torch.device] = "cpu",
         use_tensor: bool = False,
     ) -> Union[torch.Tensor, np.ndarray]:
-        if device is None:
-            device = "cpu"
 
         if (isinstance(x, torch.Tensor) or isinstance(x, np.ndarray)) and x.ndim == 1:
             x = x[None, :]
@@ -592,9 +469,6 @@ class AudioRetrievalModel(pl.LightningModule):
     ) -> Union[torch.Tensor, np.ndarray]:
         if isinstance(x, str) or isinstance(x, Path):
             x = [x]
-
-        if device is None:
-            device = "cpu"
 
         batch = {"captions": x}
         batch = self.forward_sentence_model(batch, device=device)
@@ -637,7 +511,3 @@ class AudioRetrievalModel(pl.LightningModule):
             )
 
         return result_dict
-
-    @classmethod
-    def from_config(cls, config):
-        ...
