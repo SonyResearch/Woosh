@@ -1,3 +1,7 @@
+"""
+Defines model configuration arguments and hyperparameters for DiT modules.
+"""
+
 from typing import Annotated, Dict, Literal, Union
 from pydantic import BaseModel, ConfigDict, Field
 import torch
@@ -75,19 +79,13 @@ class MMDiTArgs(BaseModel):
     adaln_last_layer: bool = False
     adaln_last_layer_nomod: bool = False  # if adaln_last_layer, do not modulate
 
-    # Optim
-    non_checkpoint_layers: int = 0  # checkpoint all layers
-    mask_out_before: int = -1  # mask out before layer #n: -1 for no masking
-
     #
     estimate_logvar: bool = False
-    no_description_mask: bool = False
     symmetric_attention_init: bool = False
 
     patch_size: int = 1
 
-    num_sinks: int = 0
-    mlp_act: str = "gelu"  # gelu # swiglu
+    mlp_act: str = "gelu"  # gelu or swiglu
 
 
 # DiTConfig can be any the config of any other model
