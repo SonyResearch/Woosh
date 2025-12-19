@@ -1,5 +1,5 @@
 """
-Simple UI that calls the SFXFM API to generate sound files based on text descriptions
+Simple UI that calls the SFXFM API to generate sound files based on text prompts
 and inserts them at the current cursor position in REAPER.
 
 launch it with
@@ -14,8 +14,11 @@ import httpx
 import os
 import uuid
 import logging
-from reapy import reascript_api as RPR
+import subprocess
+import re
 import random
+import click
+from reapy import reascript_api as RPR
 
 logger = logging.getLogger("sfxfm")
 logging.basicConfig(level=logging.INFO)
@@ -24,17 +27,35 @@ PORT = 8000
 API_URL = f"http://0.0.0.0:{PORT}"
 api_url = f"{API_URL}/generate"
 
-# Set environment variables for TCL/TK
-os.environ["TCL_LIBRARY"] = os.path.expanduser(
-    "~/.local/share/uv/python/cpython-3.13.0-macos-aarch64-none/lib/tcl8.6"
-)
-os.environ["TK_LIBRARY"] = os.path.expanduser(
-    "~/.local/share/uv/python/cpython-3.13.0-macos-aarch64-none/lib/tk8.6"
-)
+def get_tcl_lib_dirs_from_brew():
+    """ Nasty way of getting TCL_LIBRARY and TK_LIBRARY paths from `brew info` """
+    try:
+        bi = subprocess.check_output("brew info tcl-tk", shell=True).decode().split("\n")
+    except:
+        raise FileNotFoundError(f"finding TCL/TK library folders automatically failed: set the TCL_LIBRARY and TK_LIBRARY environment variables manually in `reapy_script.py`")
+    for n, line in enumerate(bi):
+        if "Installed" in line:
+            # get path from next line
+            line = bi[n+1]
+            path = re.sub(r"[ ].*", "", line)
+            version_major_minor = os.path.basename(path)
+            parts = version_major_minor.split(".")
+            if len(parts)>2:
+                version_major_minor = ".".join(parts[:2])
+
+            tcl_lib_path = os.path.join(path, "lib", f"tcl{version_major_minor}")
+            if not os.path.exists(tcl_lib_path):
+                raise FileNotFoundError(f"TCL library dir {tcl_lib_path} not found: set the TCL_LIBRARY environment variable manually")
+            tk_lib_path = os.path.join(path, "lib", f"tk{version_major_minor}")
+            if not os.path.exists(tk_lib_path):
+                raise FileNotFoundError(f"TCL library dir {tk_lib_path} not found: set the TCL_LIBRARY environment variable manually")
+                
+            return tcl_lib_path, tk_lib_path
 
 
 # RPR_APITest()
-def generate(description: str) -> str:
+def generate(prompt: str) -> str:
+    """ Call SFXFM API to generate audio from a prompt """
     headers = {"Accept": "application/json"}
 
     data = {
@@ -42,7 +63,7 @@ def generate(description: str) -> str:
         "token": "string",
         "args": {
             "model": "SFXflowmap",
-            "prompt": description,
+            "prompt": prompt,
             "cfg": 3.0,
             "sampler": "heun",
             "num_steps": 5,
@@ -100,12 +121,12 @@ def ui_main():
     from tkinter import messagebox
 
     def on_insert():
-        description = entry.get()
-        if not description.strip():
-            messagebox.showwarning("Input Error", "Please enter a description.")
+        prompt = entry.get()
+        if not prompt.strip():
+            messagebox.showwarning("Input Error", "Please enter a prompt.")
             return
         try:
-            file = generate(description)
+            file = generate(prompt)
             reapy.print(f"Generated sound file: {file}")
             insert_file_at_cursor(file)
             # messagebox.showinfo("Success", f"Inserted sound file: {file}")
@@ -131,14 +152,27 @@ def ui_main():
     root.mainloop()
 
 
-import click
-
-
-def cli(description):
+def cli(prompt):
     """Run CLI to generate and insert sound file."""
+
+    if os.name == "Darwin":
+        # automatically get TCL and TK library path from brew
+        tcl_lib_path, tk_lib_path = get_tcl_lib_dirs_from_brew()
+    else:
+        if "TCL_LIBRARY" not in os.environ:
+            # set path manually here
+            os.environ["TCL_LIBRARY"] = os.path.expanduser(
+                "/opt/homebrew/Cellar/tcl-tk/9.0.3/lib/tcl9.0/"
+            )
+        if "TK_LIBRARY" not in os.environ:
+            # set path manually here
+            os.environ["TK_LIBRARY"] = os.path.expanduser(
+                "/opt/homebrew/Cellar/tcl-tk/9.0.3/lib/tk9.0/"
+            )
+
     try:
-        reapy.print(f"Generating sound for description: {description}")
-        file = generate(description)
+        reapy.print(f"Generating sound for prompt: {prompt}")
+        file = generate(prompt)
         if file and os.path.isfile(file):
             reapy.print(f"Generated sound file: {file}")
             insert_file_at_cursor(file)
@@ -163,6 +197,5 @@ def entry(ui):
 
 
 if __name__ == "__main__":
-    import click
 
     entry()
