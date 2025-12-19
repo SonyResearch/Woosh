@@ -26,13 +26,9 @@ dit:
   cond_token_dim: 1024
   adaln_last_layer: true
   adaln_last_layer_nomod: false
-  non_checkpoint_layers: 14
-  mask_out_before: -1
   estimate_logvar: true
-  no_description_mask: true
   symmetric_attention_init: false
   patch_size: 1
-  num_sinks: 0
   mlp_act: gelu
 conditioners:
   text:
@@ -43,4 +39,3 @@ autoencoder:
   exclude_from_checkpoint: true
   trainable: false
   path: checkpoints/SFXae
-sigma_data: 1.0
