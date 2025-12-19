@@ -1,19 +1,15 @@
 """
-class FlowMapFromPretrained:
-
-    FlowMapFromPretrained is a wrapper for a pretrained Latent Diffusion
-    Model (LDM) with flowmap-specific modifications in preprocessing.
-
+Defines a wrapper for a pretrained Latent Diffusion Model (LDM)
+with flowmap-specific modifications in preprocessing.
 """
 
 from pydantic import Discriminator, Tag
-from typing import Annotated, Union
+from typing import Annotated, Dict, Union
 
 import torch
 from torch import nn
 
 from sfxfm.model.dit_blocks import FourierFeaturesTime, FixedFourierFeaturesTime
-from sfxfm.model.dit_pipeline import DiTFlowMapPipeline
 from sfxfm.model.dit_types import DiTArgs, DictTensor
 from sfxfm.model.ldm import (
     LatentDiffusionModel,
@@ -91,17 +87,12 @@ class FlowMapPreprocessing(nn.Module):
         self.timestep_features_r = FixedFourierFeaturesTime(
             1, dit_args.timestep_features_dim, time_factor=1.0
         )
-
         self.cfg_features = FixedFourierFeaturesTime(
             1, dit_args.timestep_features_dim, time_factor=1.0
         )
-        cfg_features_dim = dit_args.timestep_features_dim
-
         self.to_timestep_embed = nn.Sequential(
             nn.Linear(
-                dit_args.timestep_features_dim * 2 + cfg_features_dim,
-                dit_args.inter_dim,
-                bias=True,
+                dit_args.timestep_features_dim * 3, dit_args.inter_dim, bias=True
             ),
             nn.SiLU(),
             nn.Linear(dit_args.inter_dim, dit_args.dim, bias=True),
@@ -131,7 +122,6 @@ class FlowMapPreprocessing(nn.Module):
                 dim=-1,
             )
         )
-
         d["logvar"] = self.to_logvar(  # (b,)
             torch.cat(
                 [
@@ -142,6 +132,36 @@ class FlowMapPreprocessing(nn.Module):
             )
         )[:, 0]
 
+        return d
+
+
+class DiTFlowMapPipeline(torch.nn.Module):
+    def __init__(
+        self,
+        preprocessing: nn.Module,
+        postprocessing: nn.Module,
+        layers: nn.ModuleList | nn.Sequential,
+    ):
+        """
+        Same as DiTPipeline but with r as an extra timestep argument.
+        """
+        super().__init__()
+        self.preprocessing = preprocessing
+        self.postprocessing = postprocessing
+        self.layers = layers
+
+    def forward(
+        self,
+        x: torch.Tensor,
+        t: torch.Tensor,
+        r: torch.Tensor,
+        cond: Dict[str, torch.Tensor],
+        mask: torch.Tensor,
+    ) -> DictTensor:
+        d = self.preprocessing(x, t, r=r, cond=cond, mask=mask)
+        for _, layer in enumerate(self.layers):
+            d = layer(d)
+        d = self.postprocessing(d)
         return d
 
 
@@ -174,10 +194,10 @@ class FlowMapFromPretrained(
         """
         ldm = LatentDiffusionModel(self.config.ldm)
         dit_config: DiTArgs = ldm.config.dit
-        supported_models = ["mmmflux", "mmmssflux"]
-        if ldm.config.dit.model_type not in supported_models:
+        model_type = ldm.config.dit.model_type
+        if model_type != "mmmssflux":
             raise ValueError(
-                f"FlowMapPretrained only supports {supported_models}, got {ldm.config.dit.model_type}"
+                f"FlowMapFromPretrained only supports mmmssflux, got {model_type}."
             )
         return ldm, dit_config
 
@@ -203,7 +223,9 @@ class FlowMapFromPretrained(
         new_postprocessing = FlipSignPostprocessing(self.config, ldm.dit.postprocessing)
 
         # Cast v in float32 for JVP compatibility
-        ldm.dit.set_cast_v(cast_v=True)
+        for _, layer in enumerate(ldm.dit.layers):
+            if hasattr(layer, "set_cast_v"):
+                layer.set_cast_v(True)
         new_layers = ldm.dit.layers
 
         # Creates new DiT and LDM pipelines for student
@@ -211,15 +233,9 @@ class FlowMapFromPretrained(
             preprocessing=new_preprocessing,
             postprocessing=new_postprocessing,
             layers=new_layers,
-            non_checkpoint_layers=len(new_layers) + 1,  # we can't use checkpoints
-            mask_out_before=dit_config.mask_out_before,
         )
         self.init_pipeline(
-            dit=dit,
-            autoencoder=ldm.autoencoder,
-            conditioners=ldm.conditioners,
-            sigma_data=ldm.sigma_data,
-            pred_type=ldm.pred_type,
+            dit=dit, autoencoder=ldm.autoencoder, conditioners=ldm.conditioners
         )
 
         # Load state dict from its internal _weights_path
