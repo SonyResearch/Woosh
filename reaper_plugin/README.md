@@ -3,7 +3,7 @@ on the [Reaper DAW](https://www.reaper.fm) timeline. It provides a
 way to interact with professional audio tools. The plugin queries our [SFXFM api](../api)
 to generate audio, storing the audio output locally, and Reaper is instructed to load it at the
 current location in the timeline via the Python [reapy](https://pypi.org/project/python-reapy) package.
-Please check our [demo video](https://github.com/SonyResearch/SFXFM/releases/v0.1.1/reaper-plugin-demo.mp4)
+Please check our [demo video](https://github.com/SonyResearch/SFXFM/releases/download/v0.1.1/reaper-plugin-demo.mp4)
 for an overview of the plugin usage.
 
 The following instructions have been tested on an Apple Silicon Mac. Please follow analogous instructions on Windows or Linux platforms.
