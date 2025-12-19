@@ -1,5 +1,5 @@
 """
-Basic building blocks used to construct DiTs
+Defines basic building blocks used to construct DiTs.
 """
 
 import math
@@ -162,22 +162,15 @@ class RMSNorm(nn.Module):
 
     def forward(self, x: torch.Tensor):
         """
-        Forward pass for RMSNorm.
-
-        Args:
-            x (torch.Tensor): Input tensor.
-
-        Returns:
-            torch.Tensor: Normalized tensor with the same shape as input.
+        Returns normalized tensor with the same shape as input.
         """
         return F.rms_norm(x, (self.dim,), self.weight, self.eps)
 
 
 class FourierFeaturesTime(nn.Module):
     """
-    FourierFeatures from stable audio
-    for time embedding only
-    (batch, in_features)
+    FourierFeatures from stable audio for time embedding only
+    with shape (batch, in_features)
     """
 
     def __init__(self, in_features, out_features, std=1.0):
@@ -194,7 +187,6 @@ class FixedFourierFeaturesTime(nn.Module):
     """
     Fixed Fourier Features from Flux
     Our input is log(sigma)/4 which is roughly in [-1, 1]
-
     """
 
     def __init__(
@@ -379,7 +371,6 @@ class ModalityAttention(nn.Module):
     ]:
         """
         Returns all essential elements for the forward pass of the attention layer.
-
         Does not go through the scaled_dot_product_attention nor update the dictionary.
         """
         d = d.copy()  # for checkpointing
@@ -440,10 +431,7 @@ class ModalityAttention(nn.Module):
 
         return q, k, v, q_ropenope, k_ropenope, attn_mask, gate
 
-    def forward(
-        self,
-        d: DictTensor,
-    ) -> DictTensor:
+    def forward(self, d: DictTensor) -> DictTensor:
         d = d.copy()
         x = d[self.x_key]
         res = x
@@ -588,14 +576,8 @@ class ModalityAttentionMFWrapper(ModalityAttentionWrapper):
     def __init__(self, attn: ModalityAttention, extra_mod_key):
         super().__init__(attn)
         self.extra_mod_key = extra_mod_key
-        # Test with bias = False
-        # self.extra_mod_proj = nn.Linear(self.attn.dim, self.attn.dim * 3)
         self.extra_mod_proj = nn.Linear(self.attn.dim, self.attn.dim * 3, bias=False)
         self.attn.modulate = self.modulate
-
-        # small init?
-        # nn.init.uniform_(self.extra_mod_proj.weight, a=-1e-5, b=1e-5)
-        # nn.init.zeros_(self.extra_mod_proj.bias)
 
     def modulate(self, x, d):
         if self.use_modulation:
@@ -605,10 +587,8 @@ class ModalityAttentionMFWrapper(ModalityAttentionWrapper):
             mod_proj = self.attn.mod_proj(mod.unsqueeze(1)) + self.extra_mod_proj(
                 extra_mod.unsqueeze(1)
             )
-
             bias, scale, gate = mod_proj.split(mod.size(-1), dim=-1)
             x = (1 + scale) * x + bias
-
         else:
             bias, scale, gate = None, None, None
         return x, gate
@@ -699,19 +679,9 @@ class ModalityBlockFromAttnMLP(BaseModalityBlock):
 
 class MMMAttention(nn.Module):
     """
-    General cross attention
-    on DictTensors
-    with
-    rotary embeddings
-    QK norm
-    layernorm modulation on q & kv
-    uses Pytorch scaled_dot_product_attention
-
-    PURELY content-based, only nope
-    attention, no rope
-
-
-
+    General cross attention on DictTensors with rotary embeddings, QK norm,
+    layernorm modulation on q & kv. Uses Pytorch scaled_dot_product_attention
+    PURELY content-based, only nope attention, no rope
     """
 
     def __init__(
@@ -728,10 +698,7 @@ class MMMAttention(nn.Module):
     def modality_list(self) -> List[ModalityAttention]:
         return list(self.modalities.values())  # type: ignore
 
-    def forward(
-        self,
-        d: DictTensor,
-    ) -> DictTensor:
+    def forward(self, d: DictTensor) -> DictTensor:
         d = d.copy()
 
         x_keys: List[str] = [
@@ -759,15 +726,14 @@ class MMMAttention(nn.Module):
         ) = zip(*precomputations)
 
         seqlen_list = [q.size(2) for q in q_list]
-        # qkv are (b h s d)
 
-        # concat all q, k, v along time
+        # Concat all q, k, v along time, qkv are (b h s d)
         # We ALWAYS use the rope embeddings
         q = torch.cat(q_ropenope_list, dim=2)
         k = torch.cat(k_ropenope_list, dim=2)
         v = torch.cat(v_list, dim=2)
 
-        # force flash_attention if no mask is present
+        # Force flash_attention if no mask is present
         # Make sure mask is None or all ones, we NEVER use mask in this case
         for attn_mask in attn_mask_list:
             if attn_mask is not None and not attn_mask.bool().all():
@@ -782,8 +748,7 @@ class MMMAttention(nn.Module):
                 q, k, v.to(q.dtype) if self.cast_v else v, attn_mask=None
             )
 
-        # get x
-        # split z into the different modality_list
+        # Get x by splitting z into the different modality_list
         x = [
             z[:, :, sum(seqlen_list[:i]) : sum(seqlen_list[: i + 1])]
             for i in range(len(seqlen_list))
@@ -791,7 +756,7 @@ class MMMAttention(nn.Module):
         assert len(x) == len(self.modality_list)
         assert q.size(2) == sum(seqlen_list)
 
-        # apply out_proj and modulation
+        # Apply out_proj and modulation
         x = [
             modality.out_proj(rearrange(x_i, "b h s d -> b s (h d)"))  # type: ignore
             for modality, x_i in zip(self.modality_list, x)
@@ -801,14 +766,14 @@ class MMMAttention(nn.Module):
             x_i * gate_i if modality.use_modulation else x_i
             for modality, x_i, gate_i in zip(self.modality_list, x, gate_list)
         ]
-        # add residuals
+        # Add residuals
         x = [x_i + res_i for x_i, res_i in zip(x, res)]
-        # update the dictionary
+
+        # Update the dictionary
         for x_key, x_i in zip(x_keys, x):
             d[x_key] = x_i
 
-        # store attentions:
-        # store_attentions = True
+        # Store attentions
         store_attentions = False
         if store_attentions:
             # find_layer_id
@@ -864,9 +829,7 @@ class MMMBlock(nn.Module):
     def set_cast_v(self, cast_v: bool):
         self.attn.cast_v = cast_v
 
-    def get_modality_block_dict(
-        self,
-    ) -> Dict[str, ModalityBlock]:
+    def get_modality_block_dict(self) -> Dict[str, ModalityBlock]:
         """
         Returns the modality block dictionary.
         This is useful for accessing the individual modality blocks.
@@ -879,10 +842,7 @@ class MMMBlock(nn.Module):
             for key in self.ffns.keys()
         }
 
-    def forward(
-        self,
-        d: DictTensor,
-    ) -> DictTensor:
+    def forward(self, d: DictTensor) -> DictTensor:
         """
         Forward pass for the Transformer block.
 
@@ -994,10 +954,7 @@ class MultimodalitySingleStreamBlock(nn.Module):
         self.use_rotary = True
         self.cast_v = cast_v
 
-    def forward(
-        self,
-        d: DictTensor,
-    ) -> DictTensor:
+    def forward(self, d: DictTensor) -> DictTensor:
         """
         Forward pass for the Transformer block.
 
