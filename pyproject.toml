@@ -17,7 +17,7 @@ dependencies = [
   "torchdiffeq>=0.2.5",
   "transformers>=4.57.2",
   "hear21passt==0.0.26",
-  "pydantic>=2.12.5",
+  "pydantic>=2.12.4",
   "omegaconf>=2.3.0",
 ]
 [project.optional-dependencies]
@@ -33,7 +33,6 @@ conflicts = [
     { extra = "cuda" },
   ],
 ]
-extra-build-variables = { minimp3py = { CFLAGS = '-O3 -march=native' } }
 # to avoid installing dependencies like:
 # pip install hear21passt --no-dependencies
 dependency-metadata = [
@@ -55,7 +54,6 @@ torchaudio = [
   { index = "pytorch-cpu", extra = "cpu" },
   { index = "pytorch-cu128", extra = "cuda" },
 ]
-minimp3py = { git = "https://github.com/f0k/minimp3py/" }
 
 [[tool.uv.index]]
 name = "pytorch-cu128"
@@ -74,4 +72,5 @@ reaper = [
     "python-reapy>=0.10.0",
 ]
 audioio = ["soundfile>=0.13.1"]
+demo = ["gradio>=6"]
 dev = ["ipykernel", "ipython", "ruff>=0.14.6"]

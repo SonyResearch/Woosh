@@ -121,4 +121,4 @@ cython_debug/
 
 .DS_Store
 outputs/
-weights.safetensors
+weights*.safetensors
