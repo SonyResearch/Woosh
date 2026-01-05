@@ -1,7 +1,7 @@
 This is a proof-of-concept sound effect generation plugin that allows direct media drop-in
-on the [Reaper DAW](https://www.reaper.fm) timeline. It provides a
-way to interact with professional audio tools. The plugin queries our [SFXFM api](../api)
-to generate audio, storing the audio output locally, and Reaper is instructed to load it at the
+on the [Reaper DAW](https://www.reaper.fm) timeline, providing a
+way to directly interact with professional audio tools. The plugin queries our [SFXFM API](../api)
+to generate audio, stores the audio output locally on disk, and then Reaper is instructed to load it at the
 current location in the timeline via the Python [reapy](https://pypi.org/project/python-reapy) package.
 Please check our [demo video](https://github.com/SonyResearch/SFXFM/releases/download/v0.1.1/reaper-plugin-demo.mp4)
 for an overview of the plugin usage.
@@ -92,16 +92,16 @@ Click on the Reaper application on your system.
 
 
 # Troubleshooting
-A way to make sure `reapy` connects properly to the Reaper application is running
+To test if `reapy` connects properly to the Reaper application, run
 
 ```
 python -c "import reapy; reapy.configure_reaper()````
 ```
 
-on the terminal, with Reaper open and properly set up for ReaScript as described above.
+on the terminal, with `Reaper` open and properly set up for `ReaScript` as described above.
 
 There is a known bug on the `configparser` package that `reapy==0.10.0` depends on. If you encounter an
-error regarding `UNNAMED_SECTION` you can edit the `configparser.py` file on the current environment
+error concerning `UNNAMED_SECTION`, you can edit `configparser.py` file on the current environment
 and replace the line
 
 ```
@@ -113,3 +113,5 @@ by
 ```
 if str(UNNAMED_SECTION) in self._sections:
 ```
+
+This should temporarily solve the issue.
