@@ -1,0 +1,65 @@
+"Sample 1":
+    "SAO":
+        "prompt": "a man walking in the rain"
+        "filename": "static/audio/flow/sample1-sao.wav"
+        "region": [0, -1]
+    "Woosh-Flow-Public":
+        "prompt": "a man walking in the rain"
+        "filename": "static/audio/flow/sample1-wooshflow-public.wav"
+        "region": [0, -1]
+    "Woosh-Flow-Private":
+        "prompt": "a man walking in the rain"
+        "filename": "static/audio/flow/sample1-wooshflow-private.wav"
+        "region": [0, -1]
+    "Woosh-DFlow-Public":
+        "prompt": "a man walking in the rain"
+        "filename": "static/audio/flow/sample1-wooshdflow-public.wav"
+        "region": [0, -1]
+    "Woosh-DFlow-Private":
+        "prompt": "a man walking in the rain"
+        "filename": "static/audio/flow/sample1-wooshdflow-private.wav"
+        "region": [0, -1]
+
+"Sample 2":
+    "SAO":
+        "prompt": "a creature roaring wild"
+        "filename": "static/audio/flow/sample2-sao.wav"
+        "region": [0, -1]
+    "Woosh-Flow-Public":
+        "prompt": "a creature roaring wild"
+        "filename": "static/audio/flow/sample2-wooshflow-public.wav"
+        "region": [0, -1]
+    "Woosh-Flow-Private":
+        "prompt": "a creature roaring wild"
+        "filename": "static/audio/flow/sample2-wooshflow-private.wav"
+        "region": [0, -1]
+    "Woosh-DFlow-Public":
+        "prompt": "a creature roaring wild"
+        "filename": "static/audio/flow/sample2-wooshdflow-public.wav"
+        "region": [0, -1]
+    "Woosh-DFlow-Private":
+        "prompt": "a creature roaring wild"
+        "filename": "static/audio/flow/sample2-wooshdflow-private.wav"
+        "region": [0, -1]
+
+"Sample 3":
+    "SAO":
+        "prompt": "car revving in the distance"
+        "filename": "static/audio/flow/sample3-sao.wav"
+        "region": [0, -1]
+    "Woosh-Flow-Public":
+        "prompt": "car revving in the distance"
+        "filename": "static/audio/flow/sample3-wooshflow-public.wav"
+        "region": [0, -1]
+    "Woosh-Flow-Private":
+        "prompt": "car revving in the distance"
+        "filename": "static/audio/flow/sample3-wooshflow-private.wav"
+        "region": [0, -1]
+    "Woosh-DFlow-Public":
+        "prompt": "car revving in the distance"
+        "filename": "static/audio/flow/sample3-wooshdflow-public.wav"
+        "region": [0, -1]
+    "Woosh-DFlow-Private":
+        "prompt": "car revving in the distance"
+        "filename": "static/audio/flow/sample3-wooshdflow-private.wav"
+        "region": [0, -1]
