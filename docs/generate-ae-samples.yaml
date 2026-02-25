@@ -1,0 +1,40 @@
+"Sample 1":
+    "Original":
+        "filename": "static/audio/ae/sample1-original.wav"
+        "region": [0.9, 3.0]
+    "SAO":
+        "filename": "static/audio/ae/sample1-sao.wav"
+        "region": [0.9, 3.0]
+    "Woosh-AE-Public":
+        "filename": "static/audio/ae/sample1-wooshae-public.wav"
+        "region": [0.9, 3.0]
+    "Woosh-AE-Private":
+        "filename": "static/audio/ae/sample1-wooshae-private.wav"
+        "region": [0.9, 3.0]
+
+"Sample 2":
+    "Original":
+        "filename": "static/audio/ae/sample2-original.wav"
+        "region": [0.4, -1]
+    "SAO":
+        "filename": "static/audio/ae/sample2-sao.wav"
+        "region": [0.4, -1]
+    "Woosh-AE-Public":
+        "filename": "static/audio/ae/sample2-wooshae-public.wav"
+        "region": [0.4, -1]
+    "Woosh-AE-Private":
+        "filename": "static/audio/ae/sample2-wooshae-private.wav"
+        "region": [0.4, -1]
+"Sample 3":
+    "Original":
+        "filename": "static/audio/ae/sample3-original.wav"
+        "region": [0.0, 1.9]
+    "SAO":
+        "filename": "static/audio/ae/sample3-sao.wav"
+        "region": [0.0, 1.9]
+    "Woosh-AE-Public":
+        "filename": "static/audio/ae/sample3-wooshae-public.wav"
+        "region": [0.0, 1.9]
+    "Woosh-AE-Private":
+        "filename": "static/audio/ae/sample3-wooshae-private.wav"
+        "region": [0.0, 1.9]
