@@ -29,7 +29,7 @@ def plot_specgrams(sample_name, files, n_fft=1024, hop_size=16, y_axis="linear")
         from_time, to_time = region[0], region[1]
         from_sample = int(from_time * fs)
         to_sample = int(to_time * fs)
-        print(f"{sample_name_as_in_file}: {len(x)} samples ({from_sample},{to_sample}")
+        print(f"x={len(x)}, from={from_sample}, to_sample={to_sample}")
         x = x[from_sample:to_sample+1]
 
         specgram = librosa.amplitude_to_db(np.abs(librosa.stft(x, hop_length=hop_size, n_fft=n_fft)), ref=np.max)
@@ -52,27 +52,38 @@ def plot_specgrams(sample_name, files, n_fft=1024, hop_size=16, y_axis="linear")
     files["figure"] = figure_fn
 
 # load sample generation config
-with open("generate-ae-samples.yaml", 'r') as fp:
+with open("generate-gen-samples.yaml", 'r') as fp:
     files = yaml.safe_load(fp)
 
-for sample_name in files:
-    plot_specgrams(sample_name, files[sample_name], y_axis="linear")
+# generate audio
+for sample, d in files.items():
+    for n, (model, item) in enumerate(d.items()):
+        prompt = item["filename"]
+        filename = item["filename"]
+        # generate audio from prompt here, save to filename
 
+# generate spectrograms, comment out if audio files are not present/generated
+# for sample_name in files:
+#     plot_specgrams(sample_name, files[sample_name], y_axis="linear")
+
+# generate HTML section
 print("""
 <section class="hero is-small is-light">
   <div class="hero-body">
     <div class="container">
-      <h2 class="title is-3 is-centered has-text-centered">Woosh-AE: Audio Encoder/Decoder</h2>
+      <h2 class="title is-3 is-centered has-text-centered">Woosh-Flow/Woosh-DFlow: T2A generative models</h2>
       <div class="columns is-centered has-text-centered">
         <div class="column is-four-fifths">
 """)
 
 for sample, d in files.items():
-    print(f"""          <div><b>{sample}</b> - <a href="{d["figure"]}" target="_blank" >Spectrograms</a></div>\n""")
+    first_model = next(iter(d))
+    prompt = d[first_model]["prompt"]
+    d["figure"] = "dummy"
+    print(f"""          <div><b>{sample}</b>: "{prompt}" (<a href="{d["figure"]}" target="_blank" >Spectrograms</a>)</div>\n""")
     del d["figure"]
     for n, (model, item) in enumerate(d.items()):
-        # if model == "figure":
-        #     continue
+        prompt = item["filename"]
         filename = item["filename"]
         print( """          <figure style="display: inline-block;">\n"""
               f"""            <figcaption>{model}</figcaption>\n"""
