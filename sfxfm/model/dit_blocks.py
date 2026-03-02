@@ -42,6 +42,9 @@ def precompute_freqs_cis(args: DiTArgs, to_audio_fps_multiplier=None) -> torch.T
     """
     dim = max(args.qk_rope_head_dim, args.qkv_head_dim)
     seqlen = math.ceil(args.max_seq_len / args.patch_size)
+
+    if args.rope_len_multiplier is not None:
+        seqlen = int(seqlen * args.rope_len_multiplier)
     beta_fast = args.beta_fast
     beta_slow = args.beta_slow
     base = args.rope_theta
@@ -1086,3 +1089,114 @@ class MultimodalitySingleStreamBlock(nn.Module):
         This is useful for changing the behavior after initialization.
         """
         self.cast_v = cast_v
+
+
+class SelfAttention(nn.Module):
+    """
+    SelfAttention
+    on DictTensors
+    with
+    rotary embeddings
+    QK norm
+    layernorm modulation on qkv
+    uses Pytorch scaled_dot_product_attention
+
+    head dimension is defined by args.qkv_head_dim
+    """
+
+    def __init__(
+        self,
+        args: DiTArgs,
+        qkv_key: str = "x",
+        mod_key: Optional[str] = None,
+        freqs_cis_key: Optional[str] = None,
+        mask_key: Optional[str] = None,
+    ):
+        super().__init__()
+        self.dim = args.dim
+        self.n_heads = args.n_heads
+        self.head_dim = args.qkv_head_dim
+
+        self.qkv = nn.Linear(self.dim, self.head_dim * args.n_heads * 3)
+        self.out_proj = nn.Linear(self.head_dim * args.n_heads, self.dim)
+
+        self.norm_q = RMSNorm(self.head_dim)
+        self.norm_k = RMSNorm(self.head_dim)
+
+        self.mod_norm = nn.LayerNorm(args.dim, elementwise_affine=False, eps=1e-6)
+        self.use_modulation = mod_key is not None
+        if self.use_modulation:
+            self.mod_proj = nn.Linear(args.dim, args.dim * 3)
+
+        self.qkv_key = qkv_key
+        self.mod_key = mod_key
+        self.freqs_cis_key = freqs_cis_key
+        self.use_rotary = self.freqs_cis_key is not None
+        self.mask_key = mask_key
+
+    def forward(
+        self,
+        d: DictTensor,
+    ) -> DictTensor:
+        """
+        Forward pass for the Multi-Headed Attention Layer (MLA).
+
+        Args:
+            x (torch.Tensor): Input tensor of shape (batch_size, seq_len, dim).
+            freqs_cis (torch.Tensor): Precomputed complex exponential values for rotary embeddings.
+            mask (Optional[torch.Tensor]): Mask tensor to exclude certain positions from attention.
+
+        Returns:
+            torch.Tensor: Output tensor with the same shape as the input.
+        """
+        x = d[self.qkv_key]
+        bsz, seqlen, _ = x.size()
+
+        x_res = x
+
+        # always norm
+        x = self.mod_norm(x)
+
+        # modulate
+        if self.mod_key is not None:
+            assert self.use_modulation
+            bias, scale, gate = self.mod_proj(d[self.mod_key].unsqueeze(1)).split(
+                d[self.mod_key].size(-1), dim=-1
+            )
+            x = (1 + scale) * x + bias
+
+        q, k, v = self.qkv(x).split(self.head_dim * self.n_heads, dim=-1)
+
+        q = q.view(bsz, seqlen, self.n_heads, self.head_dim)
+        k = k.view(bsz, seqlen, self.n_heads, self.head_dim)
+        v = v.view(bsz, seqlen, self.n_heads, self.head_dim)
+
+        q = self.norm_q(q)
+        k = self.norm_k(k)
+
+        if self.use_rotary:
+            freqs_cis = d[self.freqs_cis_key] if self.freqs_cis_key else None
+            assert freqs_cis is not None
+            q = apply_rotary_emb(q, freqs_cis)
+            k = apply_rotary_emb(k, freqs_cis)
+
+        q = rearrange(q, "b s h d->b h s d", h=self.n_heads, s=seqlen)
+        k = rearrange(k, "b s h d->b h s d", h=self.n_heads, s=seqlen)
+        v = rearrange(v, "b s h d->b h s d", h=self.n_heads, s=seqlen)
+        # should be broadcastable
+        # mask is on kv_keys
+        mask = d[self.mask_key] if self.mask_key else None
+        attn_mask = mask.bool().unsqueeze(1).unsqueeze(1) if mask is not None else None
+
+        x = torch.nn.functional.scaled_dot_product_attention(
+            q, k, v, attn_mask=attn_mask
+        )
+        x = self.out_proj(rearrange(x, "b h s d -> b s (h d)"))
+
+        if self.mod_key is not None:
+            x = x * gate  # type: ignore
+
+        x = x + x_res
+
+        d[self.qkv_key] = x
+        return d

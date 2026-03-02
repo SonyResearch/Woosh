@@ -45,6 +45,9 @@ class MMDiTArgs(BaseModel):
     model_type: Literal["mmmssflux",] = "mmmssflux"
     max_description_length: int = 77
     max_seq_len: int = 501
+    rope_len_multiplier: Union[int, None] = (
+        None  # if not None, multiply rope seq len by this factor, useful for finetuning without scaling frequencies
+    )
 
     dim: int = 2048
     inter_dim: int = 10944

@@ -19,6 +19,7 @@ dependencies = [
   "hear21passt==0.0.26",
   "pydantic>=2.12.4",
   "omegaconf>=2.3.0",
+  "av>=16.1.0",
 ]
 [project.optional-dependencies]
 # cpu = ["torch==2.8.0", "torchvision==0.23.0", "torchaudio==2.8.0"]
