@@ -96,8 +96,7 @@ def flowmatching_integrate(
     # t = [0, 1]
     t = torch.linspace(0, 1, steps=2, device=noise.device)
 
-    # print("FM args: ", fm_kwargs)
-    fakes = odeint(f, noise, t, atol=atol, rtol=rtol, method=method, **fm_kwargs)[-1]
+    fakes = odeint(f, noise, t, atol=atol, rtol=rtol, method=method, options=fm_kwargs)[-1]
 
     # print(f"Integrating finished in {step + 1} steps")
     if return_steps:
