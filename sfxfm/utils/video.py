@@ -13,30 +13,30 @@ dino_rate = 10
 sync_rate = 24
 
 
-def get_synchformer():
+def get_synchformer(device="cpu"):
     ckpt = hf_hub_download(
         "hkchengrex/MMAudio",
         filename="synchformer_state_dict.pth",
         subfolder="ext_weights",
     )
     model = Synchformer().eval()
-    sd = torch.load(ckpt, weights_only=True)
+    sd = torch.load(ckpt, weights_only=True, map_location=torch.device(device))
     model.load_state_dict(sd)
     return model.eval()
 
 
-def get_siglip(ckpt="google/siglip-base-patch16-224"):
+def get_siglip(ckpt="google/siglip-base-patch16-224", device="cpu"):
     print(os.getpid(), "loading model ", ckpt)
-    model = AutoModel.from_pretrained(ckpt, device_map="cuda").eval()
+    model = AutoModel.from_pretrained(ckpt, device_map=device)
 
     processor = AutoProcessor.from_pretrained(ckpt)
-    return processor, model.cuda().eval()
+    return processor, model.eval()
 
 
-def get_dino():
+def get_dino(device="cpu"):
     processor = AutoImageProcessor.from_pretrained("facebook/dinov2-large")
     model = AutoModel.from_pretrained("facebook/dinov2-large")
-    return processor, model.cuda().eval()
+    return processor, model.to(device=device).eval()
 
 
 def downsample(source_rate, target_rate, video_frames, video_pts):
