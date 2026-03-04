@@ -21,7 +21,8 @@ else:
 # Load model
 COMPONENT_PATH = "checkpoints/SFXae"
 ae = AudioAutoEncoder(LoadConfig(path=COMPONENT_PATH))
-ae = ae.eval().to(device)
+ae.load_from_config()
+ae.eval().to(device)
 
 # %%
 
