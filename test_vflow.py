@@ -38,7 +38,7 @@ video_path = (
     "/group2/sfxfm/data/ego4d/v2/full_scale/000cd456-ff8d-499b-b0c1-4acead128a8b.mp4"
 )
 # video_path = "/group2/sfxfm/data/foleybench/videos/3.mp4"
-video_path = "/Users/Marc.FerrasFont/Downloads/3.mp4"
+video_path = "samples/3.mp4"
 with torch.inference_mode():
     video_frames, video_rate, pts_arr = extract_video_frames(
         video_path,
