@@ -28,7 +28,9 @@ ae.eval().to(device)
 
 # Prepare inputs
 batch_size = 1
-audio, fs = torchaudio.load("sample.wav")
+# load audio sample
+audio, fs = torchaudio.load("samples/810333__mokasza__glass-breaking.mp3")
+audio = audio[0:1,:]
 audio = audio.unsqueeze(0)
 audio = audio.detach().to(device=device)
 
