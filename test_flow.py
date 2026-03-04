@@ -19,7 +19,7 @@ else:
 # %%
 
 # Load model
-COMPONENT_PATH = "checkpoints/SFXFLOW_PDS2"
+COMPONENT_PATH = "checkpoints/SFXflow"
 ldm = LatentDiffusionModel(LoadConfig(path=COMPONENT_PATH))
 ldm = ldm.eval().to(device)
 
@@ -46,6 +46,8 @@ with torch.inference_mode():
         atol=0.003,
         rtol=0.003,
         return_steps=True,
+        device=device,
+        dtype=torch.float32 if device=="mps" else torch.float64,
     )
     audio_fake = ldm.autoencoder.inverse(x_fake)
 end_time = time.perf_counter()
