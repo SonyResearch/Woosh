@@ -42,11 +42,11 @@ ldm:
     text:
       exclude_from_checkpoint: true
       trainable: false
-      path: checkpoints/TextCondtionerV
+      path: checkpoints/TextConditionerV
   autoencoder:
     exclude_from_checkpoint: true
     trainable: false
-    path: checkpoints/SFXae
+    path: checkpoints/Woosh-AE
   sigma_data: 1.0
   pred_type: v_pred
 audio_fps: 100
