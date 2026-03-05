@@ -326,7 +326,11 @@ class LatentDiffusionModelPipeline:
         with torch.autocast(device_type="cuda", enabled=False):
             if isinstance(t, float) or len(t.size()) == 0:
                 batch_size = x_t.size(0)
-                t = torch.Tensor([t] * batch_size).double().to(x_t.device)
+                if x_t.device.type == "mps":
+                    t = torch.tensor([t] * batch_size).float().to(x_t.device)
+                else:
+                    t = torch.tensor([t] * batch_size).double().to(x_t.device)
+
             sigma = t
             c_skip = self.sigma_data**2 / (sigma**2 + self.sigma_data**2)
             c_out = sigma * self.sigma_data / (sigma**2 + self.sigma_data**2).sqrt()
@@ -368,6 +372,7 @@ class LatentDiffusionModelPipeline:
         AND
         does NOT use a specific parameterization vs _denoise_dict which uses the EDM parameterization
         """
+        device = x_t.device
         assert cond is not None
         # TODO absurd, we shouldn't mix x_loss mask and inpainting masks
         if mask is None:
@@ -378,7 +383,10 @@ class LatentDiffusionModelPipeline:
         with torch.autocast(device_type="cuda", enabled=False):
             if isinstance(t, float) or len(t.size()) == 0:
                 batch_size = x_t.size(0)
-                t = torch.Tensor([t] * batch_size).double().to(x_t.device)
+                if x_t.device.type == "mps":
+                    t = torch.tensor([t] * batch_size).float().to(x_t.device)
+                else:
+                    t = torch.tensor([t] * batch_size).double().to(x_t.device)
 
             # model inputs
             x_in = (x_t).float()
@@ -486,7 +494,10 @@ class LatentDiffusionModelFlowMapPipeline(LatentDiffusionModelPipeline):
         with torch.autocast(device_type="cuda", enabled=False):
             if isinstance(t, float) or len(t.size()) == 0:
                 batch_size = x_t.size(0)
-                t = torch.Tensor([t] * batch_size).double().to(x_t.device)
+                if x_t.device.type == "mps":
+                    t = torch.tensor([t] * batch_size).float().to(x_t.device)
+                else:
+                    t = torch.tensor([t] * batch_size).double().to(x_t.device)
 
             # model inputs
             x_in = (x_t).float()

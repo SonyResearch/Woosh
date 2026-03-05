@@ -605,9 +605,9 @@ class BaseComponent:
         # loading config
         config_path = os.path.join(path, f"config.{config_format}")
         log.info(f"Loading config from {config_path}")
-        log.warning(
-            f"Weights are not loaded for {config_path}, don't forget to call load_from_config"
-        )
+        # log.warning(
+        #     f"Weights are not loaded for {config_path}, don't forget to call load_from_config"
+        # )
         if config_format == "yaml":
             config = OmegaConf.load(config_path)
             # with open(config_path, "r") as infile:

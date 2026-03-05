@@ -38,9 +38,9 @@ conditioners:
   text:
     exclude_from_checkpoint: true
     trainable: false
-    path: checkpoints/SFXclap
+    path: checkpoints/TextConditionerA
 autoencoder:
   exclude_from_checkpoint: true
   trainable: false
-  path: checkpoints/SFXae
+  path: checkpoints/Woosh-AE
 sigma_data: 1.0

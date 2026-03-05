@@ -1,6 +1,6 @@
 # Woosh - Sound Effect Generative Models
 
-This repository provides inference code and open weights for the sound effect generative models developed at Sony AI. The 
+This repository provides inference code and open weights for the sound effect generative models developed at Sony AI. The
 current public release includes four models addressing the text-to-audio (T2A) and video-to-
 audio (V2A) tasks:
 
@@ -40,8 +40,8 @@ uv sync --extra cuda
 
 ### Download model weights
 
-Open models weights are available for all Woosh models trained on public datasets. You can download 
-the pretrained weights from the [releases](https://github.com/SonyResearch/woosh-sfx/releases) 
+Open models weights are available for all Woosh models trained on public datasets. You can download
+the pretrained weights from the [releases](https://github.com/SonyResearch/woosh-sfx/releases)
 page, or otherwise using the [github CLI](https://cli.github.com) as
 
 ```bash
@@ -51,27 +51,32 @@ unzip SFX\*.zip
 
 ## Usage
 
-A test script is provided for Woosh-Flow inference (T2A) for a given input prompt. Just run 
+An inference test script for every model is provided. Just run any of the following
 
 ```python
-uv run test.py
+uv run test_Woosh-AE.py
+uv run test_Woosh-Flow.py
+uv run test_Woosh-DFlow.py
+uv run test_Woosh-VFlow.py
 ```
 
-and the generated audio should be present under `outputs/` as `.wav` audio files.
+and the generated audio/video will be written to `outputs/` as `.wav`/`.mp4` audio/video files.
+
+Check our [tech report](https://arxiv.org/abs/2412.15322) on arxiv.org for a description of all models.
 
 ## Citation
-For details about model architecture, training and evaluation, please check our tech report 
-available on [arxiv.com](https://arxiv.org/abs/2412.15322). 
+For details about model architecture, training and evaluation, please check our tech report
+available on [arxiv.org](https://arxiv.org/abs/2412.15322).
 
 ```bibtex
 @misc{hadjeres2026,
-      title={Woosh: A Sound Effects Foundation Model}, 
+      title={Woosh: A Sound Effects Foundation Model},
       author={Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck-Hufnagel, Alexandre Bittar, Thomas Hummel, Zineb Lahrici, Hakim Missoum, Joan Serrà and Yuki Mitsufuji},
       year={2026},
       eprint={2412.15322},
       archivePrefix={arXiv},
       primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2412.15322}, 
+      url={https://arxiv.org/abs/2412.15322},
 }
 ```
 
