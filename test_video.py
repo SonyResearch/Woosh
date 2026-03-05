@@ -68,8 +68,8 @@ with torch.inference_mode():
         noise=noise,
         cond=cond,
         cfg=4.5,
-        atol=0.003,
-        rtol=0.003,
+        atol=1e-3,
+        rtol=1e-3,
         return_steps=True,
     )
     audio_fake = ldm.autoencoder.inverse(x_fake)
