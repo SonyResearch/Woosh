@@ -21,7 +21,7 @@ else:
 # %%
 
 # Load model
-COMPONENT_PATH = "checkpoints/SFXflowV-8s"
+COMPONENT_PATH = "checkpoints/Woosh-VFlow-8s"
 ldm = VideoKontext(LoadConfig(path=COMPONENT_PATH))
 ldm = ldm.eval().to(device)
 
@@ -34,10 +34,11 @@ featuresModel = SynchformerProcessor(frame_rate=24).eval().to(device)
 # Prepare inputs
 batch_size = 1
 noise = torch.randn(batch_size, 128, 801).to(device)
-video_path = (
-    "/group2/sfxfm/data/ego4d/v2/full_scale/000cd456-ff8d-499b-b0c1-4acead128a8b.mp4"
-)
-video_path = "/group2/sfxfm/data/foleybench/videos/3.mp4"
+# video_path = (
+#     "/group2/sfxfm/data/ego4d/v2/full_scale/000cd456-ff8d-499b-b0c1-4acead128a8b.mp4"
+# )
+# video_path = "/group2/sfxfm/data/foleybench/videos/3.mp4"
+video_path = "samples/3.mp4"
 with torch.inference_mode():
     video_frames, video_rate, pts_arr = extract_video_frames(
         video_path,
@@ -60,7 +61,7 @@ with torch.inference_mode():
         no_dropout=True,
         device=device,
     )
-    torch.cuda.synchronize()
+    # torch.cuda.synchronize()
     # Denoise using ldm and transform to audio with autoencoder
     start_time = time.perf_counter()
     x_fake, steps = flowmatching_integrate(
@@ -71,6 +72,8 @@ with torch.inference_mode():
         atol=1e-3,
         rtol=1e-3,
         return_steps=True,
+        device=device,
+        dtype=torch.float32 if device=="mps" else torch.float64,
     )
     audio_fake = ldm.autoencoder.inverse(x_fake)
 end_time = time.perf_counter()
@@ -86,12 +89,12 @@ for i in range(batch_size):
     normalization_factor = max_abs_value if max_abs_value > 1.0 else 1.0
     scaled = audio_fake[i] / normalization_factor
     torchaudio.save(
-        f"outputs/output_audio_{i}.wav",
+        f"outputs/Woosh-VFlow_audio_{i}.wav",
         scaled,
         sample_rate=48000,
     )
     remux_video(
-        output_path=f"outputs/output_video_{i}.mp4",
+        output_path=f"outputs/Woosh-VFlow_video_{i}.mp4",
         video_path=video_path,
         audio_input=scaled,
         sample_rate=48000,
