@@ -3,4 +3,4 @@ trainable: true
 ldm:
   exclude_from_checkpoint: false
   trainable: true
-  path: checkpoints/SFXflow
+  path: checkpoints/Woosh-Flow
