@@ -1,6 +1,6 @@
 This is a proof-of-concept sound effect generation script with a basic UI that allows direct media drop-in
 on the [Reaper DAW](https://www.reaper.fm) timeline, providing a
-way to directly interact with professional audio tools. The plugin queries our [SFXFM API](../api)
+way to directly interact with professional audio tools. The plugin queries our [Woosh API](../api)
 to generate audio, stores the audio output locally on disk, and then Reaper is instructed to load it at the
 current location in the timeline via the Python [reapy](https://pypi.org/project/python-reapy) package.
 Please check our [demo video](https://github.com/SonyResearch/SFXFM/releases/download/v0.1.1/reaper-script-demo.mp4)
