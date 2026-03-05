@@ -1,11 +1,12 @@
+# %%
 import os
 import time
 
 import torch
 import torchaudio
 
-from sfxfm.inference.flowmap_sampler import sample_euler
-from sfxfm.model.flowmap_from_pretrained import FlowMapFromPretrained
+from sfxfm.inference.flowmatching_sampler import flowmatching_integrate
+from sfxfm.model.ldm import LatentDiffusionModel
 from sfxfm.components.base import LoadConfig
 
 if torch.cuda.is_available():
@@ -15,10 +16,14 @@ elif torch.backends.mps.is_available():
 else:
     device = "cpu"
 
+# %%
+
 # Load model
-COMPONENT_PATH = "checkpoints/woosh-DFlow"
-ldm = FlowMapFromPretrained(LoadConfig(path=COMPONENT_PATH))
+COMPONENT_PATH = "checkpoints/Woosh-Flow"
+ldm = LatentDiffusionModel(LoadConfig(path=COMPONENT_PATH))
 ldm = ldm.eval().to(device)
+
+# %%
 
 # Prepare inputs
 batch_size = 1
@@ -33,16 +38,20 @@ cond = ldm.get_cond(
 # Denoise using ldm and transform to audio with autoencoder
 start_time = time.perf_counter()
 with torch.inference_mode():
-    x_fake = sample_euler(
-        model=ldm,
+    x_fake, steps = flowmatching_integrate(
+        ldm,
         noise=noise,
         cond=cond,
-        num_steps=4,
-        renoise=[0, 0.5, 0.5, 0.3],
         cfg=4.5,
+        atol=0.003,
+        rtol=0.003,
+        return_steps=True,
+        device=device,
+        dtype=torch.float32 if device=="mps" else torch.float64,
     )
     audio_fake = ldm.autoencoder.inverse(x_fake)
 end_time = time.perf_counter()
+print(f"Integrating finished in {steps + 1} steps")
 print(f"Generation took {end_time - start_time:.2f} seconds on {device}")
 
 # Move to CPU and save outputs
@@ -53,7 +62,9 @@ for i in range(batch_size):
     normalization_factor = max_abs_value if max_abs_value > 1.0 else 1.0
     scaled = audio_fake[i] / normalization_factor
     torchaudio.save(
-        f"outputs/Woosh-DFlow_output_{i}.wav",
+        f"outputs/Woosh-Flow_{i}.wav",
         scaled,
         sample_rate=48000,
     )
+
+# %%
