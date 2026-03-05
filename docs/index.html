@@ -362,6 +362,934 @@
 </section>
 
 
+
+
+<!--Video Section -->
+
+
+<section class="hero is-small is-light">
+  <div class="hero-body">
+    <div class="container">
+      <h2 class="title is-3 is-centered has-text-centered">Video-to-Audio Generation Demos</h2>
+      <p class="has-text-centered" style="margin-bottom: 1.5rem;">We compare our models against baselines across several benchmarks. <b>OV</b> means the model is conditioned only on video without the caption.</p>
+
+      <h3 class="title is-4 is-centered has-text-centered">FoleyBench</h3>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A propeller plane flies low over the water while firing its guns.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00400_00/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00400_00/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00400_00/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00400_00/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00400_00/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00400_00/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00400_00/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>Gentle waves transitioning to the muffled, bubbling sound of being underwater.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00500_01/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00500_01/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00500_01/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00500_01/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00500_01/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00500_01/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00500_01/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A person fires a handgun at metal targets at an outdoor range.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/02900_02/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/02900_02/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/02900_02/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/02900_02/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/02900_02/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/02900_02/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/02900_02/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A marker scratches against paper as it is used to color a drawing of a hummingbird.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00241_03/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00241_03/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00241_03/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00241_03/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00241_03/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00241_03/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/00241_03/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>The moon reflects on gently rippling water at night.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04600_04/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04600_04/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04600_04/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04600_04/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04600_04/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04600_04/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04600_04/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>Two figures in costumes walk down a basement hallway, their footsteps echoing on the concrete floor.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04683_05/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04683_05/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04683_05/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04683_05/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04683_05/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04683_05/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/foleybench/04683_05/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="title is-4 is-centered has-text-centered">OGameData</h3>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A person speaks in a calm, conversational tone in a language other than English, accompanied by the continuous, rhythmic sound of a boat moving through water.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00500_00/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00500_00/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00500_00/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00500_00/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00500_00/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00500_00/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00500_00/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A low, sustained musical drone plays in the background as a crow caws repeatedly, accompanied by the sound of footsteps on a hard surface.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00502_01/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00502_01/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00502_01/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00502_01/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00502_01/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00502_01/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00502_01/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A vehicle engine idles while a siren wails in the distance, and a person shouts urgently.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00771_02/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00771_02/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00771_02/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00771_02/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00771_02/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00771_02/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00771_02/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A vehicle engine starts and accelerates, accompanied by the sound of tires rolling on pavement.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00780_03/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00780_03/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00780_03/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00780_03/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00780_03/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00780_03/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00780_03/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A high-pitched buzzing sound, characteristic of a bee or wasp, is heard intermittently alongside the soft rustling of movement through dry leaves or grass.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00800_04/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00800_04/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00800_04/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00800_04/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00800_04/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00800_04/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/00800_04/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A vehicle engine starts and idles, followed by the sound of a siren approaching and then fading into the distance.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/01600_05/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/01600_05/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/01600_05/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/01600_05/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/01600_05/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/01600_05/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/ogame/01600_05/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="title is-4 is-centered has-text-centered">VGGSound</h3>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>alligators, crocodiles hissing</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/09105_00/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/09105_00/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/09105_00/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/09105_00/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/09105_00/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/09105_00/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/09105_00/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>parrot talking</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12109_01/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12109_01/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12109_01/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12109_01/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12109_01/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12109_01/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12109_01/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>ambulance siren</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12111_02/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12111_02/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12111_02/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12111_02/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12111_02/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12111_02/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12111_02/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>whale calling</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12113_03/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12113_03/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12113_03/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12113_03/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12113_03/MM-Audio_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12113_03/Woosh_VFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow OV</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound/12113_03/Woosh_VDFlow_OV.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <h3 class="title is-4 is-centered has-text-centered">VGGSound (recaptioned)</h3>
+      <div class="columns is-centered has-text-centered">
+        <div class="column is-full">
+
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A vehicle engine revs loudly as it accelerates, accompanied by the high-pitched squeal of tires losing traction on a surface, while a male voice shouts in distress.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/09105_00/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/09105_00/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/09105_00/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/09105_00/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A series of high-pitched, rapid squeaks and chirps, characteristic of a cartoonish or animated creature, are heard in quick succession.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12109_01/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12109_01/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12109_01/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12109_01/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A high-pitched, warbling electronic melody plays in a rapid, repetitive pattern, accompanied by a low, sustained electronic hum in the background.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12111_02/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12111_02/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12111_02/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12111_02/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+          <div class="box" style="margin-bottom: 1.5rem;">
+            <p style="margin-bottom: 1rem;"><em>A person shouts in excitement, followed by a woman speaking, all within a digital environment accompanied by a low-frequency hum.</em></p>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12113_03/Ground_Truth.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">MM-Audio</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12113_03/MM-Audio.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12113_03/Woosh_VFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+              <figure style="display: inline-block; text-align: center;">
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
+                <video controls style="width: 220px;" preload="metadata" class="video-thumb">
+                  <source src="static/video_demo/vggsound_recap/12113_03/Woosh_VDFlow.mp4" type="video/mp4">
+                </video>
+              </figure>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<script>
+// Seek every video to 0.1 s after metadata loads so browsers paint a thumbnail.
+document.querySelectorAll('video.video-thumb').forEach(function(v) {
+  v.addEventListener('loadedmetadata', function() {
+    if (v.readyState >= 1) { v.currentTime = 0.1; }
+  });
+  // In case metadata was already loaded before the listener was attached.
+  if (v.readyState >= 1) { v.currentTime = 0.1; }
+});
+</script>
+
+
+
+<!--End Video Section -->
+
+
+
+
 <!--BibTex citation -->
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
