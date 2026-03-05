@@ -89,12 +89,12 @@ for i in range(batch_size):
     normalization_factor = max_abs_value if max_abs_value > 1.0 else 1.0
     scaled = audio_fake[i] / normalization_factor
     torchaudio.save(
-        f"outputs/Woosh-VFlow_output_audio_{i}.wav",
+        f"outputs/Woosh-VFlow_audio_{i}.wav",
         scaled,
         sample_rate=48000,
     )
     remux_video(
-        output_path=f"outputs/Woosh-VFlow_output_video_{i}.mp4",
+        output_path=f"outputs/Woosh-VFlow_video_{i}.mp4",
         video_path=video_path,
         audio_input=scaled,
         sample_rate=48000,
