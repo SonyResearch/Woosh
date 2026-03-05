@@ -38,7 +38,7 @@ conditioners:
   text:
     exclude_from_checkpoint: true
     trainable: false
-    path: checkpoints/Woosh-CLAP
+    path: checkpoints/TextConditionerA
 autoencoder:
   exclude_from_checkpoint: true
   trainable: false
