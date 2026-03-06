@@ -4,9 +4,9 @@ import time
 import torch
 import torchaudio
 
-from sfxfm.inference.flowmap_sampler import sample_euler
-from sfxfm.model.flowmap_from_pretrained import FlowMapFromPretrained
-from sfxfm.components.base import LoadConfig
+from woosh.inference.flowmap_sampler import sample_euler
+from woosh.model.flowmap_from_pretrained import FlowMapFromPretrained
+from woosh.components.base import LoadConfig
 
 if torch.cuda.is_available():
     device = "cuda"

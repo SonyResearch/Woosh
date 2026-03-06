@@ -11,7 +11,7 @@ import torch
 from torch import Tensor, nn
 import torch.nn.functional as F
 
-from sfxfm.model.dit_types import DiTArgs, DictTensor
+from woosh.model.dit_types import DiTArgs, DictTensor
 
 
 def cast_v_context(cast_v) -> contextlib.AbstractContextManager:

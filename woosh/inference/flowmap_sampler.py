@@ -4,7 +4,7 @@ the distilled model.
 """
 
 import torch
-from sfxfm.model.ldm import LatentDiffusionModelFlowMapPipeline
+from woosh.model.ldm import LatentDiffusionModelFlowMapPipeline
 
 
 @torch.inference_mode()

@@ -3,7 +3,7 @@ import torch
 from torch import nn, einsum
 import torch.nn.functional as F
 
-import sfxfm.utils.loading
+import woosh.utils.loading
 
 log = logging.getLogger(__name__)
 
@@ -390,7 +390,7 @@ def create_passt_model(audio_config):
     )
     s_patchout_t = audio_config.s_patchout_t
     s_patchout_f = audio_config.s_patchout_f
-    pretrained = not sfxfm.utils.loading.lazy_loading_enabled
+    pretrained = not woosh.utils.loading.lazy_loading_enabled
     # get the PaSST model wrapper, includes Melspectrogram and the default pre-trained transformer
     if "passt_s" == audio_config.name:
         print("#### Using PaSST-S ap486 model with no overlap ####\n")

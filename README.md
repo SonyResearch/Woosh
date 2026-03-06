@@ -47,7 +47,7 @@ page, or otherwise using the [github CLI](https://cli.github.com) as
 ```bash
 gh release download v0.1.1
 unzip SFX\*.zip
-```
+```
 
 ## Usage
 

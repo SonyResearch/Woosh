@@ -5,17 +5,17 @@ from typing import Annotated, Dict, Literal, Union
 import torch
 from torch import nn
 
-from sfxfm.model.dit_flows import SFXFlow
-from sfxfm.model.dit_types import DictTensor, DiTArgs, MMDiTArgs
-from sfxfm.components.autoencoders import AudioAutoEncoder
-from sfxfm.components.base import (
+from woosh.model.dit_flows import SFXFlow
+from woosh.model.dit_types import DictTensor, DiTArgs, MMDiTArgs
+from woosh.components.autoencoders import AudioAutoEncoder
+from woosh.components.base import (
     BaseComponent,
     ComponentConfig,
     LoadConfig,
     _is_load_config,
 )
-from sfxfm.components.clap_conditioners import SFXCLAPTextConditioner
-from sfxfm.components.conditioners import ConditionConfig, DiffusionConditioner
+from woosh.components.clap_conditioners import SFXCLAPTextConditioner
+from woosh.components.conditioners import ConditionConfig, DiffusionConditioner
 
 # get logger
 log = logging.getLogger(__name__)

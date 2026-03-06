@@ -5,13 +5,13 @@ from typing import Any, Mapping, Optional
 import torch
 from omegaconf import OmegaConf
 
-from sfxfm.module.audioretrieval_module import (
+from woosh.module.audioretrieval_module import (
     get_sentence_frontend_model,
     get_sentence_head_model,
     get_text_preprocessing_func,
 )
-from sfxfm.components.base import BaseComponent, ComponentConfig, LoadConfig
-from sfxfm.utils.loading import lazy_loading
+from woosh.components.base import BaseComponent, ComponentConfig, LoadConfig
+from woosh.utils.loading import lazy_loading
 
 from .conditioners import ConditionConfig, DiffusionConditioner
 

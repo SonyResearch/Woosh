@@ -1,17 +1,17 @@
 exclude_from_checkpoint: true
 trainable: true
 istft_head:
-  _target_: sfxfm.module.model.vocos.ISTFTCircleHead
+  _target_: woosh.module.model.vocos.ISTFTCircleHead
   _partial_: true
   padding: center
   conv_pad: same
   conv_kernel: 1
   softclip: softplus
 ztransform:
-  _target_: sfxfm.module.model.vocos.ZeroDropoutTransform
+  _target_: woosh.module.model.vocos.ZeroDropoutTransform
   _partial_: true
   p: 1.0
-_target_: sfxfm.module.model.VocosAutoEncoder
+_target_: woosh.module.model.VocosAutoEncoder
 channels: 1
 z_dim: 128
 d_model: 2048

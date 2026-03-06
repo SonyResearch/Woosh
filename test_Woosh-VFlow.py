@@ -5,11 +5,11 @@ import time
 import torch
 import torchaudio
 
-from sfxfm.inference.flowmatching_sampler import flowmatching_integrate
-from sfxfm.components.base import LoadConfig
-from sfxfm.model.video_kontext import VideoKontext
-from sfxfm.utils.video import SynchformerProcessor
-from sfxfm.utils.videoio import extract_video_frames, remux_video
+from woosh.inference.flowmatching_sampler import flowmatching_integrate
+from woosh.components.base import LoadConfig
+from woosh.model.video_kontext import VideoKontext
+from woosh.utils.video import SynchformerProcessor
+from woosh.utils.videoio import extract_video_frames, remux_video
 
 if torch.cuda.is_available():
     device = "cuda"
@@ -34,10 +34,6 @@ featuresModel = SynchformerProcessor(frame_rate=24).eval().to(device)
 # Prepare inputs
 batch_size = 1
 noise = torch.randn(batch_size, 128, 801).to(device)
-# video_path = (
-#     "/group2/sfxfm/data/ego4d/v2/full_scale/000cd456-ff8d-499b-b0c1-4acead128a8b.mp4"
-# )
-# video_path = "/group2/sfxfm/data/foleybench/videos/3.mp4"
 video_path = "samples/3.mp4"
 with torch.inference_mode():
     video_frames, video_rate, pts_arr = extract_video_frames(
