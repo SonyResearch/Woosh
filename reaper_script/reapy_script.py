@@ -62,7 +62,7 @@ def generate(prompt: str) -> str:
         "version": "0.1",
         "token": "string",
         "args": {
-            "model": "SFXflowmap",
+            "model": "Woosh-DFlow",
             "prompt": prompt,
             "cfg": 3.0,
             "sampler": "heun",
@@ -135,7 +135,7 @@ def ui_main():
             pass
 
     root = tk.Tk()
-    root.title("SFXFM Sound Inserter")
+    root.title("Woosh Sound Inserter")
     root.attributes("-topmost", True)
     root.geometry("400x180")
 
