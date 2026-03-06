@@ -19,7 +19,7 @@ else:
 # %%
 
 # Load model
-COMPONENT_PATH = "checkpoints/SFXflow"
+COMPONENT_PATH = "checkpoints/Woosh-Flow"
 ldm = LatentDiffusionModel(LoadConfig(path=COMPONENT_PATH))
 ldm = ldm.eval().to(device)
 
@@ -43,8 +43,8 @@ with torch.inference_mode():
         noise=noise,
         cond=cond,
         cfg=4.5,
-        atol=0.003,
-        rtol=0.003,
+        atol=0.001,
+        rtol=0.001,
         return_steps=True,
         device=device,
         dtype=torch.float32 if device=="mps" else torch.float64,
@@ -62,7 +62,7 @@ for i in range(batch_size):
     normalization_factor = max_abs_value if max_abs_value > 1.0 else 1.0
     scaled = audio_fake[i] / normalization_factor
     torchaudio.save(
-        f"outputs/output_{i}.wav",
+        f"outputs/Woosh-Flow_{i}.wav",
         scaled,
         sample_rate=48000,
     )
