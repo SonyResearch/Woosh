@@ -4,9 +4,9 @@ from einops import rearrange
 import torch
 from torch import nn
 
-from sfxfm.model.dit_pipeline import DiTPipeline
-from sfxfm.model.dit_types import DiTArgs, DictTensor, MMDiTArgs
-from sfxfm.model.dit_blocks import (
+from woosh.model.dit_pipeline import DiTPipeline
+from woosh.model.dit_types import DiTArgs, DictTensor, MMDiTArgs
+from woosh.model.dit_blocks import (
     FixedFourierFeaturesTime,
     FourierFeaturesTime,
     MMMBlock,

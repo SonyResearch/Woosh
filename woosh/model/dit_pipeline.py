@@ -3,7 +3,7 @@ from typing import Dict
 import torch
 from torch import nn
 
-from sfxfm.model.dit_types import DictTensor
+from woosh.model.dit_types import DictTensor
 
 
 def checkpoint(function, *args, **kwargs):

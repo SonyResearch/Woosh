@@ -12,15 +12,15 @@ from typing import Annotated, Union
 import torch
 from torch import nn
 
-from sfxfm.model.dit_blocks import FourierFeaturesTime, FixedFourierFeaturesTime
-from sfxfm.model.dit_pipeline import DiTFlowMapPipeline
-from sfxfm.model.dit_types import DiTArgs, DictTensor
-from sfxfm.model.ldm import (
+from woosh.model.dit_blocks import FourierFeaturesTime, FixedFourierFeaturesTime
+from woosh.model.dit_pipeline import DiTFlowMapPipeline
+from woosh.model.dit_types import DiTArgs, DictTensor
+from woosh.model.ldm import (
     LatentDiffusionModel,
     LatentDiffusionModelConfig,
     LatentDiffusionModelFlowMapPipeline,
 )
-from sfxfm.components.base import (
+from woosh.components.base import (
     BaseComponent,
     ComponentConfig,
     LoadConfig,

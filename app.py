@@ -1,6 +1,6 @@
-from sfxfm.inference.flowmap_sampler import sample_euler
-from sfxfm.model.flowmap_from_pretrained import FlowMapFromPretrained
-from sfxfm.components.base import LoadConfig
+from woosh.inference.flowmap_sampler import sample_euler
+from woosh.model.flowmap_from_pretrained import FlowMapFromPretrained
+from woosh.components.base import LoadConfig
 
 import gradio as gr
 import torch

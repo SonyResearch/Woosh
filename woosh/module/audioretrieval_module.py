@@ -18,8 +18,8 @@ from transformers import (
     RobertaTokenizer,
 )
 
-from sfxfm.module.model.retrieval.passt import create_passt_model
-from sfxfm.utils import loading
+from woosh.module.model.retrieval.passt import create_passt_model
+from woosh.utils import loading
 
 # get logger
 log = logging.getLogger(__name__)

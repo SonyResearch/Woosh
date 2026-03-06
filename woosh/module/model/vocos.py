@@ -8,9 +8,9 @@ from typing import Optional, Tuple
 from torch.nn.utils.parametrizations import weight_norm
 import torchaudio
 import numpy as np
-from sfxfm.module.model.autoencoder import AutoEncoder, VariationalAutoEncoder
+from woosh.module.model.autoencoder import AutoEncoder, VariationalAutoEncoder
 
-from sfxfm.module.model.vocos_blocks import STFTEmbedding, safe_log, symexp
+from woosh.module.model.vocos_blocks import STFTEmbedding, safe_log, symexp
 
 import logging
 

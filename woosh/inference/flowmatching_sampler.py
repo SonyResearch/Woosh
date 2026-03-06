@@ -2,7 +2,7 @@
 import torch
 from torchdiffeq import odeint
 
-from sfxfm.model.ldm import LatentDiffusionModel
+from woosh.model.ldm import LatentDiffusionModel
 
 
 def flowmatching_integrate(

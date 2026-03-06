@@ -10,7 +10,7 @@ from pydantic import Discriminator, Tag
 import torch
 from torch import nn
 
-from sfxfm.model.dit_blocks import (
+from woosh.model.dit_blocks import (
     MLP,
     MMMBlock,
     ModalityBlock,
@@ -18,21 +18,21 @@ from sfxfm.model.dit_blocks import (
     precompute_freqs_cis,
     SelfAttention,
 )
-from sfxfm.model.dit_pipeline import DiTPipeline, DictTensor
-from sfxfm.model.dit_types import DiTArgs, MMDiTArgs
+from woosh.model.dit_pipeline import DiTPipeline, DictTensor
+from woosh.model.dit_types import DiTArgs, MMDiTArgs
 
-from sfxfm.model.ldm import (
+from woosh.model.ldm import (
     LatentDiffusionModel,
     LatentDiffusionModelConfig,
     LatentDiffusionModelPipeline,
 )
-from sfxfm.components.base import (
+from woosh.components.base import (
     BaseComponent,
     ComponentConfig,
     LoadConfig,
     _is_load_config,
 )
-from sfxfm.components.conditioners import ConditionConfig, DiffusionConditioner
+from woosh.components.conditioners import ConditionConfig, DiffusionConditioner
 
 
 # get logger

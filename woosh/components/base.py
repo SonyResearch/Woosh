@@ -689,7 +689,7 @@ class BaseComponent:
 
         # TODO: lazy loading?!
         # if not in a lazy loading, do actually load the weights
-        if not sfxfm.utils.loading.lazy_loading_enabled:
+        if not woosh.utils.loading.lazy_loading_enabled:
             obj._load_statedict_from_disk()
 
         return obj

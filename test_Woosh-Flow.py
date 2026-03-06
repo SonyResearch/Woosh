@@ -5,9 +5,9 @@ import time
 import torch
 import torchaudio
 
-from sfxfm.inference.flowmatching_sampler import flowmatching_integrate
-from sfxfm.model.ldm import LatentDiffusionModel
-from sfxfm.components.base import LoadConfig
+from woosh.inference.flowmatching_sampler import flowmatching_integrate
+from woosh.model.ldm import LatentDiffusionModel
+from woosh.components.base import LoadConfig
 
 if torch.cuda.is_available():
     device = "cuda"

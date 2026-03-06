@@ -7,11 +7,11 @@ from pydantic import BaseModel, ConfigDict
 import torch
 from enum import Enum
 from .utils import CLAPCaptionPostprocessTransform
-from sfxfm.inference.flowmap_sampler import sample_euler
-from sfxfm.model.ldm import LatentDiffusionModel
-from sfxfm.model.flowmap_from_pretrained import FlowMapFromPretrained
-from sfxfm.components.base import LoadConfig
-from sfxfm.utils.loading import catchtime
+from woosh.inference.flowmap_sampler import sample_euler
+from woosh.model.ldm import LatentDiffusionModel
+from woosh.model.flowmap_from_pretrained import FlowMapFromPretrained
+from woosh.components.base import LoadConfig
+from woosh.utils.loading import catchtime
 
 log = logging.getLogger(__name__)
 

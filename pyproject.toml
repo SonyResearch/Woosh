@@ -1,7 +1,7 @@
 [project]
-name = "sfxfm"
+name = "woosh"
 version = "0.1.0"
-description = "Public release of the Sound Effect Foundation model by Sony AI."
+description = "Woosh Sound Effect Foundation model (Sony AI)"
 readme = "README.md"
 requires-python = ">=3.12"
 license = "MIT"
@@ -20,6 +20,7 @@ dependencies = [
   "pydantic>=2.12.4",
   "omegaconf>=2.3.0",
   "av>=16.1.0",
+  "requests",
 ]
 [project.optional-dependencies]
 # cpu = ["torch==2.8.0", "torchvision==0.23.0", "torchaudio==2.8.0"]
