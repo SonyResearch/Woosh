@@ -47,7 +47,18 @@ page, or otherwise using the [github CLI](https://cli.github.com) as
 ```bash
 gh release download v0.1.1
 unzip SFX\*.zip
-```
+```
+
+### Download media samples
+
+We provide audio samples to be used as inputs to our test scripts `test_Woosh-*.py`. You can download
+the zip file `samples.zip` from the [releases](https://github.com/SonyResearch/woosh-sfx/releases)
+page, or otherwise using the [github CLI](https://cli.github.com) as
+
+```bash
+gh release download v0.1.1 -p 'samples.zip'
+unzip samples.zip
+```
 
 ## Usage
 
