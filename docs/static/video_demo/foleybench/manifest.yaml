@@ -1,0 +1,69 @@
+samples:
+- index: 400
+  file_stem: '401'
+  caption: A propeller plane flies low over the water while firing its guns.
+  videos:
+    Ground Truth: 00400_00/Ground_Truth.mp4
+    MM-Audio: 00400_00/MM-Audio.mp4
+    Woosh_VFlow: 00400_00/Woosh_VFlow.mp4
+    Woosh_VDFlow: 00400_00/Woosh_VDFlow.mp4
+    MM-Audio OV: 00400_00/MM-Audio_OV.mp4
+    Woosh_VFlow OV: 00400_00/Woosh_VFlow_OV.mp4
+    Woosh_VDFlow OV: 00400_00/Woosh_VDFlow_OV.mp4
+- index: 500
+  file_stem: '501'
+  caption: Gentle waves transitioning to the muffled, bubbling sound of being underwater.
+  videos:
+    Ground Truth: 00500_01/Ground_Truth.mp4
+    MM-Audio: 00500_01/MM-Audio.mp4
+    Woosh_VFlow: 00500_01/Woosh_VFlow.mp4
+    Woosh_VDFlow: 00500_01/Woosh_VDFlow.mp4
+    MM-Audio OV: 00500_01/MM-Audio_OV.mp4
+    Woosh_VFlow OV: 00500_01/Woosh_VFlow_OV.mp4
+    Woosh_VDFlow OV: 00500_01/Woosh_VDFlow_OV.mp4
+- index: 2900
+  file_stem: '2901'
+  caption: A person fires a handgun at metal targets at an outdoor range.
+  videos:
+    Ground Truth: 02900_02/Ground_Truth.mp4
+    MM-Audio: 02900_02/MM-Audio.mp4
+    Woosh_VFlow: 02900_02/Woosh_VFlow.mp4
+    Woosh_VDFlow: 02900_02/Woosh_VDFlow.mp4
+    MM-Audio OV: 02900_02/MM-Audio_OV.mp4
+    Woosh_VFlow OV: 02900_02/Woosh_VFlow_OV.mp4
+    Woosh_VDFlow OV: 02900_02/Woosh_VDFlow_OV.mp4
+- index: 241
+  file_stem: '242'
+  caption: A marker scratches against paper as it is used to color a drawing of a
+    hummingbird.
+  videos:
+    Ground Truth: 00241_03/Ground_Truth.mp4
+    MM-Audio: 00241_03/MM-Audio.mp4
+    Woosh_VFlow: 00241_03/Woosh_VFlow.mp4
+    Woosh_VDFlow: 00241_03/Woosh_VDFlow.mp4
+    MM-Audio OV: 00241_03/MM-Audio_OV.mp4
+    Woosh_VFlow OV: 00241_03/Woosh_VFlow_OV.mp4
+    Woosh_VDFlow OV: 00241_03/Woosh_VDFlow_OV.mp4
+- index: 4600
+  file_stem: '4601'
+  caption: The moon reflects on gently rippling water at night.
+  videos:
+    Ground Truth: 04600_04/Ground_Truth.mp4
+    MM-Audio: 04600_04/MM-Audio.mp4
+    Woosh_VFlow: 04600_04/Woosh_VFlow.mp4
+    Woosh_VDFlow: 04600_04/Woosh_VDFlow.mp4
+    MM-Audio OV: 04600_04/MM-Audio_OV.mp4
+    Woosh_VFlow OV: 04600_04/Woosh_VFlow_OV.mp4
+    Woosh_VDFlow OV: 04600_04/Woosh_VDFlow_OV.mp4
+- index: 4683
+  file_stem: '4684'
+  caption: Two figures in costumes walk down a basement hallway, their footsteps echoing
+    on the concrete floor.
+  videos:
+    Ground Truth: 04683_05/Ground_Truth.mp4
+    MM-Audio: 04683_05/MM-Audio.mp4
+    Woosh_VFlow: 04683_05/Woosh_VFlow.mp4
+    Woosh_VDFlow: 04683_05/Woosh_VDFlow.mp4
+    MM-Audio OV: 04683_05/MM-Audio_OV.mp4
+    Woosh_VFlow OV: 04683_05/Woosh_VFlow_OV.mp4
+    Woosh_VDFlow OV: 04683_05/Woosh_VDFlow_OV.mp4
