@@ -1,10 +1,10 @@
-This is a proof-of-concept sound effect generation plugin that allows direct media drop-in
+This is a proof-of-concept sound effect generation script with a basic UI that allows direct media drop-in
 on the [Reaper DAW](https://www.reaper.fm) timeline, providing a
-way to directly interact with professional audio tools. The plugin queries our [SFXFM API](../api)
+way to directly interact with professional audio tools. The plugin queries our [Woosh API](../api)
 to generate audio, stores the audio output locally on disk, and then Reaper is instructed to load it at the
 current location in the timeline via the Python [reapy](https://pypi.org/project/python-reapy) package.
-Please check our [demo video](https://github.com/SonyResearch/SFXFM/releases/download/v0.1.1/reaper-plugin-demo.mp4)
-for an overview of the plugin usage.
+Please check our [demo video](https://github.com/SonyResearch/SFXFM/releases/download/v0.1.1/reaper-script-demo.mp4)
+for an overview of the script usage.
 
 The following instructions have been tested on an Apple Silicon Mac. Please follow analogous instructions on Windows or Linux platforms.
 
@@ -25,7 +25,7 @@ to double check it has been properly installed.
 
 # Installing Reaper's ReaScript/Python
 Controlling Reaper via ReaScript/Python requires a Python install that is to be set up in Reaper.
-Use a Python `brew` install and write down the Python version:
+Use a Python `brew` install and note down the Python version:
 
 ```
 brew install python
@@ -50,8 +50,8 @@ echo PYTHON_DYLIB_FILE=libpython${PYTHON_VERSION}.dylib
 
 3. Restart Reaper
 
-# Setup Tkinter for the Reaper plugin
-Our Reaper plugin uses Tcl/Tk for the UI. To set it up, run:
+# Setup Tkinter for the Reaper script UI
+Our Reaper script uses Tcl/Tk for the UI. To set it up, run:
 
 1. Install TCL/TK
 
@@ -62,7 +62,7 @@ brew install tcl-tk
 2. Find the location of the TCL and TK libraries if necessary
 
 Our Reapy script attempts to find the TCL and TK library folders automatically on the Mac platform only.
-If you are on Windows or Linux, or the process fails on Mac you will have to manually find the right
+If you are on Windows or Linux, or the process fails on Mac you will have to manually locate the right
 TCL/TK folders for your machine and set them as `TCL_LIBRARY` and `TK_LIBRARY` enviroment variables, inside
 the `reapy_script.py`.
 
@@ -77,10 +77,10 @@ generate audio for the request and store the audio on `/tmp`.
 uv run uvicorn api.api_server:app --host 0.0.0.0 --port 8000
 ```
 
-2. Launch the Reapy script
+2. Launch the Reapy script UI
 
 This script will build a simple Tkinter UI dialog where users can enter a text prompt. The script
-will forward the prompt to the API server, and finally instruct Reaper to place the audio in the timeline
+will forward the prompt to the API server, and finally instruct Reaper to place the audio in its timeline
 
 ```
 uv run python reapy_script.py --ui
@@ -100,8 +100,8 @@ python -c "import reapy; reapy.configure_reaper()````
 
 on the terminal, with `Reaper` open and properly set up for `ReaScript` as described above.
 
-There is a known bug on the `configparser` package that `reapy==0.10.0` depends on. If you encounter an
-error concerning `UNNAMED_SECTION`, you can edit `configparser.py` file on the current environment
+There is a known bug in the `configparser` package that `reapy==0.10.0` depends on. If you encounter an
+error concerning `UNNAMED_SECTION`, you can edit `configparser.py` in the current environment
 and replace the line
 
 ```
