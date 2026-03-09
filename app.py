@@ -12,7 +12,7 @@ elif torch.backends.mps.is_available():
 else:
     device = "cpu"
 # Load model
-COMPONENT_PATH = "checkpoints/SFXflowmap"
+COMPONENT_PATH = "checkpoints/Woosh-DFlow"
 ldm = FlowMapFromPretrained(LoadConfig(path=COMPONENT_PATH))
 ldm = ldm.eval().to(device)
 

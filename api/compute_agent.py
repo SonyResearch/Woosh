@@ -53,7 +53,7 @@ class GenerateArgs(BaseModel):
 
     seed: Optional[int] = None
 
-    model: str = "SFXflowmap"
+    model: str = "Woosh-DFlow"
 
 
 class GenerateAgentInterface(ABC):
@@ -208,7 +208,7 @@ class FlowMapGenerateAgent(GenerateBasicAgent):
             x = x.cpu()
         # TODO add optional sample_rate arg
         sample_rate = 48000
-        # if os.environ.get("SFXFM_RETURN_FP16") == "1":
+        # if os.environ.get("WOOSH_RETURN_FP16") == "1":
         #     pass
         # else:
         #     x = x.half()
