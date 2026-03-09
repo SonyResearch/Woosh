@@ -7,7 +7,7 @@ samples:
     Ground Truth: 09105_00/Ground_Truth.mp4
     MM-Audio: 09105_00/MM-Audio.mp4
     Woosh_VFlow: 09105_00/Woosh_VFlow.mp4
-    Woosh_VDFlow: 09105_00/Woosh_VDFlow.mp4
+    mfv-4step-cfg3-recap: 09105_00/mfv-4step-cfg3-recap.mp4
 - index: 12109
   file_stem: j-UGe1kz-HY_000003
   caption: A series of high-pitched, rapid squeaks and chirps, characteristic of a
@@ -16,7 +16,7 @@ samples:
     Ground Truth: 12109_01/Ground_Truth.mp4
     MM-Audio: 12109_01/MM-Audio.mp4
     Woosh_VFlow: 12109_01/Woosh_VFlow.mp4
-    Woosh_VDFlow: 12109_01/Woosh_VDFlow.mp4
+    mfv-4step-cfg3-recap: 12109_01/mfv-4step-cfg3-recap.mp4
 - index: 12111
   file_stem: j0CcOZJLBDg_000020
   caption: A high-pitched, warbling electronic melody plays in a rapid, repetitive
@@ -25,7 +25,7 @@ samples:
     Ground Truth: 12111_02/Ground_Truth.mp4
     MM-Audio: 12111_02/MM-Audio.mp4
     Woosh_VFlow: 12111_02/Woosh_VFlow.mp4
-    Woosh_VDFlow: 12111_02/Woosh_VDFlow.mp4
+    mfv-4step-cfg3-recap: 12111_02/mfv-4step-cfg3-recap.mp4
 - index: 12113
   file_stem: j17CUVoONsQ_000034
   caption: A person shouts in excitement, followed by a woman speaking, all within
@@ -34,4 +34,4 @@ samples:
     Ground Truth: 12113_03/Ground_Truth.mp4
     MM-Audio: 12113_03/MM-Audio.mp4
     Woosh_VFlow: 12113_03/Woosh_VFlow.mp4
-    Woosh_VDFlow: 12113_03/Woosh_VDFlow.mp4
+    mfv-4step-cfg3-recap: 12113_03/mfv-4step-cfg3-recap.mp4

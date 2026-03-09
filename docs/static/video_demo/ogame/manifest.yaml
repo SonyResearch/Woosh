@@ -1,41 +1,40 @@
 samples:
-- index: 500
-  file_stem: Byjbm1T3how_scene-95
-  caption: A person speaks in a calm, conversational tone in a language other than
-    English, accompanied by the continuous, rhythmic sound of a boat moving through
-    water.
+- index: 143
+  file_stem: XmcP25wstdc_scene-83
+  caption: A horse gallops at a steady pace, its hooves striking the ground rhythmically,
+    while a person shouts in a high-pitched, urgent tone.
   videos:
-    Ground Truth: 00500_00/Ground_Truth.mp4
-    MM-Audio: 00500_00/MM-Audio.mp4
-    Woosh_VFlow: 00500_00/Woosh_VFlow.mp4
-    Woosh_VDFlow: 00500_00/Woosh_VDFlow.mp4
-    MM-Audio OV: 00500_00/MM-Audio_OV.mp4
-    Woosh_VFlow OV: 00500_00/Woosh_VFlow_OV.mp4
-    Woosh_VDFlow OV: 00500_00/Woosh_VDFlow_OV.mp4
-- index: 502
-  file_stem: o5PoOsKtnEs_scene-87
-  caption: A low, sustained musical drone plays in the background as a crow caws repeatedly,
-    accompanied by the sound of footsteps on a hard surface.
+    Ground Truth: 00143_00/Ground_Truth.mp4
+    MM-Audio: 00143_00/MM-Audio.mp4
+    Woosh_VFlow: 00143_00/Woosh_VFlow.mp4
+    Woosh_VDFlow: 00143_00/Woosh_VDFlow.mp4
+    MM-Audio OV: 00143_00/MM-Audio_OV.mp4
+    Woosh_VFlow OV: 00143_00/Woosh_VFlow_OV.mp4
+    Woosh_VDFlow OV: 00143_00/Woosh_VDFlow_OV.mp4
+- index: 504
+  file_stem: o_H1UyrDnow_scene-576
+  caption: A continuous, low-frequency hum is present throughout the recording, accompanied
+    by faint, intermittent high-pitched chirping sounds resembling distant birds.
   videos:
-    Ground Truth: 00502_01/Ground_Truth.mp4
-    MM-Audio: 00502_01/MM-Audio.mp4
-    Woosh_VFlow: 00502_01/Woosh_VFlow.mp4
-    Woosh_VDFlow: 00502_01/Woosh_VDFlow.mp4
-    MM-Audio OV: 00502_01/MM-Audio_OV.mp4
-    Woosh_VFlow OV: 00502_01/Woosh_VFlow_OV.mp4
-    Woosh_VDFlow OV: 00502_01/Woosh_VDFlow_OV.mp4
-- index: 771
-  file_stem: Br-KY8LW5SI_scene-24
-  caption: A vehicle engine idles while a siren wails in the distance, and a person
-    shouts urgently.
+    Ground Truth: 00504_01/Ground_Truth.mp4
+    MM-Audio: 00504_01/MM-Audio.mp4
+    Woosh_VFlow: 00504_01/Woosh_VFlow.mp4
+    Woosh_VDFlow: 00504_01/Woosh_VDFlow.mp4
+    MM-Audio OV: 00504_01/MM-Audio_OV.mp4
+    Woosh_VFlow OV: 00504_01/Woosh_VFlow_OV.mp4
+    Woosh_VDFlow OV: 00504_01/Woosh_VDFlow_OV.mp4
+- index: 521
+  file_stem: 37q_DhtgEeo_scene-59
+  caption: A series of footsteps on a soft surface are followed by a low, sustained
+    electronic tone.
   videos:
-    Ground Truth: 00771_02/Ground_Truth.mp4
-    MM-Audio: 00771_02/MM-Audio.mp4
-    Woosh_VFlow: 00771_02/Woosh_VFlow.mp4
-    Woosh_VDFlow: 00771_02/Woosh_VDFlow.mp4
-    MM-Audio OV: 00771_02/MM-Audio_OV.mp4
-    Woosh_VFlow OV: 00771_02/Woosh_VFlow_OV.mp4
-    Woosh_VDFlow OV: 00771_02/Woosh_VDFlow_OV.mp4
+    Ground Truth: 00521_02/Ground_Truth.mp4
+    MM-Audio: 00521_02/MM-Audio.mp4
+    Woosh_VFlow: 00521_02/Woosh_VFlow.mp4
+    Woosh_VDFlow: 00521_02/Woosh_VDFlow.mp4
+    MM-Audio OV: 00521_02/MM-Audio_OV.mp4
+    Woosh_VFlow OV: 00521_02/Woosh_VFlow_OV.mp4
+    Woosh_VDFlow OV: 00521_02/Woosh_VDFlow_OV.mp4
 - index: 780
   file_stem: Kx3hhg5U48o_scene-219
   caption: A vehicle engine starts and accelerates, accompanied by the sound of tires
@@ -72,3 +71,15 @@ samples:
     MM-Audio OV: 01600_05/MM-Audio_OV.mp4
     Woosh_VFlow OV: 01600_05/Woosh_VFlow_OV.mp4
     Woosh_VDFlow OV: 01600_05/Woosh_VDFlow_OV.mp4
+- index: 1620
+  file_stem: Br-KY8LW5SI_scene-141
+  caption: A rhythmic thumping sound, like a heartbeat, is accompanied by the sound
+    of footsteps on a hard surface, with a low-frequency hum in the background.
+  videos:
+    Ground Truth: 01620_06/Ground_Truth.mp4
+    MM-Audio: 01620_06/MM-Audio.mp4
+    Woosh_VFlow: 01620_06/Woosh_VFlow.mp4
+    Woosh_VDFlow: 01620_06/Woosh_VDFlow.mp4
+    MM-Audio OV: 01620_06/MM-Audio_OV.mp4
+    Woosh_VFlow OV: 01620_06/Woosh_VFlow_OV.mp4
+    Woosh_VDFlow OV: 01620_06/Woosh_VDFlow_OV.mp4
