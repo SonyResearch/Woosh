@@ -52,7 +52,7 @@ def plot_specgrams(sample_name, files, n_fft=1024, hop_size=16, y_axis="linear")
     files["figure"] = figure_fn
 
 # load sample generation config
-with open("generate-gen-samples.yaml", 'r') as fp:
+with open("generate-flow-samples.yaml", 'r') as fp:
     files = yaml.safe_load(fp)
 
 # generate audio
@@ -63,24 +63,24 @@ for sample, d in files.items():
         # generate audio from prompt here, save to filename
 
 # generate spectrograms, comment out if audio files are not present/generated
-# for sample_name in files:
-#     plot_specgrams(sample_name, files[sample_name], y_axis="linear")
+for sample_name in files:
+    plot_specgrams(sample_name, files[sample_name], y_axis="linear")
 
 # generate HTML section
 print("""
 <section class="hero is-small is-light">
   <div class="hero-body">
     <div class="container">
-      <h2 class="title is-3 is-centered has-text-centered">Woosh-Flow/Woosh-DFlow: T2A generative models</h2>
+      <h2 class="title is-3 is-centered has-text-centered">Woosh-Flow/Woosh-DFlow: Text-to-audio Generation</h2>
       <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
+        <div class="column is-full">
 """)
 
 for sample, d in files.items():
     first_model = next(iter(d))
     prompt = d[first_model]["prompt"]
-    d["figure"] = "dummy"
-    print(f"""          <div><b>{sample}</b>: "{prompt}" (<a href="{d["figure"]}" target="_blank" >Spectrograms</a>)</div>\n""")
+    print(f"""        <div class="box" style="margin-bottom: 1.5rem;">""")
+    print(f"""          <div><b>{sample}</b>: <em>{prompt}</em> (<a href="{d["figure"]}" target="_blank" >Spectrograms</a>)</div>\n""")
     del d["figure"]
     for n, (model, item) in enumerate(d.items()):
         prompt = item["filename"]
@@ -95,6 +95,7 @@ for sample, d in files.items():
         else:
             print("""           <br><br>""")
 
+    print(f"""        </div>""")
 print("""
         </div>
       </div>

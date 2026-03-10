@@ -67,7 +67,7 @@ print(f"""
 <section class="hero is-small is-light">
   <div class="hero-body">
     <div class="container">
-      <h2 class="title is-3 is-centered has-text-centered">Video-to-Audio Generation Demos</h2>
+      <h2 class="title is-3 is-centered has-text-centered">Woosh-Flow/Woosh-DFlow: Video-to-Audio Generation</h2>
       <p class="has-text-centered" style="margin-bottom: 1.5rem;">{SECTION_DESCRIPTION}</p>
 """)
 

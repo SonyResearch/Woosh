@@ -64,10 +64,11 @@ print("""
     <div class="container">
       <h2 class="title is-3 is-centered has-text-centered">Woosh-AE: Audio Encoder/Decoder</h2>
       <div class="columns is-centered has-text-centered">
-        <div class="column is-four-fifths">
+        <div class="column is-full">
 """)
 
 for sample, d in files.items():
+    print(f"""        <div class="box" style="margin-bottom: 1.5rem;">""")
     print(f"""          <div><b>{sample}</b> - <a href="{d["figure"]}" target="_blank" >Spectrograms</a></div>\n""")
     del d["figure"]
     for n, (model, item) in enumerate(d.items()):
@@ -84,6 +85,7 @@ for sample, d in files.items():
         else:
             print("""           <br><br>""")
 
+    print(f"""        </div>""")
 print("""
         </div>
       </div>

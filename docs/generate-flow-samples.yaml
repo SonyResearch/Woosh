@@ -1,65 +1,84 @@
 "Sample 1":
     "SAO":
-        "prompt": "a man walking in the rain"
+        "prompt": "Emergency vehicle driving with siren on"
         "filename": "static/audio/flow/sample1-sao.wav"
-        "region": [0, -1]
+        "region": [0.0, 2.5]
+    "TangoFlux":
+        "filename": "static/audio/flow/sample1-tangoflux.wav"
+        "region": [0.0, 2.5]
     "Woosh-Flow-Public":
-        "prompt": "a man walking in the rain"
-        "filename": "static/audio/flow/sample1-wooshflow-public.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample1-woosh-flow-public.wav"
+        "region": [0.0, 2.5]
     "Woosh-Flow-Private":
-        "prompt": "a man walking in the rain"
-        "filename": "static/audio/flow/sample1-wooshflow-private.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample1-woosh-flow-private.wav"
+        "region": [0.0, 2.5]
     "Woosh-DFlow-Public":
-        "prompt": "a man walking in the rain"
-        "filename": "static/audio/flow/sample1-wooshdflow-public.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample1-woosh-dflow-public.wav"
+        "region": [0.0, 2.5]
     "Woosh-DFlow-Private":
-        "prompt": "a man walking in the rain"
-        "filename": "static/audio/flow/sample1-wooshdflow-private.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample1-woosh-dflow-private.wav"
+        "region": [0.0, 2.5]
+
 
 "Sample 2":
     "SAO":
-        "prompt": "a creature roaring wild"
+        "prompt": "An engine humming and brakes squealing"
         "filename": "static/audio/flow/sample2-sao.wav"
-        "region": [0, -1]
+        "region": [0.0, 2.5]
+    "TangoFlux":
+        "filename": "static/audio/flow/sample2-tangoflux.wav"
+        "region": [0.0, 2.5]
     "Woosh-Flow-Public":
-        "prompt": "a creature roaring wild"
-        "filename": "static/audio/flow/sample2-wooshflow-public.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample2-woosh-flow-public.wav"
+        "region": [0.0, 2.5]
     "Woosh-Flow-Private":
-        "prompt": "a creature roaring wild"
-        "filename": "static/audio/flow/sample2-wooshflow-private.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample2-woosh-flow-private.wav"
+        "region": [0.0, 2.5]
     "Woosh-DFlow-Public":
-        "prompt": "a creature roaring wild"
-        "filename": "static/audio/flow/sample2-wooshdflow-public.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample2-woosh-dflow-public.wav"
+        "region": [0.0, 2.5]
     "Woosh-DFlow-Private":
-        "prompt": "a creature roaring wild"
-        "filename": "static/audio/flow/sample2-wooshdflow-private.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample2-woosh-dflow-private.wav"
+        "region": [0.0, 2.5]
 
 "Sample 3":
     "SAO":
-        "prompt": "car revving in the distance"
+        "prompt": "Starting a motorcycle"
         "filename": "static/audio/flow/sample3-sao.wav"
-        "region": [0, -1]
+        "region": [0.0, 2.5]
+    "TangoFlux":
+        "filename": "static/audio/flow/sample3-tangoflux.wav"
+        "region": [0.0, 2.5]
     "Woosh-Flow-Public":
-        "prompt": "car revving in the distance"
-        "filename": "static/audio/flow/sample3-wooshflow-public.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample3-woosh-flow-public.wav"
+        "region": [0.0, 2.5]
     "Woosh-Flow-Private":
-        "prompt": "car revving in the distance"
-        "filename": "static/audio/flow/sample3-wooshflow-private.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample3-woosh-flow-private.wav"
+        "region": [0.0, 2.5]
     "Woosh-DFlow-Public":
-        "prompt": "car revving in the distance"
-        "filename": "static/audio/flow/sample3-wooshdflow-public.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample3-woosh-dflow-public.wav"
+        "region": [0.0, 2.5]
     "Woosh-DFlow-Private":
-        "prompt": "car revving in the distance"
-        "filename": "static/audio/flow/sample3-wooshdflow-private.wav"
-        "region": [0, -1]
+        "filename": "static/audio/flow/sample3-woosh-dflow-private.wav"
+        "region": [0.0, 2.5]
+
+"Sample 4":
+    "SAO":
+        "prompt": "A crowd applauds"
+        "filename": "static/audio/flow/sample4-sao.wav"
+        "region": [0.0, 2.5]
+    "TangoFlux":
+        "filename": "static/audio/flow/sample4-tangoflux.wav"
+        "region": [0.0, 2.5]
+    "Woosh-Flow-Public":
+        "filename": "static/audio/flow/sample4-woosh-flow-public.wav"
+        "region": [0.0, 2.5]
+    "Woosh-Flow-Private":
+        "filename": "static/audio/flow/sample4-woosh-flow-private.wav"
+        "region": [0.0, 2.5]
+    "Woosh-DFlow-Public":
+        "filename": "static/audio/flow/sample4-woosh-dflow-public.wav"
+        "region": [0.0, 2.5]
+    "Woosh-DFlow-Private":
+        "filename": "static/audio/flow/sample4-woosh-dflow-private.wav"
+        "region": [0.0, 2.5]
