@@ -1,13 +1,9 @@
 exclude_from_checkpoint: false
 trainable: true
-# ldm:
-#   exclude_from_checkpoint: false
-#   trainable: true
-#   path: checkpoints/Woosh-Flow
-model_type: LatentDiffusionModel
 ldm:
   exclude_from_checkpoint: false
   trainable: true
+  model_type: LatentDiffusionModel
   dit:
     model_type: mmmssflux
     max_description_length: 77
@@ -51,3 +47,4 @@ ldm:
     trainable: false
     path: checkpoints/Woosh-AE
   sigma_data: 1.0
+  pred_type: v_pred
