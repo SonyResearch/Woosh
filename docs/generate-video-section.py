@@ -1,7 +1,12 @@
 from pathlib import Path
 import yaml
+import sys
 
 VIDEO_DEMO_DIR = Path("static/video_demo")
+
+INDEX_MODE = (
+    sys.argv[1] == "index" if len(sys.argv) > 1 else False
+)  # if True, only few samples for the index page and a link to the full section will be shown.
 
 # Description shown at the top of the section (plain text or HTML).
 SECTION_DESCRIPTION = (
@@ -20,6 +25,8 @@ DATASET_ORDER = {
     "vggsound_recap": "VGGSound (recaptioned)",
 }
 
+INDEX_SAMPLES = [859, 1001, 2971]
+
 
 def dataset_title(folder_name: str) -> str:
     """Return the display title for a dataset folder."""
@@ -34,11 +41,23 @@ _available = {
     for d in VIDEO_DEMO_DIR.iterdir()
     if d.is_dir() and (d / "manifest.yaml").exists()
 }
+if INDEX_MODE:
+    # For the index page, only include only foleybench
+    _available = {"foleybench": _available["foleybench"]}
+    DATASET_ORDER = {"foleybench": "Video Samples"}
+
 # Build ordered list: explicit order first, then any extras sorted alphabetically.
 _ordered_names = [n for n in DATASET_ORDER if n in _available]
 _remaining = sorted(n for n in _available if n not in DATASET_ORDER)
 datasets = [_available[n] for n in _ordered_names + _remaining]
 
+
+if not INDEX_MODE:
+    # generate the while video page, start from template
+    with open("videos_template.html", "r") as f:
+        template = f.read()
+    template_header, template_footer = template.split("<!--Video Section-->")
+    print(template_header)
 
 # ------------------------------------------------------------------
 # HTML output
@@ -51,6 +70,15 @@ print(f"""
       <h2 class="title is-3 is-centered has-text-centered">Video-to-Audio Generation Demos</h2>
       <p class="has-text-centered" style="margin-bottom: 1.5rem;">{SECTION_DESCRIPTION}</p>
 """)
+
+if INDEX_MODE:
+    print(
+        """
+      <div class="notification is-info is-light has-text-centered">
+        <p>For more video samples and details, see the <a href="./videos.html">full video demo section</a>.</p>
+      </div>
+"""
+    )
 
 for dataset_dir in datasets:
     dataset_name = dataset_dir.name
@@ -69,11 +97,15 @@ for dataset_dir in datasets:
 """)
 
     for sample in samples:
+        if INDEX_MODE and sample.get("index") not in INDEX_SAMPLES:
+            continue
         caption = sample.get("caption", "")
         videos = sample.get("videos", {})
 
         print(f"""          <div class="box" style="margin-bottom: 1.5rem;">""")
-        print(f"""            <p style="margin-bottom: 1rem;"><em>{caption}</em></p>""")
+        print(
+            f"""            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>{caption}</em></p>"""
+        )
         print(
             f"""            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">"""
         )
@@ -103,6 +135,12 @@ for dataset_dir in datasets:
 print("""    </div>
   </div>
 </section>
+
+""")
+
+if INDEX_MODE:
+    print(
+        """
 <script>
 // Seek every video to 0.1 s after metadata loads so browsers paint a thumbnail.
 document.querySelectorAll('video.video-thumb').forEach(function(v) {
@@ -113,7 +151,14 @@ document.querySelectorAll('video.video-thumb').forEach(function(v) {
   if (v.readyState >= 1) { v.currentTime = 0.1; }
 });
 </script>
-""")
+"""
+    )
 
-# python generate-video-section.py > video-section.html
+if not INDEX_MODE:
+    print(template_footer)
+
+# python generate-video-section.py index > video-index-section.html
+# copy it to you index.html
+
+# python generate-video-section.py > videos.html
 # python -m http.server 8000

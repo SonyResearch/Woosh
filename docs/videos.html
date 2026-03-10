@@ -1,3 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Primary Meta Tags -->
+  <!-- TODO: Replace with your paper title and author names -->
+  <meta name="title" content="Woosh: A Sound Effects Foundation Model, Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck-Hufnagel, Alexandre Bittar, Thomas Hummel, Zineb Lahrichi, Hakim Missoum, Joan Serrà, Yuki Mitsufuji">
+  <!-- TODO: Write a compelling 150-160 character description of your research -->
+  <meta name="description" content="The publicly released audio generative models built at Sony AI are described, including architecture, training process and evaluated against other popular models.">
+  <!-- TODO: Add 5-10 relevant keywords for your research area -->
+  <meta name="keywords" content="sound effect, generative model, diffusion model,deep learning, machine learning, AI">
+  <!-- TODO: List all authors -->
+  <meta name="author" content="Gaetan Hadjeres, Marc Ferras, Khaled Koutini">
+  <meta name="robots" content="index, follow">
+  <meta name="language" content="English">
+
+  <!-- Academic/Research Specific -->
+  <meta name="citation_title" content="Woosh: A Sound Effects Foundation Model">
+  <meta name="citation_author" content="Hadjeres, Gaetan">
+  <meta name="citation_author" content="Ferras, Marc">
+  <meta name="citation_author" content="Koutini, Khaled">
+  <meta name="citation_author" content="Weck-Hufnagel, Benno">
+  <meta name="citation_author" content="Bittar, Alexandre">
+  <meta name="citation_author" content="Hummel, Thomas">
+  <meta name="citation_author" content="Lahrichi, Zineb">
+  <meta name="citation_author" content="Missoum, Hakim">
+  <meta name="citation_author" content="Serrà, Joan">
+  <meta name="citation_author" content="Mitsufuji, Yuki">
+  <meta name="citation_publication_date" content="2026">
+  <meta name="citation_conference_title" content="Arxiv.com">
+  <meta name="citation_pdf_url" content="https://arxiv.org/abs/2412.15322">
+
+  <!-- Additional SEO -->
+  <meta name="theme-color" content="#2563eb">
+  <meta name="msapplication-TileColor" content="#2563eb">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+  <!-- Preconnect for performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://ajax.googleapis.com">
+  <link rel="preconnect" href="https://documentcloud.adobe.com">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+
+
+  <!-- TODO: Replace with your paper title and authors -->
+  <title>Woosh: A Sound Effects Foundation Model - Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck-Hufnagel, Alexandre Bittar, Thomas Hummel, Zineb Lahrichi, Hakim Missoum, Joan Serrà, Yuki Mitsufuji</title>
+
+  <!-- Favicon and App Icons -->
+  <link rel="icon" type="image/x-icon" href="static/images/sony-ai.ico">
+  <link rel="apple-touch-icon" href="static/images/sony-ai.ico">
+
+  <!-- Critical CSS - Load synchronously -->
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <!-- Non-critical CSS - Load asynchronously -->
+  <link rel="preload" href="static/css/bulma-carousel.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/bulma-slider.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="static/css/fontawesome.all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <link rel="preload" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+
+  <!-- Fallback for browsers that don't support preload -->
+  <noscript>
+    <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+    <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  </noscript>
+
+  <!-- Fonts - Optimized loading -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Defer non-critical JavaScript -->
+  <script defer src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script defer src="static/js/bulma-carousel.min.js"></script>
+  <script defer src="static/js/bulma-slider.min.js"></script>
+  <script defer src="static/js/index.js"></script>
+
+  <!-- Structured Data for Academic Papers -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "",
+    "description": "The publicly released audio generative models built at Sony AI are described, including architecture, training process and evaluated against other popular models",
+    "author": [
+      {
+        "@type": "Person",
+        "name": "Hadjeres, Gaetan",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Sony AI"
+        }
+      },
+      {
+        "@type": "Person",
+        "name": "Ferras, Marc",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Sony AI"
+        }
+      }
+      {
+        "@type": "Person",
+        "name": "Koutini, Khaled",
+        "affiliation": {
+          "@type": "Organization",
+          "name": "Sony AI"
+        }
+      }
+    ],
+    "datePublished": "2024-01-01",
+    "publisher": {
+      "@type": "Organization",
+      "name": "arxiv.com"
+    },
+    "url": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE",
+    "image": "https://YOUR_DOMAIN.com/static/images/social_preview.png",
+    "keywords": ["KEYWORD1", "KEYWORD2", "KEYWORD3", "machine learning", "computer vision"],
+    "abstract": "FULL_ABSTRACT_TEXT_HERE",
+    "citation": "BIBTEX_CITATION_HERE",
+    "isAccessibleForFree": true,
+    "license": "https://creativecommons.org/licenses/by/4.0/",
+    "mainEntity": {
+      "@type": "WebPage",
+      "@id": "https://YOUR_DOMAIN.com/YOUR_PROJECT_PAGE"
+    },
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "RESEARCH_AREA_1"
+      },
+      {
+        "@type": "Thing",
+        "name": "RESEARCH_AREA_2"
+      }
+    ]
+  }
+  </script>
+
+  <!-- Website/Organization Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "INSTITUTION_OR_LAB_NAME",
+    "url": "https://YOUR_INSTITUTION_WEBSITE.com",
+    "logo": "https://YOUR_DOMAIN.com/static/images/sony-ai.ico",
+    "sameAs": [
+      "https://twitter.com/YOUR_TWITTER_HANDLE",
+      "https://github.com/YOUR_GITHUB_USERNAME"
+    ]
+  }
+  </script>
+</head>
+<body>
+
+
+  <!-- Scroll to Top Button -->
+  <button class="scroll-to-top" onclick="scrollToTop()" title="Scroll to top" aria-label="Scroll to top">
+    <i class="fas fa-chevron-up"></i>
+  </button>
+
+  <main id="main-content">
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <!-- TODO: Replace with your paper title -->
+            <h1 class="title is-1 publication-title">Woosh - A Sound Effect Foundation Model</h1>
+            <div class="is-size-5 publication-authors">
+              <!-- TODO: Replace with your paper authors and their personal links -->
+              <span class="author-block">
+                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">Gaetan Hadjeres</a><sup>1</sup>,</span>
+                <span class="author-block">
+                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Marc Ferras</a><sup>1</sup>,</span>
+                  <span class="author-block">
+                    <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Khaled Koutini</a><sup>1</sup>,</span>
+                    <span class="author-block">
+                      <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Benno Weck-Hufnagel</a><sup>1</sup>,</span>
+                      <span class="author-block">
+                        <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Alexandre Bittar</a><sup>1</sup>,</span>
+                        <span class="author-block">
+                          <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Thomas Hummel</a><sup>1</sup>,</span>
+                          <span class="author-block">
+                            <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Zineb Lahrichi</a><sup>1</sup>,</span>
+                            <span class="author-block">
+                              <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Hakim Missoum</a><sup>1</sup>,</span>
+                              <span class="author-block">
+                                <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Joan Serrà</a><sup>1</sup>,</span>
+                                <span class="author-block">
+                                  <a href="THIRD AUTHOR PERSONAL LINK" target="_blank">Yuki mitsufuji</a><sup>1,2</sup>,</span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <!-- TODO: Replace with your institution and conference/journal info -->
+                    <span class="author-block"><sup>1</sup><b>Sony AI</b></span><br>
+                    <span class="author-block"><sup>2</sup><b>Sony Group Corporation</b></span>
+                    <!-- TODO: Remove this line if no equal contribution -->
+                    <!-- <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution</small></span> -->
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- TODO: Update with your arXiv paper ID -->
+                      <!-- <span class="link-block"> -->
+                      <!--   <a href="https://arxiv.org/pdf/<ARXIV PAPER ID>.pdf" target="_blank" -->
+                      <!--   class="external-link button is-normal is-rounded is-dark"> -->
+                      <!--   <span class="icon"> -->
+                      <!--     <i class="fas fa-file-pdf"></i> -->
+                      <!--   </span> -->
+                      <!--   <span>Paper</span> -->
+                      <!-- </a> -->
+                    <!-- </span> -->
+
+                    <!-- <!-1- TODO: Add your supplementary material PDF or remove this section -1-> -->
+                    <!-- <span class="link-block"> -->
+                    <!--   <a href="static/pdfs/supplementary_material.pdf" target="_blank" -->
+                    <!--   class="external-link button is-normal is-rounded is-dark"> -->
+                    <!--   <span class="icon"> -->
+                    <!--     <i class="fas fa-file-pdf"></i> -->
+                    <!--   </span> -->
+                    <!--   <span>Supplementary</span> -->
+                    <!-- </a> -->
+                  <!-- </span> -->
+
+                  <!-- TODO: Replace with your GitHub repository URL -->
+                  <span class="link-block">
+                    <a href="https://github.com/SonyResearch/Woosh-SFX" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+
+                <!-- TODO: Update with your arXiv paper ID -->
+                <span class="link-block">
+                  <a href="https://arxiv.org/abs/<ARXIV PAPER ID>" target="_blank"
+                  class="external-link button is-normal is-rounded is-dark">
+                  <span class="icon">
+                    <i class="ai ai-arxiv"></i>
+                  </span>
+                  <span>arXiv</span>
+                </a>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- Paper abstract -->
+
+<!-- End paper abstract -->
+
+
+
+
+
+
 
 <section class="hero is-small is-light">
   <div class="hero-body">
@@ -10,7 +282,7 @@
         <div class="column is-full">
 
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A propeller plane flies low over the water while firing its guns.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A propeller plane flies low over the water while firing its guns.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -57,7 +329,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>Gentle waves transitioning to the muffled, bubbling sound of being underwater.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>Gentle waves transitioning to the muffled, bubbling sound of being underwater.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -104,7 +376,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>The moon reflects on gently rippling water at night.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>The moon reflects on gently rippling water at night.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -151,7 +423,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>Two figures in costumes walk down a basement hallway, their footsteps echoing on the concrete floor.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>Two figures in costumes walk down a basement hallway, their footsteps echoing on the concrete floor.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -198,7 +470,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A person uses a power impact wrench to loosen a large bolt on a vehicle's suspension assembly.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A person uses a power impact wrench to loosen a large bolt on a vehicle's suspension assembly.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -245,7 +517,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A propeller plane flies over a snowy landscape, its engine roaring.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A propeller plane flies over a snowy landscape, its engine roaring.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -292,7 +564,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A man in a yellow shirt punches focus mitts held by a trainer in a black shirt.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A man in a yellow shirt punches focus mitts held by a trainer in a black shirt.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -339,7 +611,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A person fires a handgun at metal targets at an outdoor range.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A person fires a handgun at metal targets at an outdoor range.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -386,7 +658,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A marker scratches against paper as it is used to color a drawing of a hummingbird.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A marker scratches against paper as it is used to color a drawing of a hummingbird.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -433,7 +705,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A large audience in a formal hall gives a standing ovation with applause.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A large audience in a formal hall gives a standing ovation with applause.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -480,7 +752,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A character stands in a dark forest and sobs.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A character stands in a dark forest and sobs.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -534,7 +806,7 @@
         <div class="column is-full">
 
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A horse gallops at a steady pace, its hooves striking the ground rhythmically, while a person shouts in a high-pitched, urgent tone.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A horse gallops at a steady pace, its hooves striking the ground rhythmically, while a person shouts in a high-pitched, urgent tone.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -581,7 +853,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A continuous, low-frequency hum is present throughout the recording, accompanied by faint, intermittent high-pitched chirping sounds resembling distant birds.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A continuous, low-frequency hum is present throughout the recording, accompanied by faint, intermittent high-pitched chirping sounds resembling distant birds.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -628,7 +900,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A series of footsteps on a soft surface are followed by a low, sustained electronic tone.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A series of footsteps on a soft surface are followed by a low, sustained electronic tone.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -675,7 +947,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A vehicle engine starts and accelerates, accompanied by the sound of tires rolling on pavement.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A vehicle engine starts and accelerates, accompanied by the sound of tires rolling on pavement.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -722,7 +994,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A high-pitched buzzing sound, characteristic of a bee or wasp, is heard intermittently alongside the soft rustling of movement through dry leaves or grass.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A high-pitched buzzing sound, characteristic of a bee or wasp, is heard intermittently alongside the soft rustling of movement through dry leaves or grass.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -769,7 +1041,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A vehicle engine starts and idles, followed by the sound of a siren approaching and then fading into the distance.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A vehicle engine starts and idles, followed by the sound of a siren approaching and then fading into the distance.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -816,7 +1088,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A rhythmic thumping sound, like a heartbeat, is accompanied by the sound of footsteps on a hard surface, with a low-frequency hum in the background.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A rhythmic thumping sound, like a heartbeat, is accompanied by the sound of footsteps on a hard surface, with a low-frequency hum in the background.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -870,7 +1142,7 @@
         <div class="column is-full">
 
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>alligators, crocodiles hissing</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>alligators, crocodiles hissing</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -917,7 +1189,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>parrot talking</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>parrot talking</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -964,7 +1236,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>ambulance siren</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>ambulance siren</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -1011,7 +1283,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>whale calling</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>whale calling</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -1065,7 +1337,7 @@
         <div class="column is-full">
 
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A vehicle engine revs loudly as it accelerates, accompanied by the high-pitched squeal of tires losing traction on a surface, while a male voice shouts in distress.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A vehicle engine revs loudly as it accelerates, accompanied by the high-pitched squeal of tires losing traction on a surface, while a male voice shouts in distress.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -1086,7 +1358,7 @@
                 </video>
               </figure>
               <figure style="display: inline-block; text-align: center;">
-                <figcaption style="font-weight: bold; margin-bottom: 4px;">mfv-4step-cfg3-recap</figcaption>
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
                 <video controls style="width: 220px;" preload="metadata" class="video-thumb">
                   <source src="static/video_demo/vggsound_recap/09105_00/mfv-4step-cfg3-recap.mp4" type="video/mp4">
                 </video>
@@ -1094,7 +1366,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A series of high-pitched, rapid squeaks and chirps, characteristic of a cartoonish or animated creature, are heard in quick succession.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A series of high-pitched, rapid squeaks and chirps, characteristic of a cartoonish or animated creature, are heard in quick succession.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -1115,7 +1387,7 @@
                 </video>
               </figure>
               <figure style="display: inline-block; text-align: center;">
-                <figcaption style="font-weight: bold; margin-bottom: 4px;">mfv-4step-cfg3-recap</figcaption>
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
                 <video controls style="width: 220px;" preload="metadata" class="video-thumb">
                   <source src="static/video_demo/vggsound_recap/12109_01/mfv-4step-cfg3-recap.mp4" type="video/mp4">
                 </video>
@@ -1123,7 +1395,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A high-pitched, warbling electronic melody plays in a rapid, repetitive pattern, accompanied by a low, sustained electronic hum in the background.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A high-pitched, warbling electronic melody plays in a rapid, repetitive pattern, accompanied by a low, sustained electronic hum in the background.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -1144,7 +1416,7 @@
                 </video>
               </figure>
               <figure style="display: inline-block; text-align: center;">
-                <figcaption style="font-weight: bold; margin-bottom: 4px;">mfv-4step-cfg3-recap</figcaption>
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
                 <video controls style="width: 220px;" preload="metadata" class="video-thumb">
                   <source src="static/video_demo/vggsound_recap/12111_02/mfv-4step-cfg3-recap.mp4" type="video/mp4">
                 </video>
@@ -1152,7 +1424,7 @@
             </div>
           </div>
           <div class="box" style="margin-bottom: 1.5rem;">
-            <p style="margin-bottom: 1rem;"><em>A person shouts in excitement, followed by a woman speaking, all within a digital environment accompanied by a low-frequency hum.</em></p>
+            <p style="margin-bottom: 1rem;"><b>Caption:</b> <em>A person shouts in excitement, followed by a woman speaking, all within a digital environment accompanied by a low-frequency hum.</em></p>
             <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;">
               <figure style="display: inline-block; text-align: center;">
                 <figcaption style="font-weight: bold; margin-bottom: 4px;">Ground Truth</figcaption>
@@ -1173,7 +1445,7 @@
                 </video>
               </figure>
               <figure style="display: inline-block; text-align: center;">
-                <figcaption style="font-weight: bold; margin-bottom: 4px;">mfv-4step-cfg3-recap</figcaption>
+                <figcaption style="font-weight: bold; margin-bottom: 4px;">Woosh_VDFlow</figcaption>
                 <video controls style="width: 220px;" preload="metadata" class="video-thumb">
                   <source src="static/video_demo/vggsound_recap/12113_03/mfv-4step-cfg3-recap.mp4" type="video/mp4">
                 </video>
@@ -1186,14 +1458,80 @@
     </div>
   </div>
 </section>
+
+
+
+
+
+
+
+
 <script>
 // Seek every video to 0.1 s after metadata loads so browsers paint a thumbnail.
-document.querySelectorAll('video.video-thumb').forEach(function(v) {
-  v.addEventListener('loadedmetadata', function() {
-    if (v.readyState >= 1) { v.currentTime = 0.1; }
-  });
-  // In case metadata was already loaded before the listener was attached.
-  if (v.readyState >= 1) { v.currentTime = 0.1; }
-});
+// document.querySelectorAll('video.video-thumb').forEach(function(v) {
+//   v.addEventListener('loadedmetadata', function() {
+//     if (v.readyState >= 1) { v.currentTime = 0.1; }
+//   });
+//   // In case metadata was already loaded before the listener was attached.
+//   if (v.readyState >= 1) { v.currentTime = 0.1; }
+// });
 </script>
+
+
+
+<!--End Video Section -->
+
+
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <div class="bibtex-header">
+        <h2 class="title">BibTeX</h2>
+        <button class="copy-bibtex-btn" onclick="copyBibTeX()" title="Copy BibTeX to clipboard">
+          <i class="fas fa-copy"></i>
+          <span class="copy-text">Copy</span>
+        </button>
+      </div>
+      <pre id="bibtex-code"><code>@misc{hadjeres2026,
+   title={Woosh: A Sound Effects Foundation Model},
+   author={Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck-Hufnagel, Alexandre Bittar, Thomas Hummel, Zineb Lahrici, Hakim Missoum, Joan Serrà and Yuki Mitsufuji},
+   year={2026},
+   eprint={2412.15322},
+   archivePrefix={arXiv},
+   primaryClass={cs.CV},
+   url={https://arxiv.org/abs/2412.15322},
+   }</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the source code of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>
 
