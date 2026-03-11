@@ -7,7 +7,7 @@ class FlowMapFromPretrained:
 """
 
 from pydantic import Discriminator, Tag
-from typing import Annotated, Union
+from typing import Annotated, Union, Literal
 
 import torch
 from torch import nn
@@ -26,10 +26,12 @@ from woosh.components.base import (
     LoadConfig,
     _is_load_config,
 )
+from woosh.model.video_kontext import VideoKontext, VideoKontextArgs
 
 
 class FlowMapPretrainedArgs(ComponentConfig):
-    ldm: LatentDiffusionModelConfig
+    ldm: LatentDiffusionModelConfig | VideoKontextArgs
+    pretrained_model_type: Literal["ldm", "videokontext"] = "ldm"
 
 
 FlowMapPretrainedConfig = Annotated[
@@ -172,12 +174,22 @@ class FlowMapFromPretrained(
         Raises:
             ValueError: If the model type is unsupported or unknown.
         """
-        ldm = LatentDiffusionModel(self.config.ldm)
-        dit_config: DiTArgs = ldm.config.dit
-        supported_models = ["mmmflux", "mmmssflux"]
-        if ldm.config.dit.model_type not in supported_models:
+        if self.config.pretrained_model_type == "ldm":
+            ldm = LatentDiffusionModel(self.config.ldm)
+            dit_config: DiTArgs = ldm.config.dit
+            supported_models = ["mmmflux", "mmmssflux"]
+            if ldm.config.dit.model_type not in supported_models:
+                raise ValueError(
+                    f"FlowMapPretrained only supports {supported_models}, got {ldm.config.dit.model_type}"
+                )
+        elif self.config.pretrained_model_type == "videokontext":
+            ldm = VideoKontext(self.config.ldm)
+            dit_config: DiTArgs = LatentDiffusionModel.resolve_config(
+                ldm.config.ldm
+            ).dit
+        else:
             raise ValueError(
-                f"FlowMapPretrained only supports {supported_models}, got {ldm.config.dit.model_type}"
+                f"Unknown pretrained_model_type {self.config.pretrained_model_type}"
             )
         return ldm, dit_config
 
