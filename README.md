@@ -41,18 +41,20 @@ uv sync --extra cuda
 ### Download model weights
 
 Open models weights are available for all Woosh models trained on public datasets. You can download
-the pretrained weights from the [releases](https://github.com/SonyResearch/woosh-sfx/releases)
+and unzip the pretrained weights from the [releases](https://github.com/SonyResearch/woosh-sfx/releases)
 page, or otherwise using the [github CLI](https://cli.github.com) as
 
 ```bash
 gh release download v0.1.1
-unzip SFX\*.zip
+unzip *.zip
 ```
+
+The checkpoints should be located in folders named `checkpoints/MODEL_NAME` containing config and weight files.
 
 ### Download media samples
 
-We provide audio samples to be used as inputs to our test scripts `test_Woosh-*.py`. You can download
-the zip file `samples.zip` from the [releases](https://github.com/SonyResearch/woosh-sfx/releases)
+We provide audio samples to be used as inputs to our `test_Woosh-*.py` test scripts. You can download
+and unzip the file `samples.zip` from the [releases](https://github.com/SonyResearch/woosh-sfx/releases)
 page, or otherwise using the [github CLI](https://cli.github.com) as
 
 ```bash
