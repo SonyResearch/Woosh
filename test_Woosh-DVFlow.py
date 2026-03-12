@@ -34,7 +34,7 @@ featuresModel = SynchformerProcessor(frame_rate=24).eval().to(device)
 # Prepare inputs
 batch_size = 1
 noise = torch.randn(batch_size, 128, 801).to(device)
-video_path = "/group2/sfxfm/data/foleybench/videos/1002.mp4"
+video_path = "samples/3.mp4"
 with torch.inference_mode():
     video_frames, video_rate, pts_arr = extract_video_frames(
         video_path,
