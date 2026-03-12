@@ -71,6 +71,7 @@ uv run test_Woosh-AE.py
 uv run test_Woosh-Flow.py
 uv run test_Woosh-DFlow.py
 uv run test_Woosh-VFlow.py
+uv run test_Woosh-DVFlow.py
 ```
 
 and the generated audio/video will be written to `outputs/` as `.wav`/`.mp4` audio/video files.
