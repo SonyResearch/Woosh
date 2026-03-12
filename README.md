@@ -40,7 +40,7 @@ uv sync --extra cuda
 
 ### Download model weights
 
-Open models weights are available for all Woosh models trained on public datasets. You can download
+Open model weights are available for all Woosh models trained on public datasets. You can download
 and unzip the pretrained weights from the [releases](https://github.com/SonyResearch/woosh-sfx/releases)
 page, or otherwise using the [github CLI](https://cli.github.com) as
 
@@ -49,7 +49,7 @@ gh release download v0.1.1
 unzip *.zip
 ```
 
-The checkpoints should be located in folders named `checkpoints/MODEL_NAME` containing config and weight files.
+The checkpoints should be located in folders named `checkpoints/MODEL_NAME`, each containing config and weight files.
 
 ### Download media samples
 
