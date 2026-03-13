@@ -45,3 +45,4 @@ autoencoder:
   trainable: false
   path: checkpoints/Woosh-AE
 sigma_data: 1.0
+pred_type: v_pred
