@@ -3,6 +3,7 @@ trainable: true
 model_type: LatentDiffusionModel
 dit:
   model_type: mmmssflux
+  rope_len_multiplier: 2
   max_description_length: 77
   max_seq_len: 501
   dim: 1024
