@@ -9,8 +9,8 @@ import gradio as gr
 import torch
 
 from woosh.components.base import LoadConfig
-from woosh.inference.flowmatching_sampler import flowmatching_integrate
-from woosh.model.ldm import LatentDiffusionModel
+from woosh.inference.flowmap_sampler import sample_euler
+from woosh.model.flowmap_from_pretrained import FlowMapFromPretrained
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger(__name__)
@@ -33,7 +33,7 @@ def load_model(checkpoint_path: str):
     else:
         device = "cpu"
     log.info(f"Loading model from {checkpoint_path} on {device}")
-    ldm = LatentDiffusionModel(LoadConfig(path=checkpoint_path))
+    ldm = FlowMapFromPretrained(LoadConfig(path=checkpoint_path))
     ldm = ldm.eval().to(device)
     log.info("Model loaded.")
 
@@ -69,17 +69,15 @@ def generate(
     progress(0.1, desc="Generating...")
     start_time = time.perf_counter()
 
-    x_fake, steps = flowmatching_integrate(
-        ldm,
+    # Denoise using ldm and transform to audio with autoencoder
+    steps = 4
+    x_fake = sample_euler(
+        model=ldm,
         noise=noise,
         cond=cond,
+        num_steps=steps,
+        renoise=[0, 0.5, 0.5, 0.3],
         cfg=cfg_scale,
-        atol=atol,
-        rtol=rtol,
-        method=solver,
-        return_steps=True,
-        device=device,
-        dtype=torch.float32 if device == "mps" else torch.float64,
     )
     audio_fake = ldm.autoencoder.inverse(x_fake)
 
@@ -100,8 +98,8 @@ def generate(
 
 
 def build_ui():
-    with gr.Blocks(title="Woosh-Flow: Text-to-Audio") as demo:
-        gr.Markdown("# Woosh-Flow \u2014 Text-to-Audio Generation")
+    with gr.Blocks(title="Woosh-DFlow: Text-to-Audio") as demo:
+        gr.Markdown("# Woosh-DFlow \u2014 Text-to-Audio Generation")
 
         with gr.Row():
             prompt = gr.Textbox(
@@ -155,7 +153,7 @@ def main():
     parser.add_argument(
         "--checkpoint",
         type=str,
-        default="checkpoints/Woosh-Flow",
+        default="checkpoints/Woosh-DFlow",
         help="Path to model checkpoint directory",
     )
     parser.add_argument(

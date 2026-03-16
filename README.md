@@ -64,6 +64,7 @@ unzip samples.zip
 
 ## Usage
 
+### Test scripts
 An inference test script for every model is provided. Just run any of the following
 
 ```python
@@ -78,11 +79,15 @@ and the generated audio/video will be written to `outputs/` as `.wav`/`.mp4` aud
 
 Check our [tech report](https://arxiv.org/abs/2412.15322) on arxiv.org for a description of all models.
 
-To run the Gradio demo,
+### Gradio demos
+Two basic Gradio demos, for Woosh-Flow and Woosh-DFlow models, are available. To launch a Gradio demo locally, run one of the following
 
 ```python
 uv run gradio_Woosh-Flow.py
+uv run gradio_Woosh-DFlow.py
 ```
+
+Open a web browser on the same machine and access the demo at `https://127.0.0.1:7860`.
 
 ## Citation
 For details about model architecture, training and evaluation, please check our tech report
