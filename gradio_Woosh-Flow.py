@@ -100,8 +100,8 @@ def generate(
 
 
 def build_ui():
-    with gr.Blocks(title="Woosh Text-to-Audio") as demo:
-        gr.Markdown("# Woosh \u2014 Text-to-Audio Generation")
+    with gr.Blocks(title="Woosh-Flow: Text-to-Audio") as demo:
+        gr.Markdown("# Woosh-Flow \u2014 Text-to-Audio Generation")
 
         with gr.Row():
             prompt = gr.Textbox(
