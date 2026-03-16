@@ -80,7 +80,7 @@ and the generated audio/video will be written to `outputs/` as `.wav`/`.mp4` aud
 Check our [tech report](https://arxiv.org/abs/2412.15322) on arxiv.org for a description of all models.
 
 ### Gradio demos
-Two basic Gradio demos, for Woosh-Flow and Woosh-DFlow models, are available. To launch a Gradio demo locally, run one of the following
+Two basic Gradio demos, for `Woosh-Flow` and `Woosh-DFlow` models, are available. To launch a Gradio demo locally, run one of the following
 
 ```python
 uv run gradio_Woosh-Flow.py
