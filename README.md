@@ -45,7 +45,7 @@ and unzip the pretrained weights from the [releases](https://github.com/SonyRese
 page, or otherwise using the [github CLI](https://cli.github.com) as
 
 ```bash
-gh release download v0.1.1
+gh release download v1.0.0
 unzip *.zip
 ```
 
@@ -58,7 +58,7 @@ and unzip the file `samples.zip` from the [releases](https://github.com/SonyRese
 page, or otherwise using the [github CLI](https://cli.github.com) as
 
 ```bash
-gh release download v0.1.1 -p 'samples.zip'
+gh release download v1.0.0 -p 'samples.zip'
 unzip samples.zip
 ```
 
