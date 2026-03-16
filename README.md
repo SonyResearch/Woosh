@@ -78,6 +78,12 @@ and the generated audio/video will be written to `outputs/` as `.wav`/`.mp4` aud
 
 Check our [tech report](https://arxiv.org/abs/2412.15322) on arxiv.org for a description of all models.
 
+To run the Gradio demo,
+
+```python
+uv run gradio_Woosh-Flow.py
+```
+
 ## Citation
 For details about model architecture, training and evaluation, please check our tech report
 available on [arxiv.org](https://arxiv.org/abs/2412.15322).

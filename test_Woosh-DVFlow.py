@@ -83,7 +83,7 @@ for i in range(batch_size):
     normalization_factor = max_abs_value if max_abs_value > 1.0 else 1.0
     scaled = audio_fake[i] / normalization_factor
     torchaudio.save(
-        f"outputs/Woosh-VFlow_audio_{i}.wav",
+        f"outputs/Woosh-DVFlow_audio_{i}.wav",
         scaled,
         sample_rate=48000,
     )
