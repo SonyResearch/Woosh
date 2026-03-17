@@ -1,6 +1,6 @@
 # API server
 
-An API server for Woosh model inference is provide, with `Woosh-DFlow` only being supported.
+An API server for Woosh model inference is provided, with `Woosh-DFlow` only being supported at the moment.
 
 ## Usage
 
