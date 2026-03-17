@@ -92,14 +92,14 @@ Open a web browser on the same machine and access the demo at `https://127.0.0.1
 ### API server
 Woosh models can be served via our API server. Check the [API](api/) folder for usage details.
 
-## Citation
+<!--## Citation
 For details about model architecture, training and evaluation, please check our tech report
 available on [arxiv.org](https://arxiv.org/abs/2412.15322).
 
 ```bibtex
 @misc{hadjeres2026,
       title={Woosh: A Sound Effects Foundation Model},
-      author={Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck-Hufnagel, Alexandre Bittar, Thomas Hummel, Zineb Lahrici, Hakim Missoum, Joan Serrà and Yuki Mitsufuji},
+      author={Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck, Alexandre Bittar, Thomas Hummel, Zineb Lahrici, Hakim Missoum, Joan Serrà and Yuki Mitsufuji},
       year={2026},
       eprint={2412.15322},
       archivePrefix={arXiv},
@@ -107,6 +107,7 @@ available on [arxiv.org](https://arxiv.org/abs/2412.15322).
       url={https://arxiv.org/abs/2412.15322},
 }
 ```
+-->
 
 ## Contributing
 
