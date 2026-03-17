@@ -86,16 +86,6 @@ class SFXCLAPTextConditioner(torch.nn.Module, BaseComponent, DiffusionConditione
                     shape=[self.config.sentence_config["max_sentence_tokens"]],
                     type="cross_attn_cond_mask",
                 ),
-                "text_tids": ConditionConfig(
-                    id="text_tids",
-                    shape=[self.config.sentence_config["max_sentence_tokens"]],
-                    type="text_tids",
-                ),
-                "text_tembs": ConditionConfig(
-                    id="text_tembs",
-                    shape=[self.config.sentence_config["max_sentence_tokens"]],
-                    type="text_tembs",
-                ),
             }
         return {
             "text_global": ConditionConfig(
@@ -193,9 +183,6 @@ class SFXCLAPTextConditioner(torch.nn.Module, BaseComponent, DiffusionConditione
                 cond = {
                     "text_cond": lhs_embedings,
                     "text_mask": attention_mask,
-                    "text_tids": input_ids,
-                    "text_tembs": self.sentence_frontend.embeddings(input_ids),
-                    "description": captions,
                 }
                 return cond
 

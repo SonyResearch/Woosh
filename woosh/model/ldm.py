@@ -74,37 +74,15 @@ class LatentDiffusionModelPipeline:
         no_dropout=True for validation
         if drop=True return the unconditional
         """
-        # TODO should be cleaned, too many unused cond names
         cond_dict = {}
         cond: DiffusionConditioner
         for cond_name, cond in self.conditioners.items():  # type: ignore
-            if cond_name == "dae_features" and "dae_features" in batch:
-                # TODO remove this hack
-                # it is used when called by no_cond.
-                res = {
-                    "dae_features": batch["dae_features"],
-                }
-            # TDO really remove this
-            elif cond_name == "masked_conditioner":
-                # TODO remove this hack
-                # it is used when called by no_cond. for inpainting
-                res = {
-                    "x_original": batch["x_original"],
-                    "mask": batch["mask"],
-                    "x_masked": cond(
-                        batch,
-                        condition_dropout=0 if no_dropout else condition_dropout,
-                        no_cond=no_cond,
-                        **kwargs,
-                    ).get("x_masked"),
-                }
-            else:
-                res = cond(
-                    batch,
-                    condition_dropout=0.0 if no_dropout else condition_dropout,
-                    no_cond=no_cond,
-                    **kwargs,
-                )
+            res = cond(
+                batch,
+                condition_dropout=0.0 if no_dropout else condition_dropout,
+                no_cond=no_cond,
+                **kwargs,
+            )
 
             v: ConditionConfig
             for res_k, v in cond.output.items():
@@ -119,16 +97,6 @@ class LatentDiffusionModelPipeline:
                     log.warning(
                         f"Conditioner {cond_name} did not return the expected key {res_k}"
                     )
-        # copy inference keys
-        for k in [
-            "focus_tids",
-            "delta_mod_weight_local",
-            "delta_mod_weight_global",
-            "category",
-            "tora_scale",
-        ]:
-            if k in batch:
-                cond_dict[k] = batch[k]
 
         return cond_dict
 
@@ -171,7 +139,6 @@ class LatentDiffusionModelPipeline:
 
         return cond_from_conditioners
 
-    # @TODO refactor these two methods
     def _batched_cond_denoise(self, x_t, t, mask=None, cond=None, cond_batched=None):
         """
         Returns denoised_cond and denoised_nocond
@@ -199,8 +166,6 @@ class LatentDiffusionModelPipeline:
         denoised_cond, denoised_nocond = torch.chunk(denoised, chunks=2, dim=0)
         return denoised_cond, denoised_nocond
 
-    # TODO refactor, should be general
-    # Cond must be computed from batch
     def _batch_cond_nocond(self, x_t, cond):
         """
         returns a dict of the concatenations (along the batch dimension) of cond and no_cond
@@ -211,33 +176,20 @@ class LatentDiffusionModelPipeline:
         """
 
         no_cond = self.no_cond(x_t, cond=cond)
-        # @TODO remove this filtering list
         for k in (
             "global_embed",
             "cross_attn_cond",
             "cross_attn_cond_mask",
             "seq_embed",
-            "envelope",
-            "envelope_mask",
-            "spcenter",
-            "spcenter_mask",
             "video_cond",
             "video_cond_mask",
             "video_cond_scale",
-            "spflatness",
-            "spflatness_mask",
-            "spflux",
-            "spflux_mask",
-            "harmo",
-            "harmo_mask",
             "video_features",
             "target_F_x",
         ):
             if (k in cond) != (k in no_cond):  # xor
                 # we cannot batch if no_cond doesn't have the same keys as cond, mainly for seq_embed
                 return (cond, no_cond)
-        # in the case of cross atten and size mismatch
-        # @TODO move this to CLAP of OURCLAP CP
         k = "cross_attn_cond"
         mk = "cross_attn_cond_mask"
         if k in no_cond:
@@ -262,8 +214,6 @@ class LatentDiffusionModelPipeline:
             if cond[k].shape != no_cond[k].shape:
                 no_cond[k] = no_cond[k].expand_as(cond[k])
 
-        # TODO this is unbearable
-        # TODO this is still unbearable
         try:
             cond_batched = {
                 k: torch.cat([cond[k], no_cond[k]], dim=0)
@@ -274,21 +224,9 @@ class LatentDiffusionModelPipeline:
                     "cross_attn_cond",
                     "cross_attn_cond_mask",
                     "seq_embed",
-                    "dea_features",
                     "x_original",
                     "x_masked",
                     "mask",
-                    "envelope",
-                    "envelope_mask",
-                    "spcenter",
-                    "spcenter_mask",
-                    "spflatness",
-                    "spflatness_mask",
-                    "spflux",
-                    "spflux_mask",
-                    "harmo",
-                    "harmo_mask",
-                    "redux_audio",
                     "video_cond",
                     "video_cond_mask",
                     "video_cond_scale",
@@ -374,7 +312,6 @@ class LatentDiffusionModelPipeline:
         """
         device = x_t.device
         assert cond is not None
-        # TODO absurd, we shouldn't mix x_loss mask and inpainting masks
         if mask is None:
             if "mask" in cond:
                 mask = cond["mask"]
