@@ -107,7 +107,7 @@ class LatentDiffusionModelPipeline:
         """
         if cond is None:
             no_cond = {
-                "audio": x,  # TODO This makes no sense
+                "audio": x,
                 "description": [
                     None,
                 ]
@@ -118,10 +118,6 @@ class LatentDiffusionModelPipeline:
             no_cond["description"] = [
                 None,
             ] * x.size(0)
-            # TODO hack
-            # we add the latents as audio
-            # if missing
-            # as this can be used to get the device
             if "audio" not in cond:
                 no_cond["audio"] = x
 
@@ -255,7 +251,6 @@ class LatentDiffusionModelPipeline:
         version of denoise that returns the whole DictTensor
         """
         assert cond is not None
-        # TODO absurd, we shouldn't mix x_loss mask and inpainting masks
         if mask is None:
             if "mask" in cond:
                 mask = cond["mask"]
@@ -374,7 +369,6 @@ class LatentDiffusionModel(nn.Module, BaseComponent, LatentDiffusionModelPipelin
         # Step 3: init of LatentDiffusionModelPipeline
         dit = SFXFlow(MMDiTArgs.model_validate(self.config.dit, strict=True))
         autoencoder = AudioAutoEncoder(self.config.autoencoder)
-        # TODO should be a more general DiffusionConditioner builder
         conditioners = nn.ModuleDict(
             {
                 k: SFXCLAPTextConditioner(conditioner_config)
@@ -421,7 +415,6 @@ class LatentDiffusionModelFlowMapPipeline(LatentDiffusionModelPipeline):
         The possibility for a second timestep r is added for flowmap.
         """
         assert cond is not None
-        # TODO absurd, we shouldn't mix x_loss mask and inpainting masks
         if mask is None:
             if "mask" in cond:
                 mask = cond["mask"]
