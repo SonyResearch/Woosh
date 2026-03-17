@@ -118,7 +118,6 @@ class GenerateBasicAgent(GenerateAgentInterface):
         model_name = self.model_name.strip()
         log.info(f"Loading `{model_name}` to  {self.device}")
 
-        # TODO use path
         model_path = os.path.join(self.components_path, model_name)
 
         ldm = LatentDiffusionModel(config=LoadConfig(path=model_path))
@@ -169,14 +168,13 @@ class FlowMapGenerateAgent(GenerateBasicAgent):
         rng_gen = torch.Generator()
         if args.seed is not None:
             rng_gen.manual_seed(args.seed)
-        # @TODO do the length
+        # @TODO do arbitrary length
         batch_size = 1
         length = 501
         dim = 128
         noise = torch.normal(
             0, 1, size=(batch_size, dim, length), generator=rng_gen
         ).to(self.device)
-        # noise = torch.randn(size=(batch_size, dim, length)).to(self.device)
 
         description = args.prompt
         description = normalize_text(description)
