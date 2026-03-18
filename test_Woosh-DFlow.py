@@ -18,7 +18,7 @@ else:
 # %%
 
 # Load model
-COMPONENT_PATH = "checkpoints/woosh-DFlow"
+COMPONENT_PATH = "checkpoints/Woosh-DFlow"
 ldm = FlowMapFromPretrained(LoadConfig(path=COMPONENT_PATH))
 ldm = ldm.eval().to(device)
 
