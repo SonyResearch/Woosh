@@ -46,7 +46,7 @@ page, or otherwise using the [github CLI](https://cli.github.com) as
 
 ```bash
 gh release download v1.0.0
-unzip *.zip
+unzip '*.zip'
 ```
 
 The checkpoints should be located in folders named `checkpoints/MODEL_NAME`, each containing config and weight files.
