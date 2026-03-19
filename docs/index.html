@@ -6,7 +6,7 @@
 
   <!-- Primary Meta Tags -->
   <!-- TODO: Replace with your paper title and author names -->
-  <meta name="title" content="Woosh: A Sound Effects Foundation Model, Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck-Hufnagel, Alexandre Bittar, Thomas Hummel, Zineb Lahrichi, Hakim Missoum, Joan Serrà, Yuki Mitsufuji">
+  <meta name="title" content="Woosh: A Sound Effects Foundation Model, Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck, Alexandre Bittar, Thomas Hummel, Zineb Lahrichi, Hakim Missoum, Joan Serrà, Yuki Mitsufuji">
   <!-- TODO: Write a compelling 150-160 character description of your research -->
   <meta name="description" content="The publicly released audio generative models built at Sony AI are described, including architecture, training process and evaluated against other popular models.">
   <!-- TODO: Add 5-10 relevant keywords for your research area -->
@@ -21,7 +21,7 @@
   <meta name="citation_author" content="Hadjeres, Gaetan">
   <meta name="citation_author" content="Ferras, Marc">
   <meta name="citation_author" content="Koutini, Khaled">
-  <meta name="citation_author" content="Weck-Hufnagel, Benno">
+  <meta name="citation_author" content="Weck, Benno">
   <meta name="citation_author" content="Bittar, Alexandre">
   <meta name="citation_author" content="Hummel, Thomas">
   <meta name="citation_author" content="Lahrichi, Zineb">
@@ -47,7 +47,7 @@
 
 
   <!-- TODO: Replace with your paper title and authors -->
-  <title>Woosh: A Sound Effects Foundation Model - Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck-Hufnagel, Alexandre Bittar, Thomas Hummel, Zineb Lahrichi, Hakim Missoum, Joan Serrà, Yuki Mitsufuji</title>
+  <title>Woosh: A Sound Effects Foundation Model - Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck, Alexandre Bittar, Thomas Hummel, Zineb Lahrichi, Hakim Missoum, Joan Serrà, Yuki Mitsufuji</title>
 
   <!-- Favicon and App Icons -->
   <link rel="icon" type="image/x-icon" href="static/images/sony-ai.ico">
@@ -270,7 +270,8 @@
         <div class="content has-text-justified">
           <!-- TODO: Replace with your paper abstract -->
           <p>
-          The audio research community relies on open generative models to build upon and use as baselines for novel approaches. In this report, we describe the publicly released audio generative models built at Sony AI, including architecture, training process and evaluation against other popular models. Being optimized for sound effect generation, we provide a high-quality audio encoder/decoder model, a text-audio alignment model for conditioning, and text-to-audio (T2A) and video-to-audio (V2A) generative models. Distilled T2A and V2A models for fast inference are also included in the release. Our evaluation shows competitive performance against Stable Audio Open and Tango-Flux models. Inference code and open weights are available on <a href="https://www.github.com/woosh">https://www.github.com/woosh</a>.
+          The audio research community relies on open generative models to build upon and use as baselines for novel approaches. In this report, we describe Woosh, the public release of the sound effect foundation model built at Sony AI, including architecture, training process, and evaluation against other popular open models. Being optimized for sound effects, we provide a high-quality audio encoder/decoder model, a text-audio alignment model for conditioning, and text-to-audio (T2A)
+          and video-to-audio (V2A) generative models. Distilled T2A and V2A models for fast inference are also included in the release. Our evaluation on both public and private data shows competitive or better performance for each module when compared to existing open alternatives like Stable Audio Open and TangoFlux. Inference code and model weights are available at <a href="https://github.com/Woosh">https://www.github.com/Woosh</a>.
           </p>
         </div>
       </div>
@@ -285,6 +286,7 @@
   <div class="hero-body">
     <div class="container">
       <h2 class="title is-3 is-centered has-text-centered">Woosh-AE: Audio Encoder/Decoder</h2>
+      <p class="has-text-centered" style="margin-bottom: 1.5rem;">We compare our Woosh-AE audio encoder/decoder model against other baselines.</p>
       <div class="columns is-centered has-text-centered">
         <div class="column is-full">
 
@@ -373,6 +375,10 @@
   <div class="hero-body">
     <div class="container">
       <h2 class="title is-3 is-centered has-text-centered">Woosh-Flow/Woosh-DFlow: Text-to-audio Generation</h2>
+      <p class="has-text-centered" style="margin-bottom: 1.5rem;">We compare our private Woosh-Flow model against Woosh-Flow Public and other baselines.</p>
+      <div class="notification is-info is-light has-text-centered">
+        <p>Find our private model audio samples in the <a href="./flow-private.html">Woosh-Flow Private demo section</a>.</p>
+      </div>
       <div class="columns is-centered has-text-centered">
         <div class="column is-full">
 
@@ -478,6 +484,7 @@
     </div>
   </div>
 </section>
+
 
 
 <!--Video Section -->
@@ -679,7 +686,7 @@ document.querySelectorAll('video.video-thumb').forEach(function(v) {
       </div>
       <pre id="bibtex-code"><code>@misc{hadjeres2026,
    title={Woosh: A Sound Effects Foundation Model},
-   author={Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck-Hufnagel, Alexandre Bittar, Thomas Hummel, Zineb Lahrici, Hakim Missoum, Joan Serrà and Yuki Mitsufuji},
+   author={Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck, Alexandre Bittar, Thomas Hummel, Zineb Lahrici, Hakim Missoum, Joan Serrà and Yuki Mitsufuji},
    year={2026},
    eprint={2412.15322},
    archivePrefix={arXiv},

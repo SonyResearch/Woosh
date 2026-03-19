@@ -1,0 +1,75 @@
+"Sample 1":
+    "SAO":
+        "prompt": "Electric coffee grinder grinding beans for single cup"
+        "filename": "static/audio/flow-private/sample1-sao.wav"
+        "region": [0.0, 2.5]
+    "TangoFlux":
+        "filename": "static/audio/flow-private/sample1-tangoflux.wav"
+        "region": [0.0, 2.5]
+    "Woosh-Flow-Public":
+        "filename": "static/audio/flow-private/sample1-woosh-flow-public.wav"
+        "region": [0.0, 2.5]
+    "Woosh-Flow-Private":
+        "filename": "static/audio/flow-private/sample1-woosh-flow-private.wav"
+        "region": [0.0, 2.5]
+
+
+"Sample 2":
+    "SAO":
+        "prompt": "Strike on a timpani while using the pitch pedal"
+        "filename": "static/audio/flow-private/sample2-sao.wav"
+        "region": [0.0, 2.5]
+    "TangoFlux":
+        "filename": "static/audio/flow-private/sample2-tangoflux.wav"
+        "region": [0.0, 2.5]
+    "Woosh-Flow-Public":
+        "filename": "static/audio/flow-private/sample2-woosh-flow-public.wav"
+        "region": [0.0, 2.5]
+    "Woosh-Flow-Private":
+        "filename": "static/audio/flow-private/sample2-woosh-flow-private.wav"
+        "region": [0.0, 2.5]
+
+"Sample 3":
+    "SAO":
+        "prompt": "Water is splashing while paddling from a kayak"
+        "filename": "static/audio/flow-private/sample3-sao.wav"
+        "region": [0.0, 2.5]
+    "TangoFlux":
+        "filename": "static/audio/flow-private/sample3-tangoflux.wav"
+        "region": [0.0, 2.5]
+    "Woosh-Flow-Public":
+        "filename": "static/audio/flow-private/sample3-woosh-flow-public.wav"
+        "region": [0.0, 2.5]
+    "Woosh-Flow-Private":
+        "filename": "static/audio/flow-private/sample3-woosh-flow-private.wav"
+        "region": [0.0, 2.5]
+
+"Sample 4":
+    "SAO":
+        "prompt": "Turning the crank of a pencil sharpener machine without a pencil inside"
+        "filename": "static/audio/flow-private/sample4-sao.wav"
+        "region": [0.0, 2.7]
+    "TangoFlux":
+        "filename": "static/audio/flow-private/sample4-tangoflux.wav"
+        "region": [0.0, 2.7]
+    "Woosh-Flow-Public":
+        "filename": "static/audio/flow-private/sample4-woosh-flow-public.wav"
+        "region": [0.0, 2.7]
+    "Woosh-Flow-Private":
+        "filename": "static/audio/flow-private/sample4-woosh-flow-private.wav"
+        "region": [0.0, 2.7]
+
+"Sample 5":
+    "SAO":
+        "prompt": "Dark computer voice saying hi"
+        "filename": "static/audio/flow-private/sample5-sao.wav"
+        "region": [0.0, 2.5]
+    "TangoFlux":
+        "filename": "static/audio/flow-private/sample5-tangoflux.wav"
+        "region": [0.0, 2.5]
+    "Woosh-Flow-Public":
+        "filename": "static/audio/flow-private/sample5-woosh-flow-public.wav"
+        "region": [0.0, 2.5]
+    "Woosh-Flow-Private":
+        "filename": "static/audio/flow-private/sample5-woosh-flow-private.wav"
+        "region": [0.0, 2.5]

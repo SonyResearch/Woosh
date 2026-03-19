@@ -63,6 +63,7 @@ print("""
   <div class="hero-body">
     <div class="container">
       <h2 class="title is-3 is-centered has-text-centered">Woosh-AE: Audio Encoder/Decoder</h2>
+      <p class="has-text-centered" style="margin-bottom: 1.5rem;">We compare our Woosh-AE audio encoder/decoder model against other baselines.</p>
       <div class="columns is-centered has-text-centered">
         <div class="column is-full">
 """)
