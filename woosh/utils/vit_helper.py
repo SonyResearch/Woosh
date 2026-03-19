@@ -1,3 +1,8 @@
+#!/usr/bin/env python3
+# Copyright (c) Facebook, Inc. and its affiliates. All Rights Reserved.
+# Copyright 2020 Ross Wightman
+# Modified Model definition
+
 import math
 
 import torch

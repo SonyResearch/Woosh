@@ -34,7 +34,7 @@ featuresModel = SynchformerProcessor(frame_rate=24).eval().to(device)
 # Prepare inputs
 batch_size = 1
 noise = torch.randn(batch_size, 128, 801).to(device)
-video_path = "samples/3.mp4"
+video_path = "samples/video_sample.mp4"
 with torch.inference_mode():
     video_frames, video_rate, pts_arr = extract_video_frames(
         video_path,
@@ -45,7 +45,7 @@ with torch.inference_mode():
     features = featuresModel(video_frames, video_rate)
     # can be empty text or a description of the video
     description = (
-        "A person shovels snow and ice off a paved surface, making scraping sounds."
+        "Two figures in costumes walk down a basement hallway, their footsteps echoing on the concrete floor."
     )
     print(features["synch_out"].shape)
     cond = ldm.get_cond(
@@ -95,7 +95,6 @@ for i in range(batch_size):
         audio_input=scaled,
         sample_rate=48000,
         audio_start=0,
-        video_chunk=video_frames.cpu(),
         duration_seconds=8,
     )
 

@@ -5,10 +5,7 @@ import torch.nn as nn
 from torchvision.transforms import v2
 from huggingface_hub import hf_hub_download
 from .synchformer import Synchformer, encode_video_with_sync
-from transformers import AutoModel, AutoImageProcessor, AutoProcessor
 
-# fps for dino and clip
-dino_rate = 10
 # fps for syncformer
 sync_rate = 24
 
@@ -23,20 +20,6 @@ def get_synchformer(device="cpu"):
     sd = torch.load(ckpt, weights_only=True, map_location=torch.device(device))
     model.load_state_dict(sd)
     return model.eval()
-
-
-def get_siglip(ckpt="google/siglip-base-patch16-224", device="cpu"):
-    print(os.getpid(), "loading model ", ckpt)
-    model = AutoModel.from_pretrained(ckpt, device_map=device)
-
-    processor = AutoProcessor.from_pretrained(ckpt)
-    return processor, model.eval()
-
-
-def get_dino(device="cpu"):
-    processor = AutoImageProcessor.from_pretrained("facebook/dinov2-large")
-    model = AutoModel.from_pretrained("facebook/dinov2-large")
-    return processor, model.to(device=device).eval()
 
 
 def downsample(source_rate, target_rate, video_frames, video_pts):
@@ -57,33 +40,6 @@ def downsample(source_rate, target_rate, video_frames, video_pts):
     video_frames = video_frames[indices]
     video_pts = video_pts[indices]
     return video_frames, video_pts
-
-
-def process_dino_siglip_transform(
-    item,
-    siglip_preprocess,
-    dino_preprocess,
-    frame_rate=10,
-):
-    video_frames = item["video_frames"]
-    video_pts = item["video_pts"]
-    video_rate = item["video_rate"]
-    desc = item["description"]
-    video_frames, video_pts = downsample(
-        video_rate, frame_rate, video_frames, video_pts
-    )
-    siglip_inputs = siglip_preprocess(
-        text=[desc],
-        images=video_frames,
-        padding="max_length",
-        return_tensors="pt",
-    )
-    dino_inputs = dino_preprocess(video_frames, return_tensors="pt")
-    item["siglip_inputs"] = siglip_inputs
-    item["dino_inputs"] = dino_inputs
-    item["dino_pts"] = video_pts
-    item["siglip_pts"] = video_pts
-    return item
 
 
 _SYNC_SIZE = 224

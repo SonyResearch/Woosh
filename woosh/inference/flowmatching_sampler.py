@@ -10,7 +10,7 @@ def flowmatching_integrate(
     noise: torch.Tensor,
     cond: dict,
     cond_neg: dict = None,
-    negative_text_only: bool = False,
+    negative_text_only: bool = True,
     cfg: float = 4.5,
     device: str = "cuda",
     method="dopri5",

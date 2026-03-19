@@ -73,11 +73,12 @@ uv run test_Woosh-Flow.py
 uv run test_Woosh-DFlow.py
 uv run test_Woosh-VFlow.py
 uv run test_Woosh-DVFlow.py
+uv run test_Woosh-CLAP.py
 ```
 
 and the generated audio/video will be written to `outputs/` as `.wav`/`.mp4` audio/video files.
 
-Check our [tech report](https://arxiv.org/abs/2412.15322) on arxiv.org for a description of all models.
+Check our [tech report](https://arxiv.org/abs/2604.01929) on arxiv.org for a description of all models.
 
 ### Gradio demos
 Two basic Gradio demos, for `Woosh-Flow` and `Woosh-DFlow` models, are available. To launch a Gradio demo locally, run one of the following
@@ -92,22 +93,22 @@ Open a web browser on the same machine and access the demo at `https://127.0.0.1
 ### API server
 Woosh models can be served via our API server. Check the [API](api/) folder for usage details.
 
-<!--## Citation
+## Citation
 For details about model architecture, training and evaluation, please check our tech report
-available on [arxiv.org](https://arxiv.org/abs/2412.15322).
+available on [arxiv.org](https://arxiv.org/abs/2604.01929).
 
 ```bibtex
 @misc{hadjeres2026,
       title={Woosh: A Sound Effects Foundation Model},
       author={Gaetan Hadjeres, Marc Ferras, Khaled Koutini, Benno Weck, Alexandre Bittar, Thomas Hummel, Zineb Lahrici, Hakim Missoum, Joan Serrà and Yuki Mitsufuji},
       year={2026},
-      eprint={2412.15322},
+      eprint={2604.01929},
       archivePrefix={arXiv},
-      primaryClass={cs.CV},
-      url={https://arxiv.org/abs/2412.15322},
+      primaryClass={cs.SD},
+      url={https://arxiv.org/abs/2604.01929},
 }
 ```
--->
+
 
 ## Contributing
 
@@ -117,5 +118,6 @@ to discuss what you would like to change.
 Please make sure to update tests as appropriate.
 
 ## License
-- The inference code in this repository is released under a [MIT](https://choosealicense.com/licenses/mit/) license.
-- The open weights, in the [releases](https://github.com/SonyResearch/woosh-sfx/releases) page, are released under the [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/) license.
+- The majority of the code in this repository is released under the [MIT](https://choosealicense.com/licenses/mit/) license. The video-to-audio `Woosh-VFlow` and `Woosh-DVFlow` models use adapted code from [MM-AUDIO](https://github.com/hkchengrex/MMAudio) and [MotionFormer](https://github.com/facebookresearch/Motionformer/). The code for these models is made available under [Apache v2](https://www.apache.org/licenses/LICENSE-2.0) license terms.
+- The open weights in the [releases](https://github.com/SonyResearch/woosh-sfx/releases) page are released under the [CC-BY-NC](https://creativecommons.org/licenses/by-nc/4.0/) license.
+- The test audio and video samples in the [releases](https://github.com/SonyResearch/woosh-sfx/releases) page contain their individual license terms in the corresponding download file.

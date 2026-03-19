@@ -1,5 +1,4 @@
-# Adapted from: https://github.com/hkchengrex/MMAudio/blob/main/mmaudio/ext/synchformer/motionformer.py
-# %%
+# Adapted/Modified from https://github.com/hkchengrex/MMAudio/blob/main/mmaudio/ext/synchformer/motionformer.py
 
 import logging
 from typing import Any, Mapping
