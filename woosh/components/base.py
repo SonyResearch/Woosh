@@ -524,7 +524,11 @@ class BaseComponent:
             self.load_state_dict(state_dict, strict=True)
             log.info(f"Loaded state_dict for {type(self).__name__} in strict mode")
         except RuntimeError as e:
-            log.info(f"Error loading state_dict in strict mode: {e}")
+            if os.environ.get("WOOSH_VERBOSE_LOADING_ERROR", "0") == "1":
+                log.error(
+                    f"Error loading state_dict in strict mode for {type(self).__name__}: {e}"
+                )
+            log.info(f"Error loading state_dict in strict mode: {type(self).__name__}")
             log.info("Retrying in non-strict mode")
             self.load_state_dict(state_dict, strict=False)
 

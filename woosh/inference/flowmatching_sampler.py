@@ -10,7 +10,7 @@ def flowmatching_integrate(
     noise: torch.Tensor,
     cond: dict,
     cond_neg: dict = None,
-    negative_text_only: bool = False,
+    negative_text_only: bool = True,
     cfg: float = 4.5,
     device: str = "cuda",
     method="dopri5",
@@ -96,7 +96,9 @@ def flowmatching_integrate(
     # t = [0, 1]
     t = torch.linspace(0, 1, steps=2, device=noise.device)
 
-    fakes = odeint(f, noise, t, atol=atol, rtol=rtol, method=method, options=fm_kwargs)[-1]
+    fakes = odeint(f, noise, t, atol=atol, rtol=rtol, method=method, options=fm_kwargs)[
+        -1
+    ]
 
     # print(f"Integrating finished in {step + 1} steps")
     if return_steps:
