@@ -15,6 +15,7 @@ def sample_euler(
     num_steps=4,
     renoise=0.0,
     cfg=4.0,
+    t=None,
 ):
     """
     Sampling with Euler integration. Input and output tensors have shape (batch, feats, steps).
@@ -47,7 +48,10 @@ def sample_euler(
         raise TypeError("renoise must be a float or a list with num_steps values.")
 
     # Define linear step schedule and reshape as (batch_size, num_steps + 1)
-    t_vals = torch.linspace(1, 0, num_steps + 1)
+    if t is None:
+        t_vals = torch.linspace(1, 0, num_steps + 1)
+    else:
+        t_vals = t
     t_vals = t_vals.unsqueeze(0).repeat(batch_size, 1).to(device)
 
     # Denoising steps using Euler
